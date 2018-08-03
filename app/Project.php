@@ -11,4 +11,14 @@ class Project extends Model
         'title',
         'description'
     ];
+
+    /**
+     * A project belongs to a creator (user)
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function creator()
+    {
+        return $this->belongsTo(\App\User::class, 'user_id');
+    }
 }
