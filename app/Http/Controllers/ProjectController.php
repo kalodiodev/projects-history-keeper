@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Project;
 use Illuminate\Http\Request;
 
 class ProjectController extends Controller
@@ -21,7 +22,7 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        //
+        return view('project.index');
     }
 
     /**
@@ -42,7 +43,13 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $project = Project::create([
+            'user_id'     => auth()->id(),
+            'title'       => $request->title,
+            'description' => $request->description
+        ]);
+
+        return redirect()->route('project.index');
     }
 
     /**
