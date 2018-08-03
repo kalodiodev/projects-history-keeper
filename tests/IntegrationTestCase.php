@@ -19,6 +19,7 @@ abstract class IntegrationTestCase extends TestCase
     {
         $user = $user ?: factory(User::class)->create();
         $this->actingAs($user);
+
         return $this;
     }
 }
