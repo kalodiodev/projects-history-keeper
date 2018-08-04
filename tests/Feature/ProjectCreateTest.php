@@ -52,4 +52,29 @@ class ProjectCreateTest extends IntegrationTestCase
             'description' => $project->description
         ]);
     }
+
+    /** @test */
+    public function project_requires_a_title()
+    {
+        $this->signIn();
+
+        $project = factory(\App\Project::class)->make(['title' => '']);
+
+        $this->post(route('project.store'), $project->toArray())
+            ->assertSessionHasErrors(['title']);
+    }
+
+    /** @test */
+    public function project_title_length_should_within_the_right_limits()
+    {
+        $this->signIn();
+
+        $project = factory(\App\Project::class)->make(['title' => 'ab']);
+        $this->post(route('project.store'), $project->toArray())
+            ->assertSessionHasErrors(['title']);
+
+        $project = factory(\App\Project::class)->make(['title' => str_random(192)]);
+        $this->post(route('project.store'), $project->toArray())
+            ->assertSessionHasErrors(['title']);
+    }
 }
