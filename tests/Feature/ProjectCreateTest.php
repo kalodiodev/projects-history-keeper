@@ -28,29 +28,29 @@ class ProjectCreateTest extends IntegrationTestCase
     {
         $this->signIn();
 
-        $project = factory(\App\Project::class)->make();
+        $project_data = [
+            'title'       => 'My title',
+            'description' => 'My description'
+        ];
 
-        $this->post(route('project.store'), $project->toArray())
+        $this->postProject($project_data)
             ->assertRedirect(route('project.index'));
 
-        $this->assertDatabaseHas('projects', [
-            'title'       => $project->title,
-            'description' => $project->description
-        ]);
+        $this->assertDatabaseHas('projects', $project_data);
     }
 
     /** @test */
     public function an_unauthenticated_user_cannot_store_a_project()
     {
-        $project = factory(\App\Project::class)->make();
+        $project_data = [
+            'title'       => 'My title',
+            'description' => 'My description'
+        ];
 
-        $this->post(route('project.store'), $project->toArray())
+        $this->postProject($project_data)
             ->assertRedirect(route('login'));
 
-        $this->assertDatabaseMissing('projects', [
-            'title'       => $project->title,
-            'description' => $project->description
-        ]);
+        $this->assertDatabaseMissing('projects', $project_data);
     }
 
     /** @test */
@@ -58,9 +58,7 @@ class ProjectCreateTest extends IntegrationTestCase
     {
         $this->signIn();
 
-        $project = factory(\App\Project::class)->make(['title' => '']);
-
-        $this->post(route('project.store'), $project->toArray())
+        $this->postProject(['title' => ''])
             ->assertSessionHasErrors(['title']);
     }
 
@@ -69,12 +67,23 @@ class ProjectCreateTest extends IntegrationTestCase
     {
         $this->signIn();
 
-        $project = factory(\App\Project::class)->make(['title' => 'ab']);
-        $this->post(route('project.store'), $project->toArray())
+        $this->postProject(['title' => str_random(2)])
             ->assertSessionHasErrors(['title']);
 
-        $project = factory(\App\Project::class)->make(['title' => str_random(192)]);
-        $this->post(route('project.store'), $project->toArray())
+        $this->postProject(['title' => str_random(192)])
             ->assertSessionHasErrors(['title']);
+    }
+
+    /**
+     * Post a new project
+     *
+     * @param array $attributes
+     * @return \Illuminate\Foundation\Testing\TestResponse
+     */
+    protected function postProject($attributes = [])
+    {
+        $project = make(\App\Project::class, $attributes);
+
+        return $this->post(route('project.store'), $project->toArray());
     }
 }
