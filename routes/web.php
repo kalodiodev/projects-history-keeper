@@ -23,3 +23,4 @@ Route::get('/project/create', 'ProjectController@create')->name('project.create'
 Route::post('/project', 'ProjectController@store')->name('project.store');
 Route::get('/project/{project}', 'ProjectController@show')->name('project.show');
 Route::get('/project/{project}/edit', 'ProjectController@edit')->name('project.edit');
+Route::patch('/project/{project}', 'ProjectController@update')->name('project.update');

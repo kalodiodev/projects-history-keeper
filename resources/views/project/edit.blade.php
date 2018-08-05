@@ -8,7 +8,7 @@
                     <div class="card-header">Update Project</div>
 
                     <div class="card-body">
-                        <form method="POST" action="">
+                        <form method="POST" action="{{ route('project.update', ['project' => $project->id]) }}">
                             {{ method_field('PATCH') }}
 
                             @include('project._form')
