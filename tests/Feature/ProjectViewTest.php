@@ -17,7 +17,7 @@ class ProjectViewTest extends IntegrationTestCase
         $this->get(route('project.show', ['project' => $project->id]))
             ->assertStatus(200)
             ->assertViewIs('project.show')
-            ->assertViewHas('project', $project->fresh());
+            ->assertViewHas('project', Project::where('id', $project->id)->with('creator')->first());
     }
 
     /** @test */
