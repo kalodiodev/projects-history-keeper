@@ -21,4 +21,5 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/projects', 'ProjectController@index')->name('project.index');
 Route::get('/project/create', 'ProjectController@create')->name('project.create');
 Route::post('/project', 'ProjectController@store')->name('project.store');
+Route::get('/project/{project}', 'ProjectController@show')->name('project.show');
 Route::get('/project/{project}/edit', 'ProjectController@edit')->name('project.edit');
