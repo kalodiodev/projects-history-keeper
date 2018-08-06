@@ -24,8 +24,24 @@
                         </table>
 
                         <div class="text-right">
-                            <a class="btn btn-warning" href="{{ route('project.edit', ['project' => $project->id]) }}">Edit</a>
-                            <a class="btn btn-danger" href="">Delete</a>
+                            {{-- Edit Project Button --}}
+                            <a class="btn btn-warning"
+                               href="{{ route('project.edit', ['project' => $project->id]) }}">Edit</a>
+
+                            {{-- Delete Project Button --}}
+                            <a class="btn btn-danger"
+                               onclick="event.preventDefault();
+                               document.getElementById('delete-form').submit();"
+                               href="{{ route('project.destroy', ['project' => $project->id]) }}">Delete</a>
+
+                            {{-- Delete Project Hidden Form --}}
+                            <form id="delete-form"
+                                  method="post"
+                                  action="{{ route('project.destroy', ['project' => $project->id]) }}"
+                                  style="display: none;">
+                                @csrf
+                                {{ method_field('DELETE') }}
+                            </form>
                         </div>
                     </div>
                 </div>
