@@ -43,4 +43,15 @@ class TaskController extends Controller
 
         return redirect()->route('project.show', ['project' => $project->id]);
     }
+
+    /**
+     * Edit Task
+     *
+     * @param Task $task
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function edit(Task $task)
+    {
+        return view('task.edit', compact('task'));
+    }
 }
