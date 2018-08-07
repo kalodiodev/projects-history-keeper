@@ -6,6 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Project extends Model
 {
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
     protected $fillable = [
         'user_id',
         'title',
@@ -19,6 +24,16 @@ class Project extends Model
      */
     public function creator()
     {
-        return $this->belongsTo(\App\User::class, 'user_id');
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    /**
+     * A project has many tasks
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function tasks()
+    {
+        return $this->hasMany(Task::class);
     }
 }

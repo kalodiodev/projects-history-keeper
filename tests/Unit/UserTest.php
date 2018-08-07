@@ -13,10 +13,20 @@ class UserTest extends TestCase
     /** @test */
     public function a_user_has_projects()
     {
-        $user = factory(User::class)->create();
+        $user = make(User::class);
 
         $this->assertInstanceOf(
             'Illuminate\Database\Eloquent\Collection', $user->projects
+        );
+    }
+
+    /** @test */
+    public function a_user_has_tasks()
+    {
+        $user = make(User::class);
+
+        $this->assertInstanceOf(
+            'Illuminate\Database\Eloquent\Collection', $user->tasks
         );
     }
 }

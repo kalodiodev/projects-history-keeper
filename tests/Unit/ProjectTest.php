@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use App\Project;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -12,8 +13,18 @@ class ProjectTest extends TestCase
     /** @test */
     public function a_project_has_a_creator()
     {
-        $project = factory(\App\Project::class)->create();
+        $project = make(Project::class);
 
         $this->assertInstanceOf('App\User', $project->creator);
+    }
+
+    /** @test */
+    public function a_project_has_tasks()
+    {
+        $project = make(Project::class);
+
+        $this->assertInstanceOf(
+            'Illuminate\Database\Eloquent\Collection', $project->tasks
+        );
     }
 }

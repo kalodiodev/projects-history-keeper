@@ -18,4 +18,24 @@ class Task extends Model
         'project_id',
         'user_id'
     ];
+
+    /**
+     * A task belongs to a creator (User)
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function creator()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    /**
+     * A task belongs to a project
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function project()
+    {
+        return $this->belongsTo(Project::class);
+    }
 }
