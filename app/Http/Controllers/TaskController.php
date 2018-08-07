@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Project;
 use App\Task;
-use Illuminate\Http\Request;
+use App\Http\Requests\TaskRequest;
 
 class TaskController extends Controller
 {
@@ -31,10 +31,10 @@ class TaskController extends Controller
      * Store Task
      *
      * @param Project $project
-     * @param Request $request
+     * @param TaskRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Project $project, Request $request)
+    public function store(Project $project, TaskRequest $request)
     {
         Task::create(array_merge([
             'project_id'  => $project->id,

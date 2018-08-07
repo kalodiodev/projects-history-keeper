@@ -81,9 +81,59 @@ class TaskCreateTest extends IntegrationTestCase
         $this->signIn();
 
         $non_existent_project_id = 4;
-        $task = make(Task::class);
 
-        $this->post(route('project.task.store', ['project' => $non_existent_project_id]), $task->toArray())
+        $this->postTask([], $non_existent_project_id)
             ->assertStatus(404);
+    }
+
+    /** @test */
+    public function a_task_requires_a_name()
+    {
+        $this->signIn();
+
+        $this->postTask(['title' => ''])
+            ->assertSessionHasErrors(['title']);
+    }
+
+    /** @test */
+    public function task_title_length_should_within_the_right_limits()
+    {
+        $this->signIn();
+
+        $this->postTask(['title' => str_random(4)])
+            ->assertSessionHasErrors(['title']);
+
+        $this->postTask(['title' => str_random(192)])
+            ->assertSessionHasErrors(['title']);
+    }
+
+    /** @test */
+    public function task_date_must_be_of_type_date()
+    {
+        $this->signIn();
+
+        $this->postTask(['date' => "2018-08-07"])
+            ->assertSessionHasNoErrors();
+
+        $this->postTask(['date' => 'a string'])
+            ->assertSessionHasErrors(['date']);
+    }
+
+    /**
+     * Post a Task
+     *
+     * @param array $overrides
+     * @param $project_id
+     * @return \Illuminate\Foundation\Testing\TestResponse
+     */
+    protected function postTask($overrides = [], $project_id = null)
+    {
+        $task = make(Task::class, $overrides);
+
+        if(! $project_id) {
+            $project_id = create(Project::class)->id;
+        }
+
+        return $this->post(route('project.task.store', ['project' => $project_id]), $task->toArray());
     }
 }
