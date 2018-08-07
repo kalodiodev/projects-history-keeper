@@ -34,3 +34,4 @@ Route::delete('/project/{project}', 'ProjectController@destroy')->name('project.
  * Project Task Routes
  */
 Route::get('/project/{project}/task/create', 'TaskController@create')->name('project.task.create');
+Route::post('/project/{project}/task', 'TaskController@store')->name('project.task.store');
