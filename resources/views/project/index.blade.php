@@ -26,7 +26,7 @@
                                 </table>
 
                                 <div class="text-right mt-5">
-                                    <a href="" class="btn btn-primary">Open</a>
+                                    <a href="{{ route('project.show', ['project' => $project->id]) }}" class="btn btn-primary">Open</a>
                                 </div>
                             </div>
 

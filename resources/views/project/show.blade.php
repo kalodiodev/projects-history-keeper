@@ -51,6 +51,7 @@
         <div class="row">
             <div class="col-md-12">
                 <h2>Tasks</h2>
+                <a class="btn btn-primary" href="{{ route('project.task.create', ['project' => $project->id]) }}">Add Task</a>
             </div>
         </div>
     </div>

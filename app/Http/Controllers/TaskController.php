@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Project;
 use App\Task;
+use App\Project;
 use App\Http\Requests\TaskRequest;
 
 class TaskController extends Controller
@@ -53,5 +53,19 @@ class TaskController extends Controller
     public function edit(Task $task)
     {
         return view('task.edit', compact('task'));
+    }
+
+    /**
+     * Update Task
+     *
+     * @param Task $task
+     * @param TaskRequest $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function update(Task $task, TaskRequest $request)
+    {
+        $task->update($request->only(['title', 'description', 'date']));
+
+        return redirect()->route('project.show', ['project' => $task->project->id]);
     }
 }

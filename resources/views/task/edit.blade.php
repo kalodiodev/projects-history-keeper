@@ -8,8 +8,8 @@
                     <div class="card-header">Edit Task of Project: "{{ $task->project->title }}"</div>
 
                     <div class="card-body">
-                        <form method="post" action="">
-
+                        <form method="post" action="{{ route('project.task.update', ['task' => $task->id]) }}">
+                            @method('PATCH')
                             @include('task._form')
 
                             {{-- Buttons --}}
