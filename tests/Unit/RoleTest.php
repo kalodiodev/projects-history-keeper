@@ -3,6 +3,7 @@
 namespace Tests\Unit;
 
 use App\Role;
+use App\User;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -28,5 +29,18 @@ class RoleTest extends TestCase
         $this->assertInstanceOf(
             'Illuminate\Database\Eloquent\Collection', $role->permissions
         );
+    }
+
+    /** @test */
+    public function a_role_can_be_assigned_to_user()
+    {
+        $role = create(Role::class);
+
+        $role->assignRoleTo($user = create(User::class));
+
+        $this->assertDatabaseHas('users', [
+            'id'      => $user->id,
+            'role_id' => $role->id
+        ]);
     }
 }

@@ -56,4 +56,36 @@ class User extends Authenticatable
     {
         return $this->hasMany(Task::class);
     }
+
+    /**
+     * Assign a role to user
+     *
+     * @param $role
+     * @return false|\Illuminate\Database\Eloquent\Model
+     */
+    public function giveRole($role)
+    {
+        if($role instanceof Role) {
+            return $role->assignRoleTo($this);
+        }
+
+        return Role::whereName($role)
+            ->firstOrFail()
+            ->assignRoleTo($this);
+    }
+
+    /**
+     * Determine if user has the given role
+     *
+     * @param $role
+     * @return bool
+     */
+    public function hasRole($role)
+    {
+        if(is_string($role)) {
+            return $this->role->name == $role;
+        }
+
+        return $role->name == $this->role->name;
+    }
 }

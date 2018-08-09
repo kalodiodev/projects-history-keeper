@@ -41,4 +41,15 @@ class Role extends Model
     {
         return $this->belongsToMany(Permission::class);
     }
+
+    /**
+     * Assign this role to user
+     *
+     * @param User $user
+     * @return false|Model
+     */
+    public function assignRoleTo(User $user)
+    {
+        return $this->users()->save($user);
+    }
 }
