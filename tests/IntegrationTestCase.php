@@ -9,6 +9,13 @@ abstract class IntegrationTestCase extends TestCase
 {
     use RefreshDatabase;
 
+    public function setUp()
+    {
+        parent::setUp();
+
+        $this->seed(\DatabaseSeeder::class);
+    }
+
     /**
      * Sign In user
      *

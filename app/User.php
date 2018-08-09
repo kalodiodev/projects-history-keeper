@@ -28,6 +28,16 @@ class User extends Authenticatable
     ];
 
     /**
+     * A user belongs to a role
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
+    }
+
+    /**
      * A user has many projects
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany

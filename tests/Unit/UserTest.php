@@ -29,4 +29,14 @@ class UserTest extends TestCase
             'Illuminate\Database\Eloquent\Collection', $user->tasks
         );
     }
+
+    /** @test */
+    public function a_user_belongs_to_a_role()
+    {
+        $this->seed(\DatabaseSeeder::class);
+        
+        $user = make(User::class);
+
+        $this->assertInstanceOf('App\Role', $user->role);
+    }
 }
