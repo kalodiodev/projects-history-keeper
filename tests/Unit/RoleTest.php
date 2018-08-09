@@ -19,4 +19,14 @@ class RoleTest extends TestCase
             'Illuminate\Database\Eloquent\Collection', $role->users
         );
     }
+    
+    /** @test */
+    public function a_role_belongs_to_many_permissions()
+    {
+        $role = make(Role::class);
+
+        $this->assertInstanceOf(
+            'Illuminate\Database\Eloquent\Collection', $role->permissions
+        );
+    }
 }
