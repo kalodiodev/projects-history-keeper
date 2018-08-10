@@ -7,6 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 class Permission extends Model
 {
     /**
+     * Disable timestamps
+     *
+     * @var bool
+     */
+    public $timestamps = false;
+    
+    /**
      * A permission belongs to many roles
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany

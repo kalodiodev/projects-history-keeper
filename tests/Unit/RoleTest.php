@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use App\Permission;
 use App\Role;
 use App\User;
 use Tests\TestCase;
@@ -42,5 +43,32 @@ class RoleTest extends TestCase
             'id'      => $user->id,
             'role_id' => $role->id
         ]);
+    }
+
+    /** @test */
+    public function it_gives_permission_to_role()
+    {
+        $role = create(Role::class);
+
+        // Permission Model
+        $role->grantPermission(create(Permission::class));
+        
+        // Permission array
+        $role->grantPermission(create(Permission::class)->toArray());
+
+        // Permission name
+        $role->grantPermission(create(Permission::class)->name);
+
+        $this->assertEquals($role->permissions->count(), 3);
+    }
+    
+    /** @test */
+    public function it_gives_permissions_to_role()
+    {
+        $role = create(Role::class);
+        
+        $role->grantPermissions($permissions = create(Permission::class, [], 4)->toArray());
+        
+        $this->assertEquals($role->permissions->count(), 4);
     }
 }

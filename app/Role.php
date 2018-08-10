@@ -43,6 +43,40 @@ class Role extends Model
     }
 
     /**
+     * Give permission to role
+     *
+     * @param Permission $permission
+     * @return Model
+     */
+    public function grantPermission($permission)
+    {
+        if($permission instanceof Permission) {
+            return $this->permissions()->save($permission);
+        }
+
+        if((is_array($permission)) && (array_key_exists('name', $permission))) {
+            return $this->grantPermission(Permission::whereName($permission['name'])->firstOrFail());
+        }
+
+        if($permission) {
+            return $this->grantPermission(Permission::whereName($permission)->firstOrFail());
+        }
+    }
+
+    /**
+     * Give permissions to role
+     *
+     * @param array $permissions
+     */
+    public function grantPermissions(array $permissions)
+    {
+        foreach ($permissions as $permission)
+        {
+            $this->grantPermission($permission);
+        }
+    }
+
+    /**
      * Assign this role to user
      *
      * @param User $user
