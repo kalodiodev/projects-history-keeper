@@ -86,6 +86,27 @@ class User extends Authenticatable
             return $this->role->name == $role;
         }
 
-        return $role->name == $this->role->name;
+        if($role instanceof Role) {
+            return $role->name == $this->role->name;
+        }
+
+        return $role->contains('name', $this->role->name);
+    }
+
+    /**
+     * Determine if user has the given permission
+     *
+     * @param $permission
+     * @return bool
+     */
+    public function hasPermission($permission)
+    {
+        if(is_string($permission)) {
+            return $this->hasRole(
+                Permission::whereName($permission)->firstOrFail()->roles
+            );
+        }
+
+        return $this->hasRole($permission->roles);
     }
 }
