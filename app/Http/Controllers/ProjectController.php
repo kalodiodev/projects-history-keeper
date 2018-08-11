@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Project;
+use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\ProjectRequest;
+use Illuminate\Auth\Access\AuthorizationException;
 
 class ProjectController extends Controller
 {
@@ -31,9 +33,15 @@ class ProjectController extends Controller
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
+     * @throws AuthorizationException
      */
     public function create()
     {
+        if(Gate::denies('create', Project::class))
+        {
+            throw new AuthorizationException("You are not authorized for this action");
+        }
+        
         return view('project.create');
     }
 
@@ -42,9 +50,15 @@ class ProjectController extends Controller
      *
      * @param ProjectRequest $request
      * @return \Illuminate\Http\Response
+     * @throws AuthorizationException
      */
     public function store(ProjectRequest $request)
     {
+        if(Gate::denies('create', Project::class))
+        {
+            throw new AuthorizationException("You are not authorized for this action");
+        }
+
         Project::create([
             'user_id'     => auth()->id(),
             'title'       => $request->title,

@@ -2,18 +2,31 @@
 
 namespace Tests\Feature;
 
+use App\Role;
+use App\Project;
 use Tests\IntegrationTestCase;
 
 class ProjectCreateTest extends IntegrationTestCase
 {
     /** @test */
-    public function an_authenticated_user_can_create_a_project()
+    public function an_authorized_user_can_create_a_project()
     {
-        $this->signIn();
+        $this->signInAs('admin');
 
         $this->get(route('project.create'))
             ->assertStatus(200)
             ->assertViewIs('project.create');
+    }
+
+    /** @test */
+    public function an_unauthorized_user_cannot_create_a_project()
+    {
+        $role = create(Role::class, ['name' => 'restricted']);
+
+        $this->signInAs($role->name);
+
+        $this->get(route('project.create'))
+            ->assertStatus(403);
     }
 
     /** @test */
@@ -24,9 +37,9 @@ class ProjectCreateTest extends IntegrationTestCase
     }
 
     /** @test */
-    public function an_authenticated_user_can_store_a_project()
+    public function an_authorized_user_can_store_a_project()
     {
-        $this->signIn();
+        $this->signInAs('admin');
 
         $project_data = [
             'title'       => 'My title',
@@ -37,6 +50,22 @@ class ProjectCreateTest extends IntegrationTestCase
             ->assertRedirect(route('project.index'));
 
         $this->assertDatabaseHas('projects', $project_data);
+    }
+
+    /** @test */
+    public function an_unauthorized_user_can_store_a_project()
+    {
+        create(Role::class, ['name' => 'restricted']);
+
+        $this->signInAs('restricted');
+
+        $project_data = [
+            'title'       => 'My title',
+            'description' => 'My description'
+        ];
+
+        $this->postProject($project_data)
+            ->assertStatus(403);
     }
 
     /** @test */
@@ -82,7 +111,7 @@ class ProjectCreateTest extends IntegrationTestCase
      */
     protected function postProject($attributes = [])
     {
-        $project = make(\App\Project::class, $attributes);
+        $project = make(Project::class, $attributes);
 
         return $this->post(route('project.store'), $project->toArray());
     }
