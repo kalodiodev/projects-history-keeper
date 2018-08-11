@@ -27,11 +27,11 @@ class PermissionsTableSeedeer extends Seeder
 
         // Admin permissions
         $admin = Role::whereName('admin')->firstOrFail();
-        $admin->givePermissionsTo($this->admin_actions);
-        $admin->givePermissionsTp($this->default_actions);
+        $admin->grantPermissions($this->admin_actions);
+        $admin->grantPermissions($this->default_actions);
 
         // Default permissions
         $default = Role::whereName('default')->firstOrFail();
-        $default->givePermissionsTo($this->default_actions);
+        $default->grantPermissions($this->default_actions);
     }
 }
