@@ -36,4 +36,20 @@ class ProjectPolicy
 
         return (($user->hasPermission('project-update')) && ($user->ownsProject($project)));
     }
+
+    /**
+     * Delete project policy
+     *
+     * @param User $user user that deletes project
+     * @param Project $project project to be deleted
+     * @return bool true if user has permission to delete project, otherwise false
+     */
+    public function delete(User $user, Project $project)
+    {
+        if($user->hasPermission('project-delete-any')) {
+            return true;
+        }
+
+        return (($user->hasPermission('project-delete')) && ($user->ownsProject($project)));
+    }
 }

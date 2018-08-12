@@ -121,9 +121,16 @@ class ProjectController extends Controller
      *
      * @param Project $project
      * @return \Illuminate\Http\Response
+     * @throws AuthorizationException
+     * @throws \Exception
      */
     public function destroy(Project $project)
     {
+        if(Gate::denies('delete', $project))
+        {
+            throw new AuthorizationException("You are not authorized for this action");
+        }
+
         $project->delete();
 
         return redirect()->route('project.index');
