@@ -7,11 +7,12 @@ use Illuminate\Support\Facades\DB;
 class PermissionsTableSeedeer extends Seeder
 {
     private $admin_actions = [
-
+        ['name' => 'project-update-any', 'label' => 'User can update any project']
     ];
 
     private $default_actions = [
-        ['name' => 'project-create', 'label' => 'Create a project']
+        ['name' => 'project-create', 'label' => 'Create a project'],
+        ['name' => 'project-update', 'label' => 'User can update own project']
     ];
 
     /**

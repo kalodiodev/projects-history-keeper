@@ -84,9 +84,15 @@ class ProjectController extends Controller
      *
      * @param Project $project
      * @return \Illuminate\Http\Response
+     * @throws AuthorizationException
      */
     public function edit(Project $project)
     {
+        if(Gate::denies('update', $project))
+        {
+            throw new AuthorizationException("You are not authorized for this action");
+        }
+
         return view('project.edit', compact('project'));
     }
 
@@ -96,9 +102,15 @@ class ProjectController extends Controller
      * @param ProjectRequest $request
      * @param Project $project
      * @return \Illuminate\Http\Response
+     * @throws AuthorizationException
      */
     public function update(ProjectRequest $request, Project $project)
     {
+        if(Gate::denies('update', $project))
+        {
+            throw new AuthorizationException("You are not authorized for this action");
+        }
+
         $project->update($request->only(['title', 'description']));
 
         return redirect()->route('project.show', ['project' => $project->id]);

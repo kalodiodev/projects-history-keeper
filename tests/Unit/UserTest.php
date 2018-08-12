@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use App\Project;
 use App\Role;
 use App\User;
 use Tests\TestCase;
@@ -68,5 +69,16 @@ class UserTest extends TestCase
 
         $this->assertFalse($jane->hasRole($admin->name));
         $this->assertFalse($jane->hasRole($admin));
+    }
+
+    /** @test */
+    public function it_determines_if_user_is_projects_creator()
+    {
+        $user = create(User::class);
+        $usersProject = create(Project::class, ['user_id' => $user->id]);
+        $othersProject = create(Project::class);
+
+        $this->assertTrue($user->ownsProject($usersProject));
+        $this->assertFalse($user->ownsProject($othersProject));
     }
 }

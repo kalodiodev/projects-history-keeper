@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\User;
+use App\Role;
 use App\Project;
 use Tests\IntegrationTestCase;
 
@@ -11,15 +11,50 @@ class ProjectEditTest extends IntegrationTestCase
     /** @test */
     public function a_project_can_be_edited_by_its_creator()
     {
-        $user = factory(User::class)->create();
-        $this->signIn($user);
+        $user = $this->signInAs('default');
 
-        $project = factory(Project::class)->create(['user_id' => $user->id]);
+        $project = create(Project::class, ['user_id' => $user->id]);
 
         $this->get(route('project.edit', ['project' => $project->id]))
             ->assertStatus(200)
             ->assertViewIs('project.edit')
             ->assertViewHas('project');
+    }
+
+    /** @test */
+    public function an_unauthorized_user_cannot_edit_others_projects()
+    {
+        $this->signInAs('default');
+
+        $project = create(Project::class);
+
+        $this->get(route('project.edit', ['project' => $project->id]))
+            ->assertStatus(403);
+    }
+
+    /** @test */
+    public function an_authorized_user_can_edit_any_project()
+    {
+        $this->signInAs('admin');
+
+        $project = create(Project::class);
+
+        $this->get(route('project.edit', ['project' => $project->id]))
+            ->assertStatus(200)
+            ->assertViewIs('project.edit')
+            ->assertViewHas('project');
+    }
+
+    /** @test */
+    public function an_unauthorized_user_cannot_edit_own_project()
+    {
+        create(Role::class, ['name' => 'restricted']);
+        $user = $this->signInAs('restricted');
+
+        $project = create(Project::class, ['user_id' => $user->id]);
+
+        $this->get(route('project.edit', ['project' => $project->id]))
+            ->assertStatus(403);
     }
 
     /** @test */
@@ -32,10 +67,36 @@ class ProjectEditTest extends IntegrationTestCase
     }
 
     /** @test */
-    public function an_authenicated_user_can_update_a_project()
+    public function a_project_can_be_updated_by_its_creator()
     {
-        $this->signIn();
+        $user = $this->signInAs('default');
 
+        $project = create(Project::class, ['user_id' => $user]);
+
+        $this->patch(route('project.update', ['project' => $project->id]), $this->projectData())
+            ->assertRedirect(route('project.show', ['project' => $project['id']]));
+
+        $this->assertDatabaseHas('projects', array_merge([
+            'id' => $project->id
+        ], $this->projectData()));
+    }
+    
+    /** @test */
+    public function an_unauthorized_user_cannot_update_others_projects()
+    {
+        $this->signInAs('default');
+
+        $project = create(Project::class);
+
+        $this->patch(route('project.update', ['project' => $project->id]), $this->projectData())
+            ->assertStatus(403);
+    }
+    
+    /** @test */
+    public function an_authorized_user_can_update_any_project()
+    {
+        $this->signInAs('admin');
+        
         $project = create(Project::class);
 
         $this->patch(route('project.update', ['project' => $project->id]), $this->projectData())
@@ -44,6 +105,18 @@ class ProjectEditTest extends IntegrationTestCase
         $this->assertDatabaseHas('projects', array_merge([
             'id' => $project->id
         ], $this->projectData()));
+    }
+    
+    /** @test */
+    public function an_unauthorized_user_cannot_update_own_project()
+    {
+        create(Role::class, ['name' => 'restricted']);
+        $user = $this->signInAs('restricted');
+
+        $project = create(Project::class, ['user_id' => $user]);
+
+        $this->patch(route('project.update', ['project' => $project->id]), $this->projectData())
+            ->assertStatus(403);
     }
 
     /** @test */

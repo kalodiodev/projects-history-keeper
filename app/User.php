@@ -15,7 +15,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'role_id'
     ];
 
     /**
@@ -108,5 +108,16 @@ class User extends Authenticatable
         }
 
         return $this->hasRole($permission->roles);
+    }
+
+    /**
+     * Determine if user owns the given project
+     *
+     * @param Project $project project user may own
+     * @return bool true if user is projects creator, otherwise false
+     */
+    public function ownsProject(Project $project)
+    {
+        return $this->id === $project->user_id;
     }
 }
