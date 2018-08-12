@@ -21,10 +21,15 @@ class ProjectController extends Controller
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
+     * @throws AuthorizationException
      */
-    public function index()
-    {
-        $projects = Project::paginate(14);
+    public function index() {
+
+        if(Gate::allows('view_all', Project::class)) {
+            $projects = Project::paginate(14);
+        } else {
+            $projects = auth()->user()->projects()->paginate(14);
+        }
 
         return view('project.index', compact('projects'));
     }
@@ -73,9 +78,15 @@ class ProjectController extends Controller
      *
      * @param Project $project
      * @return \Illuminate\Http\Response
+     * @throws AuthorizationException
      */
     public function show(Project $project)
     {
+        if(Gate::denies('view', $project))
+        {
+            throw new AuthorizationException("You are not authorized for this action");
+        }
+
         return view('project.show', compact('project'));
     }
 

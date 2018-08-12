@@ -9,12 +9,14 @@ class PermissionsTableSeedeer extends Seeder
     private $admin_actions = [
         ['name' => 'project-update-any', 'label' => 'User can update any project'],
         ['name' => 'project-delete-any', 'label' => 'User can delete any project'],
+        ['name' => 'project-view-any', 'label' => 'User can view any project'],
     ];
 
     private $default_actions = [
         ['name' => 'project-create', 'label' => 'Create a project'],
         ['name' => 'project-update', 'label' => 'User can update own project'],
-        ['name' => 'project-delete', 'label' => 'User can delete own project']
+        ['name' => 'project-delete', 'label' => 'User can delete own project'],
+        ['name' => 'project-view', 'label' => 'User can view own project'],
     ];
 
     /**

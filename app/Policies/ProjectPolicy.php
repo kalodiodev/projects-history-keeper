@@ -52,4 +52,31 @@ class ProjectPolicy
 
         return (($user->hasPermission('project-delete')) && ($user->ownsProject($project)));
     }
+
+    /**
+     * View project policy
+     * 
+     * @param User $user
+     * @param Project $project
+     * @return bool
+     */
+    public function view(User $user, Project $project)
+    {
+        if($user->hasPermission('project-view-any')) {
+            return true;
+        }
+        
+        return (($user->hasPermission('project-view')) && ($user->ownsProject($project)));
+    }
+
+    /**
+     * View all projects policy
+     *
+     * @param User $user
+     * @return bool
+     */
+    public function view_all(User $user)
+    {
+        return $user->hasPermission('project-view-any');
+    }
 }
