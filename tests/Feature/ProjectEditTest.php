@@ -2,7 +2,6 @@
 
 namespace Tests\Feature;
 
-use App\Role;
 use App\Project;
 use Tests\IntegrationTestCase;
 
@@ -11,7 +10,7 @@ class ProjectEditTest extends IntegrationTestCase
     /** @test */
     public function a_project_can_be_edited_by_its_creator()
     {
-        $user = $this->signInAs('default');
+        $user = $this->signInDefault();
 
         $project = create(Project::class, ['user_id' => $user->id]);
 
@@ -24,7 +23,7 @@ class ProjectEditTest extends IntegrationTestCase
     /** @test */
     public function an_unauthorized_user_cannot_edit_others_projects()
     {
-        $this->signInAs('default');
+        $this->signInDefault();
 
         $project = create(Project::class);
 
@@ -35,7 +34,7 @@ class ProjectEditTest extends IntegrationTestCase
     /** @test */
     public function an_authorized_user_can_edit_any_project()
     {
-        $this->signInAs('admin');
+        $this->signInAdmin();
 
         $project = create(Project::class);
 
@@ -48,8 +47,7 @@ class ProjectEditTest extends IntegrationTestCase
     /** @test */
     public function an_unauthorized_user_cannot_edit_own_project()
     {
-        create(Role::class, ['name' => 'restricted']);
-        $user = $this->signInAs('restricted');
+        $user = $this->signInRestricted();
 
         $project = create(Project::class, ['user_id' => $user->id]);
 
@@ -69,7 +67,7 @@ class ProjectEditTest extends IntegrationTestCase
     /** @test */
     public function a_project_can_be_updated_by_its_creator()
     {
-        $user = $this->signInAs('default');
+        $user = $this->signInDefault();
 
         $project = create(Project::class, ['user_id' => $user]);
 
@@ -84,7 +82,7 @@ class ProjectEditTest extends IntegrationTestCase
     /** @test */
     public function an_unauthorized_user_cannot_update_others_projects()
     {
-        $this->signInAs('default');
+        $this->signInDefault();
 
         $project = create(Project::class);
 
@@ -95,7 +93,7 @@ class ProjectEditTest extends IntegrationTestCase
     /** @test */
     public function an_authorized_user_can_update_any_project()
     {
-        $this->signInAs('admin');
+        $this->signInAdmin();
         
         $project = create(Project::class);
 
@@ -110,8 +108,7 @@ class ProjectEditTest extends IntegrationTestCase
     /** @test */
     public function an_unauthorized_user_cannot_update_own_project()
     {
-        create(Role::class, ['name' => 'restricted']);
-        $user = $this->signInAs('restricted');
+        $user = $this->signInRestricted();
 
         $project = create(Project::class, ['user_id' => $user]);
 
@@ -127,11 +124,7 @@ class ProjectEditTest extends IntegrationTestCase
         $this->patch(route('project.update', ['project' => $project->id]), $this->projectData())
             ->assertRedirect(route('login'));
 
-        $this->assertDatabaseHas('projects', [
-            'id'          => $project->id,
-            'title'       => $project->title,
-            'description' => $project->description
-        ]);
+        $this->assertDatabaseHas('projects', $project->toArray());
     }
 
     /** @test */

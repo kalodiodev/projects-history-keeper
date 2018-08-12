@@ -2,7 +2,6 @@
 
 namespace Tests\Feature;
 
-use App\Role;
 use App\Project;
 use Tests\IntegrationTestCase;
 
@@ -11,7 +10,7 @@ class ProjectCreateTest extends IntegrationTestCase
     /** @test */
     public function an_authorized_user_can_create_a_project()
     {
-        $this->signInAs('admin');
+        $this->signInAdmin();
 
         $this->get(route('project.create'))
             ->assertStatus(200)
@@ -21,9 +20,7 @@ class ProjectCreateTest extends IntegrationTestCase
     /** @test */
     public function an_unauthorized_user_cannot_create_a_project()
     {
-        $role = create(Role::class, ['name' => 'restricted']);
-
-        $this->signInAs($role->name);
+        $this->signInRestricted();
 
         $this->get(route('project.create'))
             ->assertStatus(403);
@@ -39,47 +36,30 @@ class ProjectCreateTest extends IntegrationTestCase
     /** @test */
     public function an_authorized_user_can_store_a_project()
     {
-        $this->signInAs('admin');
+        $this->signInAdmin();
 
-        $project_data = [
-            'title'       => 'My title',
-            'description' => 'My description'
-        ];
-
-        $this->postProject($project_data)
+        $this->postProject($this->validData())
             ->assertRedirect(route('project.index'));
 
-        $this->assertDatabaseHas('projects', $project_data);
+        $this->assertDatabaseHas('projects', $this->validData());
     }
 
     /** @test */
     public function an_unauthorized_user_can_store_a_project()
     {
-        create(Role::class, ['name' => 'restricted']);
+        $this->signInRestricted();
 
-        $this->signInAs('restricted');
-
-        $project_data = [
-            'title'       => 'My title',
-            'description' => 'My description'
-        ];
-
-        $this->postProject($project_data)
+        $this->postProject($this->validData())
             ->assertStatus(403);
     }
 
     /** @test */
     public function an_unauthenticated_user_cannot_store_a_project()
     {
-        $project_data = [
-            'title'       => 'My title',
-            'description' => 'My description'
-        ];
-
-        $this->postProject($project_data)
+        $this->postProject($this->validData())
             ->assertRedirect(route('login'));
 
-        $this->assertDatabaseMissing('projects', $project_data);
+        $this->assertDatabaseMissing('projects', $this->validData());
     }
 
     /** @test */
@@ -101,6 +81,20 @@ class ProjectCreateTest extends IntegrationTestCase
 
         $this->postProject(['title' => str_random(192)])
             ->assertSessionHasErrors(['title']);
+    }
+
+    /**
+     * Get project data
+     *
+     * @param array $overrides
+     * @return array
+     */
+    protected function validData($overrides = [])
+    {
+        return array_merge([
+            'title'       => 'My title',
+            'description' => 'My description'
+        ], $overrides);
     }
 
     /**
