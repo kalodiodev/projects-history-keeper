@@ -10,9 +10,32 @@ use Tests\IntegrationTestCase;
 class TaskCreateTest extends IntegrationTestCase
 {
     /** @test */
-    public function an_authenticated_user_can_create_a_task()
+    public function a_user_can_view_create_task_for_his_project()
     {
-        $this->signIn();
+        $user = $this->signInDefault();
+
+        $project = create(Project::class, ['user_id' => $user->id]);
+
+        $this->get(route('project.task.create', ['project' => $project->id]))
+            ->assertStatus(200)
+            ->assertViewIs('task.create');
+    }
+    
+    /** @test */
+    public function an_unauthorized_user_cannot_view_create_task_for_others_projects()
+    {
+        $this->signInDefault();
+        
+        $project = create(Project::class);
+        
+        $this->get(route('project.task.create', ['project' => $project->id]))
+            ->assertStatus(403);
+    }
+
+    /** @test */
+    public function an_authorized_user_can_view_create_task_for_any_project()
+    {
+        $this->signInAdmin();
 
         $project = create(Project::class);
 
@@ -22,7 +45,7 @@ class TaskCreateTest extends IntegrationTestCase
     }
 
     /** @test */
-    public function an_unauthenticated_user_cannot_create_a_task()
+    public function an_unauthenticated_user_cannot_view_create_task()
     {
         $project = create(Project::class);
 
@@ -31,7 +54,18 @@ class TaskCreateTest extends IntegrationTestCase
     }
 
     /** @test */
-    public function a_task_cannot_be_created_for_a_non_existent_project()
+    public function an_unauthorized_user_cannot_view_create_task()
+    {
+        $user = $this->signInRestricted();
+
+        $project = create(Project::class, ['user_id' => $user->id]);
+
+        $this->get(route('project.task.create', ['project' => $project->id]))
+            ->assertStatus(403);
+    }
+
+    /** @test */
+    public function create_task_cannot_be_viewed_for_a_non_existent_project()
     {
         $this->signIn();
 
@@ -42,9 +76,52 @@ class TaskCreateTest extends IntegrationTestCase
     }
 
     /** @test */
-    public function an_authenticated_user_can_store_a_task()
+    public function an_authenticated_user_can_store_a_task_to_his_project()
     {
-        $this->signIn($user = create(User::class));
+        $user = $this->signInDefault();
+
+        $project = create(Project::class, ['user_id' => $user->id]);
+        $task = make(Task::class);
+
+        $this->post(route('project.task.store', ['project' => $project->id]), $task->toArray())
+            ->assertRedirect(route('project.show', ['project' => $project->id]));
+
+        $this->assertDatabaseHas('tasks', [
+            'project_id'  => $project->id,
+            'user_id'     => $user->id,
+            'title'       => $task->title,
+            'description' => $task->description,
+        ]);
+    }
+
+    /** @test */
+    public function an_unauthorized_user_cannot_store_a_task_to_others_projects()
+    {
+        $this->signInDefault();
+
+        $project = create(Project::class);
+        $task = make(Task::class);
+
+        $this->post(route('project.task.store', ['project' => $project->id]), $task->toArray())
+            ->assertStatus(403);
+    }
+    
+    /** @test */
+    public function an_unauthorized_user_cannot_store_a_task_to_any_project()
+    {
+        $user = $this->signInRestricted();
+
+        $project = create(Project::class, ['user_id' => $user->id]);
+        $task = make(Task::class);
+
+        $this->post(route('project.task.store', ['project' => $project->id]), $task->toArray())
+            ->assertStatus(403);
+    }
+
+    /** @test */
+    public function an_authorized_user_can_store_a_task_to_any_project()
+    {
+        $user = $this->signInAdmin();
 
         $project = create(Project::class);
         $task = make(Task::class);

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Task;
 use App\Project;
 use App\Http\Requests\TaskRequest;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Support\Facades\Gate;
 
 class TaskController extends Controller
 {
@@ -21,9 +23,15 @@ class TaskController extends Controller
      *
      * @param Project $project
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws AuthorizationException
      */
     public function create(Project $project)
     {
+        if(Gate::denies('create', [Task::class, $project]))
+        {
+            throw new AuthorizationException("You are not authorized for this action");
+        }
+
         return view('task.create', compact('project'));
     }
 
@@ -33,9 +41,15 @@ class TaskController extends Controller
      * @param Project $project
      * @param TaskRequest $request
      * @return \Illuminate\Http\RedirectResponse
+     * @throws AuthorizationException
      */
     public function store(Project $project, TaskRequest $request)
     {
+        if(Gate::denies('create', [Task::class, $project]))
+        {
+            throw new AuthorizationException("You are not authorized for this action");
+        }
+        
         Task::create(array_merge([
             'project_id'  => $project->id,
             'user_id'     => auth()->user()->id
