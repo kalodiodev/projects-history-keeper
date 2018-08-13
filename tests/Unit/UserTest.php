@@ -2,9 +2,10 @@
 
 namespace Tests\Unit;
 
-use App\Project;
-use App\Role;
 use App\User;
+use App\Role;
+use App\Task;
+use App\Project;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -80,5 +81,16 @@ class UserTest extends TestCase
 
         $this->assertTrue($user->ownsProject($usersProject));
         $this->assertFalse($user->ownsProject($othersProject));
+    }
+
+    /** @test */
+    public function it_determines_if_user_is_tasks_creator()
+    {
+        $user = create(User::class);
+        $usersTask = create(Task::class, ['user_id' => $user->id]);
+        $othersTask = create(Task::class);
+
+        $this->assertTrue($user->ownsTask($usersTask));
+        $this->assertFalse($user->ownsTask($othersTask));
     }
 }

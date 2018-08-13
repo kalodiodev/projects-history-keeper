@@ -14,6 +14,7 @@ class PermissionsTableSeedeer extends Seeder
 
         // Task
         ['name' => 'task-create-any', 'label' => 'User can create a task to any project'],
+        ['name' => 'task-update-any', 'label' => 'User can update any task'],
     ];
 
     private $default_actions = [
@@ -25,6 +26,7 @@ class PermissionsTableSeedeer extends Seeder
 
         // Task
         ['name' => 'task-create', 'label' => 'User can create a task to a project he/she created'],
+        ['name' => 'task-update', 'label' => 'User can update own task'],
     ];
 
     /**

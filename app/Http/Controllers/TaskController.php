@@ -63,9 +63,15 @@ class TaskController extends Controller
      *
      * @param Task $task
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws AuthorizationException
      */
     public function edit(Task $task)
     {
+        if(Gate::denies('update', $task))
+        {
+            throw new AuthorizationException("You are not authorized for this action");
+        }
+
         return view('task.edit', compact('task'));
     }
 
@@ -75,9 +81,15 @@ class TaskController extends Controller
      * @param Task $task
      * @param TaskRequest $request
      * @return \Illuminate\Http\RedirectResponse
+     * @throws AuthorizationException
      */
     public function update(Task $task, TaskRequest $request)
     {
+        if(Gate::denies('update', $task))
+        {
+            throw new AuthorizationException("You are not authorized for this action");
+        }
+
         $task->update($request->only(['title', 'description', 'date']));
 
         return redirect()->route('project.show', ['project' => $task->project->id]);

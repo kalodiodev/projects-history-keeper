@@ -120,4 +120,15 @@ class User extends Authenticatable
     {
         return $this->id === $project->user_id;
     }
+
+    /**
+     * Determine if user owns the given task
+     *
+     * @param Task $task
+     * @return bool
+     */
+    public function ownsTask(Task $task)
+    {
+        return $this->id === $task->user_id;
+    }
 }

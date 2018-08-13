@@ -8,15 +8,49 @@ use Tests\IntegrationTestCase;
 class TaskEditTest extends IntegrationTestCase
 {
     /** @test */
-    public function an_authenticated_user_can_edit_a_task()
+    public function a_user_can_view_task_edit_for_his_task()
     {
-        $this->signIn();
+        $user = $this->signInDefault();
+
+        $task = create(Task::class, ['user_id' => $user->id]);
+
+        $this->get(route('project.task.edit', ['task' => $task->id]))
+            ->assertStatus(200)
+            ->assertViewIs('task.edit');
+    }
+
+    /** @test */
+    public function a_user_cannot_view_task_edit_for_others_tasks()
+    {
+        $this->signInDefault();
+
+        $task = create(Task::class);
+
+        $this->get(route('project.task.edit', ['task' => $task->id]))
+            ->assertStatus(403);
+    }
+
+    /** @test */
+    public function an_authorized_user_can_view_task_edit_for_any_task()
+    {
+        $this->signInAdmin();
 
         $task = create(Task::class);
 
         $this->get(route('project.task.edit', ['task' => $task->id]))
             ->assertStatus(200)
             ->assertViewIs('task.edit');
+    }
+
+    /** @test */
+    public function an_authorized_cannot_view_edit_task_for_any_task()
+    {
+        $user = $this->signInRestricted();
+
+        $task = create(Task::class, ['user_id' => $user->id]);
+
+        $this->get(route('project.task.edit', ['task' => $task->id]))
+            ->assertStatus(403);
     }
 
     /** @test */
@@ -29,9 +63,47 @@ class TaskEditTest extends IntegrationTestCase
     }
 
     /** @test */
-    public function an_authenticated_user_can_update_a_task()
+    public function a_user_can_update_his_task()
     {
-        $this->signIn();
+        $user = $this->signInDefault();
+
+        $task = create(Task::class, ['user_id' => $user->id]);
+
+        $newData = [
+            'title'   => 'New Title',
+            'description' => 'New Description',
+            'date'    => '2018-12-31'
+        ];
+
+        $this->patch(route('project.task.update', ['task' => $task->id]), $newData)
+            ->assertRedirect(route('project.show', ['project' => $task->project->id]));
+
+        $this->assertDatabaseHas('tasks', array_merge([
+            'id'  => $task->id
+        ], $newData));
+    }
+
+    /** @test */
+    public function a_user_cannot_update_others_tasks()
+    {
+        $this->signInDefault();
+
+        $task = create(Task::class);
+
+        $newData = [
+            'title'   => 'New Title',
+            'description' => 'New Description',
+            'date'    => '2018-12-31'
+        ];
+
+        $this->patch(route('project.task.update', ['task' => $task->id]), $newData)
+            ->assertStatus(403);
+    }
+
+    /** @test */
+    public function an_authorized_user_can_update_any_task()
+    {
+        $this->signInAdmin();
 
         $task = create(Task::class);
 
@@ -47,6 +119,23 @@ class TaskEditTest extends IntegrationTestCase
         $this->assertDatabaseHas('tasks', array_merge([
             'id'  => $task->id
         ], $newData));
+    }
+
+    /** @test */
+    public function an_unauthorized_user_cannot_update_any_task()
+    {
+        $user = $this->signInRestricted();
+
+        $task = create(Task::class, ['user_id' => $user->id]);
+
+        $newData = [
+            'title'   => 'New Title',
+            'description' => 'New Description',
+            'date'    => '2018-12-31'
+        ];
+
+        $this->patch(route('project.task.update', ['task' => $task->id]), $newData)
+            ->assertStatus(403);
     }
 
     /** @test */
