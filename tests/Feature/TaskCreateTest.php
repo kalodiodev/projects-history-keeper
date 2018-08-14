@@ -2,7 +2,6 @@
 
 namespace Tests\Feature;
 
-use App\User;
 use App\Task;
 use App\Project;
 use Tests\IntegrationTestCase;
@@ -14,9 +13,7 @@ class TaskCreateTest extends IntegrationTestCase
     {
         $user = $this->signInDefault();
 
-        $project = create(Project::class, ['user_id' => $user->id]);
-
-        $this->get(route('project.task.create', ['project' => $project->id]))
+        $this->httpGetTaskCreate(['user_id' => $user->id])
             ->assertStatus(200)
             ->assertViewIs('task.create');
     }
@@ -26,10 +23,7 @@ class TaskCreateTest extends IntegrationTestCase
     {
         $this->signInDefault();
         
-        $project = create(Project::class);
-        
-        $this->get(route('project.task.create', ['project' => $project->id]))
-            ->assertStatus(403);
+        $this->httpGetTaskCreate()->assertStatus(403);
     }
 
     /** @test */
@@ -37,9 +31,7 @@ class TaskCreateTest extends IntegrationTestCase
     {
         $this->signInAdmin();
 
-        $project = create(Project::class);
-
-        $this->get(route('project.task.create', ['project' => $project->id]))
+        $this->httpGetTaskCreate()
             ->assertStatus(200)
             ->assertViewIs('task.create');
     }
@@ -47,9 +39,7 @@ class TaskCreateTest extends IntegrationTestCase
     /** @test */
     public function an_unauthenticated_user_cannot_view_create_task()
     {
-        $project = create(Project::class);
-
-        $this->get(route('project.task.create', ['project' => $project->id]))
+        $this->httpGetTaskCreate()
             ->assertRedirect(route('login'));
     }
 
@@ -58,9 +48,7 @@ class TaskCreateTest extends IntegrationTestCase
     {
         $user = $this->signInRestricted();
 
-        $project = create(Project::class, ['user_id' => $user->id]);
-
-        $this->get(route('project.task.create', ['project' => $project->id]))
+        $this->httpGetTaskCreate(['user_id' => $user->id])
             ->assertStatus(403);
     }
 
@@ -194,6 +182,19 @@ class TaskCreateTest extends IntegrationTestCase
 
         $this->postTask(['date' => 'a string'])
             ->assertSessionHasErrors(['date']);
+    }
+
+    /**
+     * Get Task Create for project
+     *
+     * @param array $project_overrides
+     * @return \Illuminate\Foundation\Testing\TestResponse
+     */
+    protected function httpGetTaskCreate($project_overrides = [])
+    {
+        $project = create(Project::class, $project_overrides);
+
+        return $this->get(route('project.task.create', ['project' => $project->id]));
     }
 
     /**

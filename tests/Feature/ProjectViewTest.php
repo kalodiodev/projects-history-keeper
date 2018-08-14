@@ -38,18 +38,25 @@ class ProjectViewTest extends IntegrationTestCase
     {
         $this->signInRestricted();
 
-        $project = create(Project::class);
-
-        $this->get(route('project.show', ['project' => $project->id]))
-            ->assertStatus(403);
+        $this->httpGetProjectShow()->assertStatus(403);
     }
 
     /** @test */
     public function an_unauthenticated_user_cannot_view_a_project()
     {
-        $project = create(Project::class);
+        $this->httpGetProjectShow()->assertRedirect(route('login'));
+    }
 
-        $this->get(route('project.show', ['project' => $project->id]))
-            ->assertRedirect(route('login'));
+    /**
+     * Http GET Project
+     *
+     * @param array $project_overrides
+     * @return \Illuminate\Foundation\Testing\TestResponse
+     */
+    protected function httpGetProjectShow($project_overrides = [])
+    {
+        $project = create(Project::class, $project_overrides);
+
+        return $this->get(route('project.show', ['project' => $project->id]));
     }
 }
