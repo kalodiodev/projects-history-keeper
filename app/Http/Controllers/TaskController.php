@@ -104,6 +104,11 @@ class TaskController extends Controller
      */
     public function destroy(Task $task)
     {
+        if(Gate::denies('delete', $task))
+        {
+            throw new AuthorizationException("You are not authorized for this action");
+        }
+
         $task->delete();
         
         return redirect()->route('project.show', ['project' => $task->project->id]);

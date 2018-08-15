@@ -42,4 +42,20 @@ class TaskPolicy
 
         return (($user->hasPermission('task-update')) && ($user->ownsTask($task)));
     }
+
+    /**
+     * Determine whether the user can delete task.
+     *
+     * @param User $user
+     * @param Task $task
+     * @return bool
+     */
+    public function delete(User $user, Task $task)
+    {
+        if($user->hasPermission('task-delete-any')) {
+            return true;
+        }
+
+        return (($user->hasPermission('task-delete')) && ($user->ownsTask($task)));
+    }
 }
