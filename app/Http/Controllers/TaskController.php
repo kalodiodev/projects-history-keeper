@@ -94,4 +94,18 @@ class TaskController extends Controller
 
         return redirect()->route('project.show', ['project' => $task->project->id]);
     }
+
+    /**
+     * Delete Task
+     *
+     * @param Task $task
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Exception
+     */
+    public function destroy(Task $task)
+    {
+        $task->delete();
+        
+        return redirect()->route('project.show', ['project' => $task->project->id]);
+    }
 }

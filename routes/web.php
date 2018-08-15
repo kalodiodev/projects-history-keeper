@@ -37,3 +37,4 @@ Route::get('/project/{project}/task/create', 'TaskController@create')->name('pro
 Route::post('/project/{project}/task', 'TaskController@store')->name('project.task.store');
 Route::get('/task/{task}/edit', 'TaskController@edit')->name('project.task.edit');
 Route::patch('/task/{task}', 'TaskController@update')->name('project.task.update');
+Route::delete('/task/{task}', 'TaskController@destroy')->name('project.task.destroy');
