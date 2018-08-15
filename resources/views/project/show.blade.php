@@ -31,11 +31,11 @@
                             {{-- Delete Project Button --}}
                             <a class="btn btn-danger"
                                onclick="event.preventDefault();
-                               document.getElementById('delete-form').submit();"
+                               document.getElementById('project-delete-form').submit();"
                                href="{{ route('project.destroy', ['project' => $project->id]) }}">Delete</a>
 
                             {{-- Delete Project Hidden Form --}}
-                            <form id="delete-form"
+                            <form id="project-delete-form"
                                   method="post"
                                   action="{{ route('project.destroy', ['project' => $project->id]) }}"
                                   style="display: none;">
@@ -51,6 +51,9 @@
         <div class="row">
             <div class="col-md-12">
                 <h2>Tasks</h2>
+
+                @include('task._index', ['tasks' => $project->tasks()->paginate(25)])
+
                 <a class="btn btn-primary" href="{{ route('project.task.create', ['project' => $project->id]) }}">Add Task</a>
             </div>
         </div>

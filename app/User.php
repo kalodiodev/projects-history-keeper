@@ -27,6 +27,16 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    public static function boot()
+    {
+        parent::boot();
+
+        // TODO: Temporary, as there will be no option for user to register
+        static::creating(function ($user) {
+            $user->role_id = Role::whereName('default')->first()->id;
+        });
+    }
+
     /**
      * A user belongs to a role
      *
