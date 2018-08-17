@@ -38,3 +38,8 @@ Route::post('/project/{project}/task', 'TaskController@store')->name('project.ta
 Route::get('/task/{task}/edit', 'TaskController@edit')->name('project.task.edit');
 Route::patch('/task/{task}', 'TaskController@update')->name('project.task.update');
 Route::delete('/task/{task}', 'TaskController@destroy')->name('project.task.destroy');
+
+/*
+ * Tag Routes
+ */
+Route::get('/tag/create', 'TagController@create')->name('tag.create');
