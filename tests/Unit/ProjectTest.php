@@ -27,4 +27,14 @@ class ProjectTest extends TestCase
             'Illuminate\Database\Eloquent\Collection', $project->tasks
         );
     }
+
+    /** @test */
+    public function a_project_belongs_to_tags()
+    {
+        $project = make(Project::class);
+
+        $this->assertInstanceOf(
+            'Illuminate\Database\Eloquent\Collection', $project->tags
+        );
+    }
 }

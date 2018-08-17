@@ -33,7 +33,10 @@ class User extends Authenticatable
 
         // TODO: Temporary, as there will be no option for user to register
         static::creating(function ($user) {
-            $user->role_id = Role::whereName('default')->first()->id;
+            $role = Role::whereName('default')->first();
+            if($role) {
+                $user->role_id = $role->id;
+            }
         });
     }
 
