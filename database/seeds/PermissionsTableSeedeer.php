@@ -16,6 +16,9 @@ class PermissionsTableSeedeer extends Seeder
         ['name' => 'task-create-any', 'label' => 'User can create a task to any project'],
         ['name' => 'task-update-any', 'label' => 'User can update any task'],
         ['name' => 'task-delete-any', 'label' => 'User can delete any task'],
+
+        // Tag
+        ['name' => 'tag-create', 'label' => 'User can create a tag'],
     ];
 
     private $default_actions = [
