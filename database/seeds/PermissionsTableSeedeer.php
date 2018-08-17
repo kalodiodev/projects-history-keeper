@@ -19,6 +19,7 @@ class PermissionsTableSeedeer extends Seeder
 
         // Tag
         ['name' => 'tag-create', 'label' => 'User can create a tag'],
+        ['name' => 'tag-view', 'label' => 'User can view a tag']
     ];
 
     private $default_actions = [

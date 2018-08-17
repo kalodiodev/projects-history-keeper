@@ -18,6 +18,24 @@ class TagController extends Controller
     }
 
     /**
+     * Index Tags
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws AuthorizationException
+     */
+    public function index()
+    {
+        if(Gate::denies('view', Tag::class))
+        {
+            throw new AuthorizationException("You are not authorized for this action");
+        }
+
+        $tags = Tag::paginate(30);
+
+        return view('tag.index', compact('tags'));
+    }
+
+    /**
      * Create a tag
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View

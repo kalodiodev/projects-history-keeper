@@ -20,4 +20,15 @@ class TagPolicy
         return $user->hasPermission('tag-create');
     }
 
+    /**
+     * Determine whether the user can view tasks.
+     *
+     * @param User $user
+     * @return bool
+     */
+    public function view(User $user)
+    {
+        return $user->hasPermission('tag-view');
+    }
+
 }
