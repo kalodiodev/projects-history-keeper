@@ -67,4 +67,33 @@ class TagCreateTest extends IntegrationTestCase
         $this->post(route('tag.store'), $tag->toArray())
             ->assertRedirect(route('login'));
     }
+
+    /** @test */
+    public function tag_requires_a_name()
+    {
+        $this->signInAdmin();
+
+        $this->post(route('tag.store'), ['name' => ''])
+            ->assertSessionHasErrors(['name']);
+    }
+
+    /** @test */
+    public function tag_name_cannot_exceed_twenty_characters()
+    {
+        $this->signInAdmin();
+
+        $this->post(route('tag.store', ['name' => str_random(21)]))
+            ->assertSessionHasErrors(['name']);
+    }
+
+    /** @test */
+    public function tag_name_should_be_unique()
+    {
+        $this->signInAdmin();
+
+        create(Tag::class, ['name' => 'Test']);
+
+        $this->post(route('tag.store'), ['name' => 'Test'])
+            ->assertSessionHasErrors(['name']);
+    }
 }

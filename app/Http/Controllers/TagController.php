@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Tag;
-use Illuminate\Http\Request;
+use App\Http\Requests\TagRequest;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Auth\Access\AuthorizationException;
 
@@ -54,11 +54,11 @@ class TagController extends Controller
     /**
      * Store tag
      *
-     * @param Request $request
+     * @param TagRequest $request
      * @return \Illuminate\Http\RedirectResponse
      * @throws AuthorizationException
      */
-    public function store(Request $request)
+    public function store(TagRequest $request)
     {
         if(Gate::denies('create', Tag::class))
         {
