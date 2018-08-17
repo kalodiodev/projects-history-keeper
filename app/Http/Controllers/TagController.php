@@ -50,4 +50,25 @@ class TagController extends Controller
 
         return view('tag.create');
     }
+
+    /**
+     * Store tag
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws AuthorizationException
+     */
+    public function store(Request $request)
+    {
+        if(Gate::denies('create', Tag::class))
+        {
+            throw new AuthorizationException("You are not authorized for this action");
+        }
+
+        Tag::create([
+            'name' => $request->get('name')
+        ]);
+
+        return redirect()->route('tag.index');
+    }
 }
