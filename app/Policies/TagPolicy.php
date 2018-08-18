@@ -10,7 +10,7 @@ class TagPolicy
     use HandlesAuthorization;
 
     /**
-     * Determine whether the user can create tasks.
+     * Determine whether the user can create task.
      *
      * @param  \App\User $user
      * @return mixed
@@ -18,6 +18,17 @@ class TagPolicy
     public function create(User $user)
     {
         return $user->hasPermission('tag-create');
+    }
+
+    /**
+     * Determine whether the user can update tasks.
+     *
+     * @param User $user
+     * @return bool
+     */
+    public function update(User $user)
+    {
+        return $user->hasPermission('tag-update');
     }
 
     /**

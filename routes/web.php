@@ -45,3 +45,4 @@ Route::delete('/task/{task}', 'TaskController@destroy')->name('project.task.dest
 Route::get('/tags', 'TagController@index')->name('tag.index');
 Route::get('/tag/create', 'TagController@create')->name('tag.create');
 Route::post('/tag', 'TagController@store')->name('tag.store');
+Route::get('/tag/{tag}/edit', 'TagController@edit')->name('tag.edit');
