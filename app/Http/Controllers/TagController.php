@@ -88,4 +88,24 @@ class TagController extends Controller
 
         return view('tag.edit', compact('tag'));
     }
+
+    /**
+     * Update Tag
+     *
+     * @param Tag $tag
+     * @param TagRequest $request
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws AuthorizationException
+     */
+    public function update(Tag $tag, TagRequest $request)
+    {
+        if(Gate::denies('update', Tag::class))
+        {
+            throw new AuthorizationException("You are not authorized for this action");
+        }
+
+        $tag->update($request->only(['name']));
+
+        return redirect()->route('tag.index');
+    }
 }

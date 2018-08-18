@@ -8,7 +8,7 @@
                     <div class="card-header">Update Tag</div>
 
                     <div class="card-body">
-                        <form method="POST" action="">
+                        <form method="POST" action="{{ route('tag.update', ['tag' => $tag->id]) }}">
                             {{ method_field('PATCH') }}
 
                             @include('tag._form')
