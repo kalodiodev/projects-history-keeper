@@ -12,9 +12,7 @@ class TagEditTest extends IntegrationTestCase
     {
         $this->signInAdmin();
 
-        $tag = create(Tag::class);
-
-        $this->get(route('tag.edit', ['tag' => $tag->id]))
+        $this->editTag($tag = create(Tag::class))
             ->assertStatus(200)
             ->assertViewIs('tag.edit')
             ->assertViewHas('tag', $tag->fresh());
@@ -25,19 +23,13 @@ class TagEditTest extends IntegrationTestCase
     {
         $this->signInDefault();
 
-        $tag = create(Tag::class);
-
-        $this->get(route('tag.edit', ['tag' => $tag->id]))
-            ->assertStatus(403);
+        $this->editTag()->assertStatus(403);
     }
 
     /** @test */
     public function an_unauthenticated_user_cannot_view_tag_edit()
     {
-        $tag = create(Tag::class);
-
-        $this->get(route('tag.edit', ['tag' => $tag->id]))
-            ->assertRedirect(route('login'));
+        $this->editTag()->assertRedirect(route('login'));
     }
 
     /** @test */
@@ -45,10 +37,7 @@ class TagEditTest extends IntegrationTestCase
     {
         $this->signInAdmin();
 
-        $tag = create(Tag::class);
-        $newData = ['name' => 'New name'];
-
-        $this->patch(route('tag.update', ['tag' => $tag->id]), $newData)
+        $this->updateTag($tag = create(Tag::class), $newData = ['name' => 'New Name'])
             ->assertRedirect(route('tag.index'));
 
         $this->assertDatabaseHas('tags', array_merge([
@@ -61,10 +50,7 @@ class TagEditTest extends IntegrationTestCase
     {
         $this->signInDefault();
 
-        $tag = create(Tag::class);
-        $newData = ['name' => 'New name'];
-
-        $this->patch(route('tag.update', ['tag' => $tag->id]), $newData)
+        $this->updateTag($tag = create(Tag::class))
             ->assertStatus(403);
 
         $this->assertDatabaseHas('tags', $tag->toArray());
@@ -73,10 +59,7 @@ class TagEditTest extends IntegrationTestCase
     /** @test */
     public function an_unauthenticated_user_cannot_update_a_tag()
     {
-        $tag = create(Tag::class);
-        $newData = ['name' => 'New name'];
-
-        $this->patch(route('tag.update', ['tag' => $tag->id]), $newData)
+        $this->updateTag($tag = create(Tag::class))
             ->assertRedirect(route('login'));
 
         $this->assertDatabaseHas('tags', $tag->toArray());
@@ -86,11 +69,8 @@ class TagEditTest extends IntegrationTestCase
     public function a_tag_requires_a_name()
     {
         $this->signInAdmin();
-        
-        $tag = create(Tag::class);
-        $newData = ['name' => ''];
 
-        $this->patch(route('tag.update', ['tag' => $tag->id]), $newData)
+        $this->updateTag($tag = create(Tag::class), ['name' => ''])
             ->assertSessionHasErrors(['name']);
 
         $this->assertDatabaseHas('tags', $tag->toArray());
@@ -101,10 +81,7 @@ class TagEditTest extends IntegrationTestCase
     {
         $this->signInAdmin();
 
-        $tag = create(Tag::class);
-        $newData = ['name' => str_random(21)];
-
-        $this->patch(route('tag.update', ['tag' => $tag->id]), $newData)
+        $this->updateTag($tag = create(Tag::class), ['name' => str_random(21)])
             ->assertSessionHasErrors(['name']);
 
         $this->assertDatabaseHas('tags', $tag->toArray());
@@ -115,12 +92,9 @@ class TagEditTest extends IntegrationTestCase
     {
         $this->signInAdmin();
 
-        $tag = create(Tag::class);
-        create(Tag::class, ['name' => 'Test']);
+        create(Tag::class, $tagFields = ['name' => 'Test']);
 
-        $newData = ['name' => 'Test'];
-
-        $this->patch(route('tag.update', ['tag' => $tag->id]), $newData)
+        $this->updateTag($tag = create(Tag::class), $tagFields)
             ->assertSessionHasErrors(['name']);
 
         $this->assertDatabaseHas('tags', $tag->toArray());
@@ -131,10 +105,45 @@ class TagEditTest extends IntegrationTestCase
     {
         $this->signInAdmin();
 
-        $tag = create(Tag::class, ['name' => 'Test']);
-        $newData = ['name' => 'Test'];
+        $tagFields = ['name' => 'Test'];
 
-        $this->patch(route('tag.update', ['tag' => $tag->id]), $newData)
+        $this->updateTag(create(Tag::class, $tagFields), $tagFields)
             ->assertSessionHasNoErrors();
+    }
+
+    /**
+     * Edit Tag
+     *
+     * @param Tag $stored_tag
+     * @return \Illuminate\Foundation\Testing\TestResponse
+     */
+    protected function editTag(Tag $stored_tag = null)
+    {
+        if($stored_tag == null) {
+            $stored_tag = create(Tag::class);
+        }
+
+        return $this->get(route('tag.edit', ['tag' => $stored_tag->id]));
+    }
+
+    /**
+     * Update provided Tag
+     * If no Tag is provided then a tag will be created
+     *
+     * @param Tag $stored_tag
+     * @param array $update_fields_overrides
+     * @return \Illuminate\Foundation\Testing\TestResponse
+     */
+    protected function updateTag(Tag $stored_tag = null, $update_fields_overrides = [])
+    {
+        if($stored_tag == null) {
+            $stored_tag = create(Tag::class);
+        }
+
+        $newData = array_merge([
+            'name' => 'New Name'
+        ], $update_fields_overrides);
+
+        return $this->patch(route('tag.update', ['tag' => $stored_tag->id]), $newData);
     }
 }
