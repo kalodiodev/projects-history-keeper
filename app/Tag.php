@@ -15,6 +15,15 @@ class Tag extends Model
         'name'
     ];
 
+    public static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($tag) {
+            $tag->projects()->detach();
+        });
+    }
+
     /**
      * Tag belongs to many projects
      */
