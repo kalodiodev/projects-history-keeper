@@ -25,7 +25,7 @@ class TagController extends Controller
      */
     public function index()
     {
-        if(Gate::denies('view', Tag::class))
+        if(Gate::denies('manage', Tag::class))
         {
             throw new AuthorizationException("You are not authorized for this action");
         }

@@ -10,6 +10,19 @@ class TagPolicy
     use HandlesAuthorization;
 
     /**
+     * Determine whether the user can manage task.
+     *
+     * @param User $user
+     * @return bool
+     */
+    public function manage(User $user)
+    {
+        return ($user->hasPermission('tag-create') ||
+            $user->hasPermission('tag-update') ||
+            $user->hasPermission('tag-delete'));
+    }
+
+    /**
      * Determine whether the user can create task.
      *
      * @param  \App\User $user
@@ -41,16 +54,4 @@ class TagPolicy
     {
         return $user->hasPermission('tag-delete');
     }
-
-    /**
-     * Determine whether the user can view tasks.
-     *
-     * @param User $user
-     * @return bool
-     */
-    public function view(User $user)
-    {
-        return $user->hasPermission('tag-view');
-    }
-
 }

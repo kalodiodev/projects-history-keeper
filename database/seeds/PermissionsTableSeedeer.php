@@ -19,7 +19,6 @@ class PermissionsTableSeedeer extends Seeder
 
         // Tag
         ['name' => 'tag-create', 'label' => 'User can create a tag'],
-        ['name' => 'tag-view', 'label' => 'User can view a tag'],
         ['name' => 'tag-update', 'label' => 'User can update a tag'],
         ['name' => 'tag-delete', 'label' => 'User can delete a tag'],
     ];
