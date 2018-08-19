@@ -32,6 +32,17 @@ class TagPolicy
     }
 
     /**
+     * Determine whether the user can delete tasks.
+     *
+     * @param User $user
+     * @return bool
+     */
+    public function delete(User $user)
+    {
+        return $user->hasPermission('tag-delete');
+    }
+
+    /**
      * Determine whether the user can view tasks.
      *
      * @param User $user

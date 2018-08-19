@@ -21,7 +21,21 @@
                         <td>{{ $tag->name }}</td>
                         <td>
                             <a class="btn btn-warning" href="{{ route('tag.edit', ['tag' => $tag->id]) }}">Edit</a>
-                            <a class="btn btn-danger" href="">Delete</a>
+
+                            {{-- Delete Tag Button --}}
+                            <a class="btn btn-danger"
+                               onclick="event.preventDefault();
+                               document.getElementById('tag-delete-form').submit();"
+                               href="{{ route('tag.destroy', ['tag' => $tag->id]) }}">Delete</a>
+
+                            {{-- Delete Tag Hidden Form --}}
+                            <form id="tag-delete-form"
+                                  method="post"
+                                  action="{{ route('tag.destroy', ['tag' => $tag->id]) }}"
+                                  style="display: none;">
+                                @csrf
+                                {{ method_field('DELETE') }}
+                            </form>
                         </td>
                     </tr>
                 @endforeach
