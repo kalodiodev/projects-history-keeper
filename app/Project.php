@@ -26,6 +26,16 @@ class Project extends Model
         'user_id' => 'int',
     ];
 
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($project) {
+            $project->tags()->detach();
+        });
+    }
+
     /**
      * A project belongs to a creator (user)
      *
