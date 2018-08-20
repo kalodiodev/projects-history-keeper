@@ -44,5 +44,9 @@
         <div class="row justify-content-center mt-3">
             {{ $tags->links() }}
         </div>
+
+        <div class="text-right mt-5">
+            <a href="{{ route('tag.create') }}" class="btn btn-primary">Add Tag</a>
+        </div>
     </div>
 @endsection
