@@ -8,7 +8,7 @@
                     <div class="card-header">Create Tag</div>
 
                     <div class="card-body">
-                        <form method="post" action="">
+                        <form method="post" action="{{ route('tag.store') }}">
 
                             @include('tag._form')
 
