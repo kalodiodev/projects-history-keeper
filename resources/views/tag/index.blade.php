@@ -5,7 +5,6 @@
 
         <h1>Tags</h1>
         <p>All tags available</p>
-        <hr>
 
         <table class="table table-responsive-sm">
             <thead>
