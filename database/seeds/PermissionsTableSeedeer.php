@@ -7,6 +7,9 @@ use Illuminate\Support\Facades\DB;
 class PermissionsTableSeedeer extends Seeder
 {
     private $admin_actions = [
+        // User
+        ['name' => 'user-create', 'label' => 'User can add a new user'],
+
         // Project
         ['name' => 'project-update-any', 'label' => 'User can update any project'],
         ['name' => 'project-delete-any', 'label' => 'User can delete any project'],

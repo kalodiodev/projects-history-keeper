@@ -20,6 +20,11 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 /*
+ * User Routes
+ */
+Route::get('/user/create', 'UserController@create')->name('user.create');
+
+/*
  * Project Routes
  */
 Route::get('/projects', 'ProjectController@index')->name('project.index');
