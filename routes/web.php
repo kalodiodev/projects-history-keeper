@@ -22,6 +22,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 /*
  * User Routes
  */
+Route::get('/users', 'UserController@index')->name('user.index');
 Route::get('/user/create', 'UserController@create')->name('user.create');
 
 /*
