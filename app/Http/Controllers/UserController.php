@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Auth\Access\AuthorizationException;
 
 class UserController extends Controller
@@ -49,5 +50,28 @@ class UserController extends Controller
         }
 
         return view('user.create');
+    }
+
+    /**
+     * Store User
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws AuthorizationException
+     */
+    public function store(Request $request)
+    {
+        if(Gate::denies('create', User::class))
+        {
+            throw new AuthorizationException("You are not authorized for this action");
+        }
+
+        User::create([
+            'name' => $request->get('name'),
+            'email' => $request->get('email'),
+            'password' => Hash::make($request->get('password'))
+        ]);
+
+        return redirect()->route('user.index');
     }
 }

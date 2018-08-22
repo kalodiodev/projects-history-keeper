@@ -24,6 +24,7 @@ Route::get('/home', 'HomeController@index')->name('home');
  */
 Route::get('/users', 'UserController@index')->name('user.index');
 Route::get('/user/create', 'UserController@create')->name('user.create');
+Route::post('/user', 'UserController@store')->name('user.store');
 
 /*
  * Project Routes
