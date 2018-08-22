@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserRequest;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
@@ -55,11 +56,11 @@ class UserController extends Controller
     /**
      * Store User
      *
-     * @param Request $request
+     * @param UserRequest $request
      * @return \Illuminate\Http\RedirectResponse
      * @throws AuthorizationException
      */
-    public function store(Request $request)
+    public function store(UserRequest $request)
     {
         if(Gate::denies('create', User::class))
         {

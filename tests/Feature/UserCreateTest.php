@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\User;
 use Tests\IntegrationTestCase;
 
 class UserCreateTest extends IntegrationTestCase
@@ -59,6 +60,67 @@ class UserCreateTest extends IntegrationTestCase
     {
         $this->post(route('user.store'), $this->userValidFields([], true))
             ->assertRedirect(route('login'));
+    }
+
+    /** @test */
+    public function a_user_requires_a_name()
+    {
+        $this->signInAdmin();
+
+        $this->post(route('user.store'), $this->userValidFields(['name' => ''], true))
+            ->assertSessionHasErrors(['name']);
+    }
+
+    /** @test */
+    public function a_user_requires_an_email()
+    {
+        $this->signInAdmin();
+
+        $this->post(route('user.store'), $this->userValidFields(['email' => ''], true))
+            ->assertSessionHasErrors(['email']);
+
+        $this->post(route('user.store'), $this->userValidFields(['email' => 'not an email'], true))
+            ->assertSessionHasErrors(['email']);
+    }
+
+    /** @test */
+    public function users_email_should_be_unique()
+    {
+        create(User::class, ['email' => $this->userValidFields()['email']]);
+
+        $this->signInAdmin();
+
+        $this->post(route('user.store'), $this->userValidFields(['email' => ''], true))
+            ->assertSessionHasErrors(['email']);
+    }
+
+    /** @test */
+    public function a_user_requires_a_password()
+    {
+        $this->signInAdmin();
+
+        $this->post(route('user.store'), $this->userValidFields([], false))
+            ->assertSessionHasErrors(['password']);
+    }
+
+    /** @test */
+    public function users_password_must_be_confirmed()
+    {
+        $this->signInAdmin();
+
+        $this->post(route('user.store'), $this->userValidFields(['password_confirmation' => ''], true))
+            ->assertSessionHasErrors(['password']);
+    }
+
+    /** @test */
+    public function users_password_cannot_be_less_than_six_characters()
+    {
+        $this->signInAdmin();
+
+        $this->post(route('user.store'), $this->userValidFields([
+            'password'              => '1234',
+            'password_confirmation' => '1234',
+        ]))->assertSessionHasErrors(['password']);
     }
 
     /**
