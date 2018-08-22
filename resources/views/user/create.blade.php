@@ -8,7 +8,7 @@
                     <div class="card-header">Add User</div>
 
                     <div class="card-body">
-                        <form method="post" action="">
+                        <form method="post" action="{{ route('user.store') }}">
 
                             @include('user._form')
 
