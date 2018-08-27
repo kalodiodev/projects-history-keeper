@@ -8,7 +8,7 @@ class PermissionsTableSeedeer extends Seeder
 {
     private $admin_actions = [
         // User
-        ['name' => 'user-create', 'label' => 'User can add a new user'],
+        ['name' => 'user-invite', 'label' => 'User can invite a new user'],
 
         // Project
         ['name' => 'project-update-any', 'label' => 'User can update any project'],

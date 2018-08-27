@@ -23,8 +23,12 @@ Route::get('/home', 'HomeController@index')->name('home');
  * User Routes
  */
 Route::get('/users', 'UserController@index')->name('user.index');
-Route::get('/user/create', 'UserController@create')->name('user.create');
-Route::post('/user', 'UserController@store')->name('user.store');
+
+/*
+ * Invitation Routes
+ */
+Route::get('/user/invite', 'InvitationController@create')->name('invitation.create');
+Route::post('/user/invite', 'InvitationController@store')->name('invitation.store');
 
 /*
  * Project Routes

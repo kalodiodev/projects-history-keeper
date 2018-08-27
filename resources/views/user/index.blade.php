@@ -36,7 +36,7 @@
         </div>
 
         <div class="text-right mt-5">
-            <a href="{{ route('user.create') }}" class="btn btn-primary">Add User</a>
+            <a href="{{ route('invitation.create') }}" class="btn btn-primary">Invite User</a>
         </div>
     </div>
 @endsection

@@ -17,7 +17,7 @@ class UserPolicy
      */
     public function manage(User $user)
     {
-        return $user->hasPermission('user-create');
+        return $user->hasPermission('user-invite');
     }
 
     /**
@@ -26,8 +26,8 @@ class UserPolicy
      * @param User $user
      * @return bool
      */
-    public function create(User $user)
+    public function invite(User $user)
     {
-        return $user->hasPermission('user-create');
+        return $user->hasPermission('user-invite');
     }
 }
