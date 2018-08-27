@@ -2,8 +2,9 @@
 
 namespace Tests\Feature;
 
+use App\Invitation;
 use App\User;
-use Illuminate\Notifications\Notification;
+use Illuminate\Support\Facades\Notification;
 use Tests\IntegrationTestCase;
 
 class UserInviteTest extends IntegrationTestCase
@@ -84,6 +85,31 @@ class UserInviteTest extends IntegrationTestCase
 
         $this->post(route('invitation.store'), $this->userValidFields(['email' => '']))
             ->assertSessionHasErrors(['email']);
+    }
+
+    /** @test */
+    public function when_inviting_a_user_an_invitation_email_is_sent()
+    {
+        Notification::fake();
+
+        $this->signInAdmin();
+
+        $this->post(route('invitation.store'), $this->userValidFields(['email']))
+            ->assertStatus(302);
+        
+        $invitation = Invitation::first();
+
+        $invitationToken = '';
+
+        Notification::assertSentTo(
+            $invitation,
+            \App\Notifications\Invitation::class,
+            function ($notification, $channels) use (&$invitationToken) {
+                $invitationToken = $notification->token;
+                return true;
+            });
+
+        $this->assertEquals($invitation->token, $invitationToken);
     }
     
     /**
