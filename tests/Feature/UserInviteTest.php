@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\User;
+use Illuminate\Notifications\Notification;
 use Tests\IntegrationTestCase;
 
 class UserInviteTest extends IntegrationTestCase
@@ -67,10 +68,10 @@ class UserInviteTest extends IntegrationTestCase
     {
         $this->signInAdmin();
 
-        $this->post(route('invitation.create'), $this->userValidFields(['email' => '']))
+        $this->post(route('invitation.store'), $this->userValidFields(['email' => '']))
             ->assertSessionHasErrors(['email']);
 
-        $this->post(route('invitation.create'), $this->userValidFields(['email' => 'not an email']))
+        $this->post(route('invitation.store'), $this->userValidFields(['email' => 'not an email']))
             ->assertSessionHasErrors(['email']);
     }
 
@@ -81,7 +82,7 @@ class UserInviteTest extends IntegrationTestCase
 
         $this->signInAdmin();
 
-        $this->post(route('invitation.create'), $this->userValidFields(['email' => '']))
+        $this->post(route('invitation.store'), $this->userValidFields(['email' => '']))
             ->assertSessionHasErrors(['email']);
     }
     
