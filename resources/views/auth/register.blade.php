@@ -8,7 +8,7 @@
                 <div class="card-header">{{ __('Register') }}</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('register') }}" aria-label="{{ __('Register') }}">
+                    <form method="POST" action="{{ route('register', ['invitation' => $invitation->token]) }}" aria-label="{{ __('Register') }}">
                         @csrf
 
                         <div class="form-group row">
@@ -29,7 +29,10 @@
                             <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
 
                             <div class="col-md-6">
-                                <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" required>
+                                <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email"
+                                       disabled
+                                       value="@if(isset($invitation)){{ $invitation->email }}@else{{ old('email') }}@endif"
+                                       required>
 
                                 @if ($errors->has('email'))
                                     <span class="invalid-feedback" role="alert">

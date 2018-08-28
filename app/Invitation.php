@@ -18,6 +18,16 @@ class Invitation extends Model
         'email'
     ];
 
+    /**
+     * Get the route key for the model.
+     *
+     * @return string
+     */
+    public function getRouteKeyName()
+    {
+        return 'token';
+    }
+
     public static function boot()
     {
         parent::boot();

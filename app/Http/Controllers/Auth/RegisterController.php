@@ -3,25 +3,18 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
+use App\Invitation;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Foundation\Auth\RedirectsUsers;
 
 class RegisterController extends Controller
 {
-    /*
-    |--------------------------------------------------------------------------
-    | Register Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller handles the registration of new users as well as their
-    | validation and creation. By default this controller uses a trait to
-    | provide this functionality without requiring any additional code.
-    |
-    */
-
-    use RegistersUsers;
+    use RedirectsUsers;
 
     /**
      * Where to redirect users after registration.
@@ -38,6 +31,48 @@ class RegisterController extends Controller
     public function __construct()
     {
         $this->middleware('guest');
+    }
+
+    /**
+     * Show the application registration form.
+     *
+     * @param Invitation $invitation
+     * @return \Illuminate\Http\Response
+     */
+    public function showRegistrationForm(Invitation $invitation)
+    {
+        return view('auth.register', compact('invitation'));
+    }
+
+    /**
+     * Handle a registration request for the application.
+     *
+     * @param Invitation $invitation
+     * @param  \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function register(Invitation $invitation, Request $request)
+    {
+        $this->validator($request->all())->validate();
+
+        event(new Registered($user = $this->create($request->all())));
+
+        $this->guard()->login($user);
+
+        $invitation->delete();
+
+        return $this->registered($request, $user)
+            ?: redirect($this->redirectPath());
+    }
+
+    /**
+     * Get the guard to be used during registration.
+     *
+     * @return \Illuminate\Contracts\Auth\StatefulGuard
+     */
+    protected function guard()
+    {
+        return Auth::guard();
     }
 
     /**
@@ -68,5 +103,17 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
+    }
+
+    /**
+     * The user has been registered.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  mixed  $user
+     * @return mixed
+     */
+    protected function registered(Request $request, $user)
+    {
+        //
     }
 }
