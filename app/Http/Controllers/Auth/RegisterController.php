@@ -9,7 +9,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Auth\Events\Registered;
-use Illuminate\Support\Facades\Validator;
+use App\Http\Requests\RegisterRequest;
 use Illuminate\Foundation\Auth\RedirectsUsers;
 
 class RegisterController extends Controller
@@ -48,13 +48,11 @@ class RegisterController extends Controller
      * Handle a registration request for the application.
      *
      * @param Invitation $invitation
-     * @param  \Illuminate\Http\Request $request
+     * @param RegisterRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function register(Invitation $invitation, Request $request)
+    public function register(Invitation $invitation, RegisterRequest $request)
     {
-        $this->validator($request->all())->validate();
-
         event(new Registered($user = $this->create($request->all())));
 
         $this->guard()->login($user);
@@ -73,21 +71,6 @@ class RegisterController extends Controller
     protected function guard()
     {
         return Auth::guard();
-    }
-
-    /**
-     * Get a validator for an incoming registration request.
-     *
-     * @param  array  $data
-     * @return \Illuminate\Contracts\Validation\Validator
-     */
-    protected function validator(array $data)
-    {
-        return Validator::make($data, [
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6|confirmed',
-        ]);
     }
 
     /**
