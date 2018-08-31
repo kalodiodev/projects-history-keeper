@@ -6,6 +6,7 @@ use App\Role;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Auth\Access\AuthorizationException;
 
 class UserController extends Controller
@@ -70,17 +71,40 @@ class UserController extends Controller
             throw new AuthorizationException("You are not authorized for this action");
         }
 
-        $user->update($request->only(['name', 'role_id']));
+        $this->updateUser($user, $request->only(['name', 'role_id']));
 
         if($this->isAuthenticatedUser($user)) {
             auth()->setUser($user->fresh());
         }
 
-        if(Gate::denies('manage', User::class)) {
-            return redirect('/');
-        }
+        return Gate::denies('manage', User::class) ?
+            redirect('/') : redirect()->route('user.index');
+    }
 
-        return redirect()->route('user.index');
+    /**
+     * Validate and update user
+     *
+     * @param $user
+     * @param $data
+     */
+    protected function updateUser(User $user, $data)
+    {
+        $this->updateValidator($data)->validate();
+        $user->update($data);
+    }
+
+    /**
+     * Get a validator for an incoming user update request.
+     *
+     * @param $data
+     * @return mixed
+     */
+    protected function updateValidator($data)
+    {
+        return Validator::make($data, [
+            'name' => 'required|string|max:255',
+            'role_id' => 'required|integer|exists:roles,id'
+        ]);
     }
 
     /**

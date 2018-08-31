@@ -92,6 +92,31 @@ class UserEditTest extends IntegrationTestCase
             ->assertRedirect('/');
     }
 
+    /** @test */
+    public function a_user_requires_a_name()
+    {
+        $this->signInAdmin();
+
+        $user = create(User::class);
+
+        $this->patch(route('user.update', ['user' => $user->id]), $this->userValidFields(['name' => '']))
+            ->assertSessionHasErrors(['name']);
+    }
+    
+    /** @test */
+    public function a_user_requires_a_valid_role_id()
+    {
+        $this->signInAdmin();
+
+        $user = create(User::class);
+
+        $this->patch(route('user.update', ['user' => $user->id]), $this->userValidFields(['role_id' => null]))
+            ->assertSessionHasErrors(['role_id']);
+
+        $this->patch(route('user.update', ['user' => $user->id]), $this->userValidFields(['role_id' => 10]))
+            ->assertSessionHasErrors(['role_id']);
+    }
+
     /**
      * Get user valid fields data
      *
