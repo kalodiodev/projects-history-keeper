@@ -23,7 +23,9 @@
                     <td>{{ $user->email }}</td>
                     <td>{{ $user->name }}</td>
                     <td>
-                        <a class="btn btn-warning" href="">Edit</a>
+                        @can('edit', \App\User::class)
+                            <a class="btn btn-warning" href="{{ route('user.edit', ['user' => $user->id]) }}">Edit</a>
+                        @endcan
                         <a class="btn btn-danger"  href="">Delete</a>
                     </td>
                 </tr>

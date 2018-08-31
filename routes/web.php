@@ -36,6 +36,7 @@ Route::get('/home', 'HomeController@index')->name('home');
  * User Routes
  */
 Route::get('/users', 'UserController@index')->name('user.index');
+Route::get('/user/{user}/edit', 'UserController@edit')->name('user.edit');
 
 /*
  * Invitation Routes

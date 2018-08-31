@@ -17,7 +17,18 @@ class UserPolicy
      */
     public function manage(User $user)
     {
-        return $user->hasPermission('user-invite');
+        return $user->hasPermission('user-invite') || $user->hasPermission('user-edit');
+    }
+
+    /**
+     * Determine whether the user can edit users.
+     *
+     * @param User $user
+     * @return bool
+     */
+    public function edit(User $user)
+    {
+        return $user->hasPermission('user-edit');
     }
 
     /**

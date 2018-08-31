@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Role;
 use App\User;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -32,5 +33,24 @@ class UserController extends Controller
         $users = User::paginate(40);
 
         return view('user.index', compact('users'));
+    }
+
+    /**
+     * Edit User
+     *
+     * @param User $user
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws AuthorizationException
+     */
+    public function edit(User $user)
+    {
+        if(Gate::denies('edit', User::class))
+        {
+            throw new AuthorizationException("You are not authorized for this action");
+        }
+
+        $roles = Role::all();
+
+        return view('user.edit', compact('user', 'roles'));
     }
 }
