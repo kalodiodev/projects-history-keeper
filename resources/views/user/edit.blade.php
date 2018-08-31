@@ -6,7 +6,7 @@
         <h1>Edit User</h1>
         <hr>
 
-        <form method="post" action="">
+        <form method="post" action="{{ route('user.update', ['user' => $user->id]) }}">
             @csrf
             {{ method_field('PATCH') }}
 
