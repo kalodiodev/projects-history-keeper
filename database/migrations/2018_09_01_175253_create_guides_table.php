@@ -18,7 +18,7 @@ class CreateGuidesTable extends Migration
             $table->string('title');
             $table->string('slug');
             $table->string('description');
-            $table->string('body');
+            $table->text('body');
             $table->string('featured_image')->nullable();
             $table->unsignedInteger('user_id');
             $table->timestamps();
