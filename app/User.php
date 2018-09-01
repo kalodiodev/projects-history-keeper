@@ -154,4 +154,15 @@ class User extends Authenticatable
     {
         return $this->id === $task->user_id;
     }
+
+    /**
+     * Determine if user owns the given guide
+     *
+     * @param Guide $guide guide user may own
+     * @return bool true if user is projects creator, otherwise false
+     */
+    public function ownsGuide(Guide $guide)
+    {
+        return $this->id === $guide->user_id;
+    }
 }

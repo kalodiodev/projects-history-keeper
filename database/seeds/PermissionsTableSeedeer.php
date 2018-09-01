@@ -25,6 +25,9 @@ class PermissionsTableSeedeer extends Seeder
         ['name' => 'tag-create', 'label' => 'User can create a tag'],
         ['name' => 'tag-update', 'label' => 'User can update a tag'],
         ['name' => 'tag-delete', 'label' => 'User can delete a tag'],
+
+        // Guide
+        ['name' => 'guide-view-any', 'label' => 'User can view any guide'],
     ];
 
     private $default_actions = [
@@ -41,6 +44,7 @@ class PermissionsTableSeedeer extends Seeder
 
         // Guide
         ['name' => 'guide-create', 'label' => 'User can create a guide'],
+        ['name' => 'guide-view', 'label' => 'User can view own guide'],
     ];
 
     /**

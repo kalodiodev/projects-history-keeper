@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use App\Guide;
 use App\User;
 use App\Role;
 use App\Task;
@@ -102,5 +103,16 @@ class UserTest extends TestCase
         $this->assertInstanceOf(
             'Illuminate\Database\Eloquent\Collection', $user->guides
         );
+    }
+
+    /** @test */
+    public function it_determines_if_user_is_guides_creator()
+    {
+        $user = create(User::class);
+        $usersGuide = create(Guide::class, ['user_id' => $user->id]);
+        $othersGuide = create(Guide::class);
+
+        $this->assertTrue($user->ownsGuide($usersGuide));
+        $this->assertFalse($user->ownsGuide($othersGuide));
     }
 }

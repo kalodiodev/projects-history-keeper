@@ -14,6 +14,9 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('project.index') }}">Projects</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('guide.index') }}">Guides</a>
+                </li>
                 @endauth
                 @can('manage', App\User::class)
                     <li class="nav-item">

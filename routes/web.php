@@ -78,4 +78,5 @@ Route::delete('/tag/{tag}', 'TagController@destroy')->name('tag.destroy');
 /*
  * Guide Routes
  */
+Route::get('/guides', 'GuideController@index')->name('guide.index');
 Route::get('/guide/create', 'GuideController@create')->name('guide.create');
