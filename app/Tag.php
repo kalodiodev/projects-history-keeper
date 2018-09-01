@@ -21,6 +21,7 @@ class Tag extends Model
 
         static::deleting(function ($tag) {
             $tag->projects()->detach();
+            $tag->guides()->detach();
         });
     }
 
@@ -30,5 +31,13 @@ class Tag extends Model
     public function projects()
     {
         return $this->morphedByMany(Project::class, 'taggable');
+    }
+
+    /**
+     * Tag belongs to many guides
+     */
+    public function guides()
+    {
+        return $this->morphedByMany(Guide::class, 'taggable');
     }
 }

@@ -71,6 +71,16 @@ class User extends Authenticatable
     }
 
     /**
+     * A user has many guides
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function guides()
+    {
+        return $this->hasMany(Guide::class);
+    }
+
+    /**
      * Assign a role to user
      *
      * @param $role

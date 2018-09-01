@@ -93,4 +93,14 @@ class UserTest extends TestCase
         $this->assertTrue($user->ownsTask($usersTask));
         $this->assertFalse($user->ownsTask($othersTask));
     }
+
+    /** @test */
+    public function a_user_has_guides()
+    {
+        $user = create(User::class);
+
+        $this->assertInstanceOf(
+            'Illuminate\Database\Eloquent\Collection', $user->guides
+        );
+    }
 }
