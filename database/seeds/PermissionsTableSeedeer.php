@@ -37,7 +37,10 @@ class PermissionsTableSeedeer extends Seeder
         // Task
         ['name' => 'task-create', 'label' => 'User can create a task to a project he/she created'],
         ['name' => 'task-update', 'label' => 'User can update own task'],
-        ['name' => 'task-delete', 'label' => 'User can delete own task']
+        ['name' => 'task-delete', 'label' => 'User can delete own task'],
+
+        // Guide
+        ['name' => 'guide-create', 'label' => 'User can create a guide'],
     ];
 
     /**

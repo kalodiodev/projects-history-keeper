@@ -74,3 +74,8 @@ Route::post('/tag', 'TagController@store')->name('tag.store');
 Route::get('/tag/{tag}/edit', 'TagController@edit')->name('tag.edit');
 Route::patch('/tag/{tag}', 'TagController@update')->name('tag.update');
 Route::delete('/tag/{tag}', 'TagController@destroy')->name('tag.destroy');
+
+/*
+ * Guide Routes
+ */
+Route::get('/guide/create', 'GuideController@create')->name('guide.create');
