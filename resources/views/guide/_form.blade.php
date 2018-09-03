@@ -2,9 +2,9 @@
 
 {{-- Guide Title --}}
 <div class="form-group row">
-    <label for="title" class="col-md-4 col-form-label text-md-right">Title</label>
+    <label for="title" class="col-sm-2 col-form-label text-md-right">Title</label>
 
-    <div class="col-md-6">
+    <div class="col-md-8">
         <input id="title"
                type="text"
                class="form-control{{ $errors->has('text') ? ' is-invalid' : '' }}"
@@ -22,9 +22,9 @@
 
 {{-- Guide Description --}}
 <div class="form-group row">
-    <label for="description" class="col-md-4 col-form-label text-md-right">Description</label>
+    <label for="description" class="col-sm-2 col-form-label text-md-right">Description</label>
 
-    <div class="col-md-6">
+    <div class="col-md-8">
         <input id="description"
                type="text"
                class="form-control{{ $errors->has('description') ? ' is-invalid' : '' }}"
@@ -42,9 +42,9 @@
 
 {{-- Guide Body --}}
 <div class="form-group row">
-    <label for="body" class="col-md-4 col-form-label text-md-right">Body</label>
+    <label for="body" class="col-sm-2 col-form-label text-md-right">Body</label>
 
-    <div class="col-md-6">
+    <div class="col-md-8">
         <textarea
                 id="body"
                 class="form-control{{ $errors->has('body') ? ' is-invalid' : '' }}"
@@ -57,5 +57,16 @@
                 <strong>{{ $errors->first('body') }}</strong>
             </span>
         @endif
+    </div>
+</div>
+
+{{-- Guide Tags --}}
+<div class="form-group row">
+    <label for="tags" class="col-sm-2 col-form-label text-md-right">Tags</label>
+
+    <div class="col-md-8">
+        <select multiple class="form-control" id="tags" name="tags[]">
+            <option value="tmp">Temporary</option>
+        </select>
     </div>
 </div>
