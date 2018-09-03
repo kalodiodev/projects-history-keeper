@@ -40,8 +40,18 @@
             </div>
         @endforeach
 
+        @if($projects->count() == 0)
+            <p class="text-center">No guides available</p>
+        @endif
+
         <div class="row justify-content-center mt-3">
             {{ $projects->links() }}
         </div>
+
+        @can('create', \App\Project::class)
+            <div class="text-right mt-5">
+                <a href="{{ route('project.create') }}" class="btn btn-primary">Add Project</a>
+            </div>
+        @endcan
     </div>
 @endsection
