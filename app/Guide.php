@@ -19,6 +19,8 @@ class Guide extends Model
         'user_id'
     ];
 
+    use SlugTrait;
+
     /**
      * Guide belongs to a creator
      *

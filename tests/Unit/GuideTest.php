@@ -19,12 +19,20 @@ class GuideTest extends TestCase
     }
 
     /** @test */
-    public function a_project_belongs_to_tags()
+    public function a_guide_belongs_to_tags()
     {
-        $project = make(Guide::class);
+        $guide = make(Guide::class);
 
         $this->assertInstanceOf(
-            'Illuminate\Database\Eloquent\Collection', $project->tags
+            'Illuminate\Database\Eloquent\Collection', $guide->tags
         );
+    }
+
+    /** @test */
+    public function when_creating_a_guide_a_slug_is_created()
+    {
+        $guide = create(Guide::class, ['title' => 'My guide title']);
+
+        $this->assertEquals('my-guide-title', $guide->slug);
     }
 }
