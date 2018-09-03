@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Guide;
 use Tests\IntegrationTestCase;
 
 class GuideCreateTest extends IntegrationTestCase
@@ -30,5 +31,47 @@ class GuideCreateTest extends IntegrationTestCase
     {
         $this->get(route('guide.create'))
             ->assertRedirect(route('login'));
+    }
+
+    /** @test */
+    public function an_authorized_user_can_store_a_guide()
+    {
+        $this->signInDefault();
+
+        $this->post(route('guide.store'), $this->guideValidFields())
+            ->assertRedirect(route('guide.index'));
+
+        $this->assertDatabaseHas('guides', $this->guideValidFields());
+    }
+
+    /** @test */
+    public function an_unauthorized_user_cannot_store_a_guide()
+    {
+        $this->signInRestricted();
+
+        $this->post(route('guide.store'), $this->guideValidFields())
+            ->assertStatus(403);
+    }
+
+    /** @test */
+    public function an_unauthenticated_user_cannot_store_a_guide()
+    {
+        $this->post(route('guide.store'), $this->guideValidFields())
+            ->assertRedirect(route('login'));
+    }
+
+    /**
+     * Get valid guide fields data
+     *
+     * @param array $overrides
+     * @return array
+     */
+    protected function guideValidFields($overrides = [])
+    {
+        return array_merge([
+            'title'       => 'My Title',
+            'description' => 'My description',
+            'body'        => 'This is the body of guide',
+        ], $overrides);
     }
 }

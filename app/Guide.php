@@ -16,7 +16,7 @@ class Guide extends Model
         'description',
         'body',
         'featured_image',
-        'user_id'
+        'user_id',
     ];
 
     use SlugTrait;

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 use App\Guide;
 use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 
 class GuideController extends Controller
@@ -51,5 +52,30 @@ class GuideController extends Controller
         }
 
         return view('guide.create');
+    }
+
+    /**
+     * Store Guide
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws AuthorizationException
+     */
+    public function store(Request $request)
+    {
+        if(Gate::denies('create', Guide::class))
+        {
+            throw new AuthorizationException("You are not authorized for this action");
+        }
+
+        Guide::create([
+            'title' => $request->get('title'),
+            'description' => $request->get('description'),
+            'body' => $request->get('body'),
+            'featured_image' => $request->get('featured_image'),
+            'user_id' => auth()->user()->id
+        ]);
+
+        return redirect()->route('guide.index');
     }
 }

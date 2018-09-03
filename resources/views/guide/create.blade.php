@@ -8,7 +8,7 @@
                     <div class="card-header">New Guide</div>
 
                     <div class="card-body">
-                        <form method="post" action="">
+                        <form method="post" action="{{ route('guide.store') }}">
 
                             @include('guide._form')
 
