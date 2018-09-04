@@ -2,7 +2,6 @@
 
 namespace Tests\Feature;
 
-use App\Guide;
 use Tests\IntegrationTestCase;
 
 class GuideCreateTest extends IntegrationTestCase
@@ -59,6 +58,34 @@ class GuideCreateTest extends IntegrationTestCase
         $this->post(route('guide.store'), $this->guideValidFields())
             ->assertRedirect(route('login'));
     }
+
+    /** @test */
+    public function it_validates_guide_title()
+    {
+        $this->signInDefault();
+
+        $this->post(route('guide.store'), $this->guideValidFields(['title' => '']))
+            ->assertSessionHasErrors(['title']);
+
+        $this->post(route('guide.store'), $this->guideValidFields(['title' => '123']))
+            ->assertSessionHasErrors(['title']);
+
+        $this->post(route('guide.store'), $this->guideValidFields(['title' => str_random(91)]))
+            ->assertSessionHasErrors(['title']);
+    }
+
+    /** @test */
+    public function it_validates_guide_description()
+    {
+        $this->signInDefault();
+
+        $this->post(route('guide.store'), $this->guideValidFields(['description' => str_random(5)]))
+            ->assertSessionHasErrors(['description']);
+
+        $this->post(route('guide.store'), $this->guideValidFields(['description' => str_random(192)]))
+            ->assertSessionHasErrors(['description']);
+    }
+
 
     /**
      * Get valid guide fields data

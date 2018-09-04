@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-
 use App\Guide;
-use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Http\Request;
+use App\Http\Requests\GuideRequest;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Auth\Access\AuthorizationException;
 
 class GuideController extends Controller
 {
@@ -57,11 +56,11 @@ class GuideController extends Controller
     /**
      * Store Guide
      *
-     * @param Request $request
+     * @param GuideRequest $request
      * @return \Illuminate\Http\RedirectResponse
      * @throws AuthorizationException
      */
-    public function store(Request $request)
+    public function store(GuideRequest $request)
     {
         if(Gate::denies('create', Guide::class))
         {
