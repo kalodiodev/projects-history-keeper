@@ -9,7 +9,7 @@
                type="text"
                class="form-control{{ $errors->has('text') ? ' is-invalid' : '' }}"
                name="title"
-               value="{{ old('title') }}"
+               value="@if(isset($guide)){{ old('title', $guide->title) }}@else{{ old('title')}}@endif"
                required>
 
         @if ($errors->has('title'))
@@ -29,7 +29,7 @@
                type="text"
                class="form-control{{ $errors->has('description') ? ' is-invalid' : '' }}"
                name="description"
-               value="{{ old('description') }}"
+               value="@if(isset($guide)){{ old('description', $guide->description) }}@else{{ old('description')}}@endif"
                required>
 
         @if ($errors->has('description'))
@@ -50,7 +50,8 @@
                 class="form-control{{ $errors->has('body') ? ' is-invalid' : '' }}"
                 name="body"
                 rows="15"
-                required>{{ old('body') }}</textarea>
+                required
+        >@if(isset($guide)){{ old('body', $guide->body) }}@else{{ old('body')}}@endif</textarea>
 
         @if ($errors->has('body'))
             <span class="invalid-feedback" role="alert">

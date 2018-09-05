@@ -77,4 +77,21 @@ class GuideController extends Controller
 
         return redirect()->route('guide.index');
     }
+
+    /**
+     * Edit Guide
+     *
+     * @param Guide $guide
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws AuthorizationException
+     */
+    public function edit(Guide $guide)
+    {
+        if(Gate::denies('update', $guide))
+        {
+            throw new AuthorizationException("You are not authorized for this action");
+        }
+
+        return view('guide.edit', compact('guide'));
+    }
 }

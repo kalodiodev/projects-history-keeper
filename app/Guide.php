@@ -19,6 +19,15 @@ class Guide extends Model
         'user_id',
     ];
 
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'user_id' => 'int',
+    ];
+
     use SlugTrait;
 
     /**

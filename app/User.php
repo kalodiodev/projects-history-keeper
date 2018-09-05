@@ -152,7 +152,7 @@ class User extends Authenticatable
      */
     public function ownsTask(Task $task)
     {
-        return $this->id === $task->user_id;
+        return $this->id == $task->user_id;
     }
 
     /**
@@ -163,6 +163,6 @@ class User extends Authenticatable
      */
     public function ownsGuide(Guide $guide)
     {
-        return $this->id === $guide->user_id;
+        return $this->id == $guide->user_id;
     }
 }

@@ -58,4 +58,20 @@ class GuidePolicy
     {
         return $user->hasPermission('guide-view-any');
     }
+
+    /**
+     * Determine whether the user can update guide.
+     *
+     * @param User $user
+     * @param Guide $guide
+     * @return bool
+     */
+    public function update(User $user, Guide $guide)
+    {
+        if($user->hasPermission('guide-update-any')) {
+            return true;
+        }
+
+        return (($user->hasPermission('guide-update')) && ($user->ownsGuide($guide)));
+    }
 }
