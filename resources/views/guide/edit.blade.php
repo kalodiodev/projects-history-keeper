@@ -8,7 +8,7 @@
                     <div class="card-header">Edit Guide</div>
 
                     <div class="card-body">
-                        <form method="post" action="">
+                        <form method="post" action="{{ route('guide.update', ['guide' => $guide->id]) }}">
 
                             @include('guide._form')
 

@@ -63,4 +63,80 @@ class GuideEditTest extends IntegrationTestCase
         $this->get(route('guide.edit', ['guide' => $guide->id]))
             ->assertRedirect(route('login'));
     }
+
+    /** @test */
+    public function an_authorized_user_can_update_own_guide()
+    {
+        $user = $this->signInDefault();
+
+        $guide = create(Guide::class, ['user_id' => $user->id]);
+
+        $this->patch(route('guide.update', ['guide' => $guide->id]), $this->guideValidFields())
+            ->assertRedirect(route('guide.index'));
+
+        $this->assertDatabaseHas('guides', array_merge([
+            'id' => $user->id,
+        ], $this->guideValidFields()));
+    }
+
+    /** @test */
+    public function a_user_cannot_update_other_users_guide()
+    {
+        $this->signInDefault();
+
+        $guide = create(Guide::class);
+
+        $this->patch(route('guide.update', ['guide' => $guide->id]), $this->guideValidFields())
+            ->assertStatus(403);
+    }
+
+    /** @test */
+    public function an_authorized_user_can_update_any_guide()
+    {
+        $user = $this->signInAdmin();
+
+        $guide = create(Guide::class);
+
+        $this->patch(route('guide.update', ['guide' => $guide->id]), $this->guideValidFields())
+            ->assertRedirect(route('guide.index'));
+
+        $this->assertDatabaseHas('guides', array_merge([
+            'id' => $user->id,
+        ], $this->guideValidFields()));
+    }
+
+    /** @test */
+    public function an_unauthorized_user_cannot_update_any_guide()
+    {
+        $user = $this->signInRestricted();
+
+        $guide = create(Guide::class, ['user_id' => $user->id]);
+
+        $this->patch(route('guide.update', ['guide' => $guide->id]), $this->guideValidFields())
+            ->assertStatus(403);
+    }
+
+    /** @test */
+    public function an_unauthenticated_user_cannot_update_a_guide()
+    {
+        $guide = create(Guide::class);
+
+        $this->patch(route('guide.update', ['guide' => $guide->id]), $this->guideValidFields())
+            ->assertRedirect(route('login'));
+    }
+
+    /**
+     * Get valid guide fields data
+     *
+     * @param array $overrides
+     * @return array
+     */
+    protected function guideValidFields($overrides = [])
+    {
+        return array_merge([
+            'title'       => 'My Title',
+            'description' => 'My description',
+            'body'        => 'This is the body of guide',
+        ], $overrides);
+    }
 }

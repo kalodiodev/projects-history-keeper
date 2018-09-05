@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Guide;
 use App\Http\Requests\GuideRequest;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Auth\Access\AuthorizationException;
 
@@ -93,5 +94,25 @@ class GuideController extends Controller
         }
 
         return view('guide.edit', compact('guide'));
+    }
+
+    /**
+     * Update Guide
+     *
+     * @param Guide $guide
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws AuthorizationException
+     */
+    public function update(Guide $guide, Request $request)
+    {
+        if(Gate::denies('update', $guide))
+        {
+            throw new AuthorizationException("You are not authorized for this action");
+        }
+
+        $guide->update($request->only(['title', 'description', 'body']));
+
+        return redirect()->route('guide.index');
     }
 }
