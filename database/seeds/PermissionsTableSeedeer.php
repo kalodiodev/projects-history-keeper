@@ -47,6 +47,9 @@ class PermissionsTableSeedeer extends Seeder
         ['name' => 'guide-create', 'label' => 'User can create a guide'],
         ['name' => 'guide-view', 'label' => 'User can view own guide'],
         ['name' => 'guide-update', 'label' => 'User can update own guide'],
+
+        // Snippet
+        ['name' => 'snippet-create', 'label' => 'User can create a snippet']
     ];
 
     /**

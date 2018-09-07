@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Policies\SnippetPolicy;
+use App\Snippet;
 use App\Tag;
 use App\User;
 use App\Task;
@@ -27,6 +29,7 @@ class AuthServiceProvider extends ServiceProvider
         Tag::class     => TagPolicy::class,
         User::class    => UserPolicy::class,
         Guide::class   => GuidePolicy::class,
+        Snippet::class => SnippetPolicy::class
     ];
 
     /**
