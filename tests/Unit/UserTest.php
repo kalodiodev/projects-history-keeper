@@ -3,6 +3,7 @@
 namespace Tests\Unit;
 
 use App\Guide;
+use App\Snippet;
 use App\User;
 use App\Role;
 use App\Task;
@@ -114,5 +115,15 @@ class UserTest extends TestCase
 
         $this->assertTrue($user->ownsGuide($usersGuide));
         $this->assertFalse($user->ownsGuide($othersGuide));
+    }
+
+    /** @test */
+    public function a_user_has_snippets()
+    {
+        $user = create(User::class);
+
+        $this->assertInstanceOf(
+            'Illuminate\Database\Eloquent\Collection', $user->snippets
+        );
     }
 }

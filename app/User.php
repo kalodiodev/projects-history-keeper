@@ -81,6 +81,16 @@ class User extends Authenticatable
     }
 
     /**
+     * A user has many snippets
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function snippets()
+    {
+        return $this->hasMany(Snippet::class);
+    }
+
+    /**
      * Assign a role to user
      *
      * @param $role

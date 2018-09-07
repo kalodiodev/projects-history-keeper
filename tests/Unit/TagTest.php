@@ -3,6 +3,7 @@
 namespace Tests\Unit;
 
 use App\Guide;
+use App\Snippet;
 use App\Tag;
 use App\Project;
 use Tests\TestCase;
@@ -78,4 +79,36 @@ class TagTest extends TestCase
         ]);
     }
 
+    /** @test */
+    public function a_tag_belongs_to_many_snippets()
+    {
+        $tag = make(Tag::class);
+
+        $this->assertInstanceOf(
+            'Illuminate\Database\Eloquent\Collection', $tag->snippets
+        );
+    }
+
+    /** @test */
+    public function deleting_a_tag_should_also_detach_attached_snippets()
+    {
+        $tag = create(Tag::class);
+        $snippet = create(Snippet::class);
+
+        $tag->snippets()->attach($snippet);
+
+        $this->assertDatabaseHas('taggables', [
+            'tag_id' => $tag->id,
+            'taggable_id' => $snippet->id,
+            'taggable_type' => Snippet::class
+        ]);
+
+        $tag->delete();
+
+        $this->assertDatabaseMissing('taggables', [
+            'tag_id' => $tag->id,
+            'taggable_id' => $snippet->id,
+            'taggable_type' => Snippet::class
+        ]);
+    }
 }

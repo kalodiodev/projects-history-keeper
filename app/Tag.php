@@ -22,6 +22,7 @@ class Tag extends Model
         static::deleting(function ($tag) {
             $tag->projects()->detach();
             $tag->guides()->detach();
+            $tag->snippets()->detach();
         });
     }
 
@@ -39,5 +40,15 @@ class Tag extends Model
     public function guides()
     {
         return $this->morphedByMany(Guide::class, 'taggable');
+    }
+
+    /**
+     * Tag belongs to many snippets
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\MorphToMany
+     */
+    public function snippets()
+    {
+        return $this->morphedByMany(Snippet::class, 'taggable');
     }
 }
