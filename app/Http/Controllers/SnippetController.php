@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Snippet;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use App\Http\Requests\SnippetRequest;
 use Illuminate\Auth\Access\AuthorizationException;
 
 class SnippetController extends Controller
@@ -48,11 +48,11 @@ class SnippetController extends Controller
     /**
      * Store Snippet
      *
-     * @param Request $request
+     * @param SnippetRequest $request
      * @return \Illuminate\Http\RedirectResponse
      * @throws AuthorizationException
      */
-    public function store(Request $request)
+    public function store(SnippetRequest $request)
     {
         if(Gate::denies('create', Snippet::class))
         {

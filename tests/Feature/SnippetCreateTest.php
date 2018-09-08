@@ -58,6 +58,30 @@ class SnippetCreateTest extends IntegrationTestCase
             ->assertRedirect(route('login'));
     }
 
+    /** @test */
+    public function a_snippet_requires_a_valid_title()
+    {
+        $this->signInDefault();
+
+        $this->post(route('snippet.store'), $this->snippetValidFields(['title' => '']))
+            ->assertSessionHasErrors(['title']);
+
+        $this->post(route('snippet.store'), $this->snippetValidFields(['title' => str_random(121)]))
+            ->assertSessionHasErrors(['title']);
+
+        $this->post(route('snippet.store'), $this->snippetValidFields(['title' => str_random(2)]))
+            ->assertSessionHasErrors(['title']);
+    }
+
+    /** @test */
+    public function a_snippet_can_have_a_valid_description()
+    {
+        $this->signInDefault();
+
+        $this->post(route('snippet.store'), $this->snippetValidFields(['description' => str_random(192)]))
+            ->assertSessionHasErrors(['description']);
+    }
+
     /**
      * Get snippet valid fields data
      *

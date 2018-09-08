@@ -8,7 +8,7 @@
                     <div class="card-header">Create Snippet</div>
 
                     <div class="card-body">
-                        <form method="post" action="">
+                        <form method="post" action="{{ route('snippet.store') }}">
 
                             @include('snippet._form')
 
