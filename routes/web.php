@@ -87,4 +87,6 @@ Route::patch('/guide/{guide}', 'GuideController@update')->name('guide.update');
 /*
  * Snippet Routes
  */
-Route::get('/snippets', 'SnippetController@create')->name('snippet.create');
+Route::get('/snippets', 'SnippetController@index')->name('snippet.index');
+Route::get('/snippet/create', 'SnippetController@create')->name('snippet.create');
+Route::post('/snippet', 'SnippetController@store')->name('snippet.store');

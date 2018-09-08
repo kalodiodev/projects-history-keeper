@@ -7,6 +7,17 @@ use Illuminate\Database\Eloquent\Model;
 class Snippet extends Model
 {
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'title',
+        'description',
+        'code'
+    ];
+
+    /**
      * A snippet belongs to a user
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
