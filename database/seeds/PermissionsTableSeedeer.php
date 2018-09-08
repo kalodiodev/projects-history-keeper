@@ -28,7 +28,10 @@ class PermissionsTableSeedeer extends Seeder
 
         // Guide
         ['name' => 'guide-view-any', 'label' => 'User can view any guide'],
-        ['name' => 'guide-update-any', 'label' => 'User can update any guide']
+        ['name' => 'guide-update-any', 'label' => 'User can update any guide'],
+
+        // Snippet
+        ['name' => 'snippet-update-any', 'label' => 'User can update any snippet'],
     ];
 
     private $default_actions = [
@@ -49,7 +52,8 @@ class PermissionsTableSeedeer extends Seeder
         ['name' => 'guide-update', 'label' => 'User can update own guide'],
 
         // Snippet
-        ['name' => 'snippet-create', 'label' => 'User can create a snippet']
+        ['name' => 'snippet-create', 'label' => 'User can create a snippet'],
+        ['name' => 'snippet-update', 'label' => 'User can update own snippet']
     ];
 
     /**

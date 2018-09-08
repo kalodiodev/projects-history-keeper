@@ -126,4 +126,15 @@ class UserTest extends TestCase
             'Illuminate\Database\Eloquent\Collection', $user->snippets
         );
     }
+
+    /** @test */
+    public function it_determines_if_user_is_snippets_creator()
+    {
+        $user = create(User::class);
+        $usersSnippet = create(Snippet::class, ['user_id' => $user->id]);
+        $othersSnippet = create(Snippet::class);
+
+        $this->assertTrue($user->ownsSnippet($usersSnippet));
+        $this->assertFalse($user->ownsSnippet($othersSnippet));
+    }
 }

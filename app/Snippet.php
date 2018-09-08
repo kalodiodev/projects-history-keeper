@@ -18,6 +18,15 @@ class Snippet extends Model
     ];
 
     /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'user_id' => 'int',
+    ];
+
+    /**
      * A snippet belongs to a user
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

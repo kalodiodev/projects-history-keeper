@@ -169,10 +169,21 @@ class User extends Authenticatable
      * Determine if user owns the given guide
      *
      * @param Guide $guide guide user may own
-     * @return bool true if user is projects creator, otherwise false
+     * @return bool true if user is guide's creator, otherwise false
      */
     public function ownsGuide(Guide $guide)
     {
         return $this->id == $guide->user_id;
+    }
+
+    /**
+     * Determine if user owns the given guide
+     *
+     * @param Snippet $snippet snippet user may own
+     * @return bool true if user is snippet's creator, otherwise false
+     */
+    public function ownsSnippet(Snippet $snippet)
+    {
+        return $this->id == $snippet->user_id;
     }
 }
