@@ -8,7 +8,7 @@
                     <div class="card-header">Edit Snippet</div>
 
                     <div class="card-body">
-                        <form method="post" action="">
+                        <form method="post" action="{{ route('snippet.update', ['snippet' => $snippet->id]) }}">
 
                             @include('snippet._form')
 

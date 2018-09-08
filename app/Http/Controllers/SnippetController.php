@@ -82,4 +82,24 @@ class SnippetController extends Controller
 
         return view('snippet.edit', compact('snippet'));
     }
+
+    /**
+     * Update Snippet
+     *
+     * @param Snippet $snippet
+     * @param SnippetRequest $request
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws AuthorizationException
+     */
+    public function update(Snippet $snippet, SnippetRequest $request)
+    {
+        if(Gate::denies('update', $snippet))
+        {
+            throw new AuthorizationException("You are not authorized for this action");
+        }
+
+        $snippet->update($request->only(['title', 'description', 'code']));
+
+        return redirect()->route('snippet.index');
+    }
 }

@@ -91,3 +91,4 @@ Route::get('/snippets', 'SnippetController@index')->name('snippet.index');
 Route::get('/snippet/create', 'SnippetController@create')->name('snippet.create');
 Route::post('/snippet', 'SnippetController@store')->name('snippet.store');
 Route::get('/snippet/{snippet}', 'SnippetController@edit')->name('snippet.edit');
+Route::patch('/snippet/{snippet}', 'SnippetController@update')->name('snippet.update');
