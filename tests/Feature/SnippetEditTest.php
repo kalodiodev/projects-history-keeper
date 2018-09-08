@@ -125,6 +125,35 @@ class SnippetEditTest extends IntegrationTestCase
             ->assertRedirect(route('login'));
     }
 
+    /** @test */
+    public function a_snippet_requires_a_valid_title()
+    {
+        $this->signInAdmin();
+
+        $snippet = create(Snippet::class);
+
+        $this->patch(route('snippet.update', ['snippet' => $snippet->id]), $this->snippetValidFields(['title' => '']))
+            ->assertSessionHasErrors(['title']);
+
+        $this->patch(route('snippet.update', ['snippet' => $snippet->id]), $this->snippetValidFields(['title' => str_random(121)]))
+            ->assertSessionHasErrors(['title']);
+
+        $this->patch(route('snippet.store', ['snippet' => $snippet->id]), $this->snippetValidFields(['title' => str_random(2)]))
+            ->assertSessionHasErrors(['title']);
+    }
+
+    /** @test */
+    public function a_snippet_can_have_a_valid_description()
+    {
+        $this->signInAdmin();
+
+        $snippet = create(Snippet::class);
+
+        $this->patch(route('snippet.update', ['snippet' => $snippet->id]),
+            $this->snippetValidFields(['description' => str_random(192)]))
+            ->assertSessionHasErrors(['description']);
+    }
+
     /**
      * Get snippet valid fields data
      *
