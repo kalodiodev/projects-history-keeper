@@ -31,6 +31,7 @@ class PermissionsTableSeedeer extends Seeder
         ['name' => 'guide-update-any', 'label' => 'User can update any guide'],
 
         // Snippet
+        ['name' => 'snippet-view-any', 'label' => 'User can view any snippet'],
         ['name' => 'snippet-update-any', 'label' => 'User can update any snippet'],
     ];
 
@@ -53,6 +54,7 @@ class PermissionsTableSeedeer extends Seeder
 
         // Snippet
         ['name' => 'snippet-create', 'label' => 'User can create a snippet'],
+        ['name' => 'snippet-view', 'label' => 'User can view own snippet'],
         ['name' => 'snippet-update', 'label' => 'User can update own snippet']
     ];
 

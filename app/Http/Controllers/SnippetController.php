@@ -21,10 +21,19 @@ class SnippetController extends Controller
      * Index Snippets
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws AuthorizationException
      */
     public function index()
     {
-        $snippets = Snippet::paginate(30);
+        if(Gate::denies('index', Snippet::class)) {
+            throw new AuthorizationException("You are not authorized for this action");
+        }
+
+        if(Gate::allows('view_all', Snippet::class)) {
+            $snippets = Snippet::paginate(14);
+        } else {
+            $snippets = auth()->user()->snippets()->paginate(14);
+        }
 
         return view('snippet.index', compact('snippets'));
     }

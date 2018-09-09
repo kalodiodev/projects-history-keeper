@@ -11,6 +11,45 @@ class SnippetPolicy
     use HandlesAuthorization;
 
     /**
+     * Determine whether the user can index snippets
+     *
+     * @param User $user
+     * @return bool
+     */
+    public function index(User $user)
+    {
+        return $user->hasPermission('snippet-view') || $user->hasPermission('snippet-view-any');
+    }
+
+    /**
+     * Determine whether the user can view snippets.
+     *
+     * @param User $user
+     * @param Snippet $snippet
+     * @return bool
+     */
+    public function view(User $user, Snippet $snippet)
+    {
+        if($user->hasPermission('snippet-view-any')) {
+            return true;
+        }
+
+        return (($user->hasPermission('snippet-view')) && ($user->ownsSnippet($snippet)));
+    }
+
+    /**
+     * Determine whether the user can view any snippet.
+     *
+     * @param User $user
+     * @return bool
+     */
+    public function view_all(User $user)
+    {
+        return $user->hasPermission('snippet-view-any');
+    }
+
+
+    /**
      * Determine whether the user can create snippet.
      *
      * @param User $user user that creates a snippet

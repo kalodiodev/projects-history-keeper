@@ -11,12 +11,23 @@
             <!-- Left Side Of Navbar -->
             <ul class="navbar-nav mr-auto">
                 @auth
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('project.index') }}">Projects</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('guide.index') }}">Guides</a>
-                </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('project.index') }}">Projects</a>
+                    </li>
+
+                    {{-- Guides --}}
+                    @can('index', App\Guide::class)
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('guide.index') }}">Guides</a>
+                    </li>
+                    @endcan
+
+                    {{-- Snippets --}}
+                    @can('index', App\Snippet::class)
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('snippet.index') }}">Snippets</a>
+                    </li>
+                    @endcan
                 @endauth
                 @can('manage', App\User::class)
                     <li class="nav-item">
