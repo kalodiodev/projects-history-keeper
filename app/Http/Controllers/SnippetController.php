@@ -39,6 +39,22 @@ class SnippetController extends Controller
     }
 
     /**
+     * Show Snippet
+     *
+     * @param Snippet $snippet
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws AuthorizationException
+     */
+    public function show(Snippet $snippet)
+    {
+        if(Gate::denies('view', $snippet)) {
+            throw new AuthorizationException("You are not authorized for this action");
+        }
+
+        return view('snippet.show', compact('snippet'));
+    }
+
+    /**
      * Create Snippet
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View

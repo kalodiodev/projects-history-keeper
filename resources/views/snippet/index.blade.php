@@ -10,7 +10,11 @@
             <div>
                 <h3>{{ $snippet->title }}</h3>
                 <p>{{ $snippet->description }}</p>
-                <div class="text-right mt-5"><a class="btn btn-primary" href="#">Read More ...</a></div>
+                <div class="text-right mt-5">
+                    <a class="btn btn-primary"
+                       href="{{ route('snippet.show', ['snippet' => $snippet->id]) }}"
+                    >Read More ...</a>
+                </div>
             </div>
         @endforeach
 
