@@ -23,7 +23,19 @@
                                href="{{ route('snippet.edit', ['snippet' => $snippet->id]) }}">Edit</a>
 
                             {{-- Delete Snippet Button --}}
-                            <a class="btn btn-danger" href="">Delete</a>
+                            <a class="btn btn-danger"
+                               onclick="event.preventDefault();
+                               document.getElementById('snippet-delete-form').submit();"
+                               href="{{ route('snippet.destroy', ['snippet' => $snippet->id]) }}">Delete</a>
+
+                            {{-- Delete Snippet Hidden Form --}}
+                            <form id="snippet-delete-form"
+                                  method="post"
+                                  action="{{ route('snippet.destroy', ['snippet' => $snippet->id]) }}"
+                                  style="display: none;">
+                                @csrf
+                                {{ method_field('DELETE') }}
+                            </form>
                         </div>
                     </div>
                 </div>

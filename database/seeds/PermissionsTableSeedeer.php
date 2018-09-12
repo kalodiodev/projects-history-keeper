@@ -33,6 +33,7 @@ class PermissionsTableSeedeer extends Seeder
         // Snippet
         ['name' => 'snippet-view-any', 'label' => 'User can view any snippet'],
         ['name' => 'snippet-update-any', 'label' => 'User can update any snippet'],
+        ['name' => 'snippet-delete-any', 'label' => 'User can delete any snippet']
     ];
 
     private $default_actions = [
@@ -55,7 +56,8 @@ class PermissionsTableSeedeer extends Seeder
         // Snippet
         ['name' => 'snippet-create', 'label' => 'User can create a snippet'],
         ['name' => 'snippet-view', 'label' => 'User can view own snippet'],
-        ['name' => 'snippet-update', 'label' => 'User can update own snippet']
+        ['name' => 'snippet-update', 'label' => 'User can update own snippet'],
+        ['name' => 'snippet-delete', 'label' => 'User can delete own snippet']
     ];
 
     /**

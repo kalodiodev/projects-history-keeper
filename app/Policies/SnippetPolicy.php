@@ -75,4 +75,21 @@ class SnippetPolicy
 
         return (($user->hasPermission('snippet-update')) && ($user->ownsSnippet($snippet)));
     }
+
+    /**
+     * Determine whether the user can delete snippet.
+     *
+     * @param User $user user that deletes project
+     * @param Snippet $snippet snippet to be deleted
+     * @return bool true if user has permission to delete snippet, otherwise false
+     */
+    public function delete(User $user, Snippet $snippet)
+    {
+        if($user->hasPermission('snippet-delete-any')) {
+            return true;
+        }
+
+        return (($user->hasPermission('snippet-delete')) && ($user->ownsSnippet($snippet)));
+    }
+
 }

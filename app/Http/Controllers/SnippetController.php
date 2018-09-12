@@ -127,4 +127,23 @@ class SnippetController extends Controller
 
         return redirect()->route('snippet.index');
     }
+
+    /**
+     * Delete Snippet
+     *
+     * @param Snippet $snippet
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws AuthorizationException
+     * @throws \Exception
+     */
+    public function destroy(Snippet $snippet)
+    {
+        if(Gate::denies('delete', $snippet)) {
+            throw new AuthorizationException("You are not authorized for this action");
+        }
+
+        $snippet->delete();
+
+        return redirect()->route('snippet.index');
+    }
 }
