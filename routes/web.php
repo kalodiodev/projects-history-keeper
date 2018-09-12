@@ -81,6 +81,7 @@ Route::delete('/tag/{tag}', 'TagController@destroy')->name('tag.destroy');
 Route::get('/guides', 'GuideController@index')->name('guide.index');
 Route::get('/guide/create', 'GuideController@create')->name('guide.create');
 Route::post('/guide', 'GuideController@store')->name('guide.store');
+Route::get('/guide/{guide}', 'GuideController@show')->name('guide.show');
 Route::get('/guide/{guide}/edit', 'GuideController@edit')->name('guide.edit');
 Route::patch('/guide/{guide}', 'GuideController@update')->name('guide.update');
 
