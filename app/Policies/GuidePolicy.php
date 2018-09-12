@@ -74,4 +74,20 @@ class GuidePolicy
 
         return (($user->hasPermission('guide-update')) && ($user->ownsGuide($guide)));
     }
+
+    /**
+     * Determine whether the user can delete project.
+     *
+     * @param User $user user that deletes project
+     * @param Guide $guide project to be deleted
+     * @return bool true if user has permission to delete project, otherwise false
+     */
+    public function delete(User $user, Guide $guide)
+    {
+        if($user->hasPermission('guide-delete-any')) {
+            return true;
+        }
+
+        return (($user->hasPermission('guide-delete')) && ($user->ownsGuide($guide)));
+    }
 }

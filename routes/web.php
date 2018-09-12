@@ -84,6 +84,7 @@ Route::post('/guide', 'GuideController@store')->name('guide.store');
 Route::get('/guide/{guide}', 'GuideController@show')->name('guide.show');
 Route::get('/guide/{guide}/edit', 'GuideController@edit')->name('guide.edit');
 Route::patch('/guide/{guide}', 'GuideController@update')->name('guide.update');
+Route::delete('/guide/{guide}', 'GuideController@destroy')->name('guide.destroy');
 
 /*
  * Snippet Routes

@@ -131,4 +131,23 @@ class GuideController extends Controller
 
         return redirect()->route('guide.index');
     }
+
+    /**
+     * Delete guide
+     *
+     * @param Guide $guide
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws AuthorizationException
+     * @throws \Exception
+     */
+    public function destroy(Guide $guide)
+    {
+        if(Gate::denies('delete', $guide)) {
+            throw new AuthorizationException("You are not authorized for this action");
+        }
+
+        $guide->delete();
+
+        return redirect()->route('guide.index');
+    }
 }

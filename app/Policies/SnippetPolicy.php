@@ -79,7 +79,7 @@ class SnippetPolicy
     /**
      * Determine whether the user can delete snippet.
      *
-     * @param User $user user that deletes project
+     * @param User $user user that deletes snippet
      * @param Snippet $snippet snippet to be deleted
      * @return bool true if user has permission to delete snippet, otherwise false
      */

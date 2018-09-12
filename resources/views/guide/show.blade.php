@@ -22,8 +22,20 @@
                             <a class="btn btn-warning"
                                href="{{ route('guide.edit', ['guide' => $guide->id]) }}">Edit</a>
 
-                            {{-- Delete Guide Button --}}
-                            <a class="btn btn-danger" href="">Delete</a>
+                            {{-- Delete guide Button --}}
+                            <a class="btn btn-danger"
+                               onclick="event.preventDefault();
+                               document.getElementById('guide-delete-form').submit();"
+                               href="{{ route('guide.destroy', ['guide' => $guide->id]) }}">Delete</a>
+
+                            {{-- Delete guide Hidden Form --}}
+                            <form id="guide-delete-form"
+                                  method="post"
+                                  action="{{ route('guide.destroy', ['guide' => $guide->id]) }}"
+                                  style="display: none;">
+                                @csrf
+                                {{ method_field('DELETE') }}
+                            </form>
                         </div>
                     </div>
                 </div>

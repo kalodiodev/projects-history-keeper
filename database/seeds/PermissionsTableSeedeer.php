@@ -29,6 +29,7 @@ class PermissionsTableSeedeer extends Seeder
         // Guide
         ['name' => 'guide-view-any', 'label' => 'User can view any guide'],
         ['name' => 'guide-update-any', 'label' => 'User can update any guide'],
+        ['name' => 'guide-delete-any', 'label' => 'User can delete any guide'],
 
         // Snippet
         ['name' => 'snippet-view-any', 'label' => 'User can view any snippet'],
@@ -52,6 +53,7 @@ class PermissionsTableSeedeer extends Seeder
         ['name' => 'guide-create', 'label' => 'User can create a guide'],
         ['name' => 'guide-view', 'label' => 'User can view own guide'],
         ['name' => 'guide-update', 'label' => 'User can update own guide'],
+        ['name' => 'guide-delete', 'label' => 'User can delete own guide'],
 
         // Snippet
         ['name' => 'snippet-create', 'label' => 'User can create a snippet'],
