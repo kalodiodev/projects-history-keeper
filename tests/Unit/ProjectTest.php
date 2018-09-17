@@ -61,4 +61,16 @@ class ProjectTest extends TestCase
             'taggable_type' => Project::class
         ]);
     }
+
+    /** @test */
+    public function it_determines_whether_project_has_given_tag()
+    {
+        $tag = create(Tag::class);
+        $project = create(Project::class);
+
+        $project->tags()->attach($tag);
+
+        $this->assertTrue($project->hasTag($tag));
+        $this->assertFalse($project->hasTag(100));
+    }
 }

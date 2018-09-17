@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Project;
+use App\Tag;
 use Tests\IntegrationTestCase;
 
 class ProjectEditTest extends IntegrationTestCase
@@ -148,6 +149,28 @@ class ProjectEditTest extends IntegrationTestCase
 
         $this->patchProject($newData)
             ->assertSessionHasErrors('title');
+    }
+
+    /** @test */
+    public function tags_can_be_synced_to_project()
+    {
+        $this->signInAdmin();
+
+        // Stored Project
+        $project = create(Project::class);
+        $tag = create(Tag::class);
+
+        $project->tags()->attach($tag);
+
+        // Tags to sync project
+        $tags = create(Tag::class, [], 3);
+
+        // Update project
+        $this->patch(route('project.update', [
+            'project' => $project->id
+        ]), $this->projectData(['tags' => $tags]));
+
+        $this->assertEquals(3, $project->fresh()->tags->count());
     }
 
     /**

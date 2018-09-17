@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Project;
+use App\Tag;
 use Tests\IntegrationTestCase;
 
 class ProjectCreateTest extends IntegrationTestCase
@@ -14,7 +15,8 @@ class ProjectCreateTest extends IntegrationTestCase
 
         $this->get(route('project.create'))
             ->assertStatus(200)
-            ->assertViewIs('project.create');
+            ->assertViewIs('project.create')
+            ->assertViewHas('tags');
     }
 
     /** @test */
@@ -81,6 +83,20 @@ class ProjectCreateTest extends IntegrationTestCase
 
         $this->postProject(['title' => str_random(192)])
             ->assertSessionHasErrors(['title']);
+    }
+
+    /** @test */
+    public function tags_can_be_attached_to_project()
+    {
+        $this->signInAdmin();
+
+        $tags = create(Tag::class, [], 3);
+
+        $this->postProject($this->validData(['tags' => $tags->pluck('id')->toArray()]));
+
+        $project = Project::first();
+
+        $this->assertEquals(3, $project->tags->count());
     }
 
     /**

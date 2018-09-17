@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Project;
+use App\Tag;
 use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\ProjectRequest;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -46,8 +47,10 @@ class ProjectController extends Controller
         {
             throw new AuthorizationException("You are not authorized for this action");
         }
+
+        $tags = Tag::all();
         
-        return view('project.create');
+        return view('project.create', compact('tags'));
     }
 
     /**
@@ -64,11 +67,14 @@ class ProjectController extends Controller
             throw new AuthorizationException("You are not authorized for this action");
         }
 
-        Project::create([
+        $project = Project::create([
             'user_id'     => auth()->id(),
             'title'       => $request->title,
             'description' => $request->description
         ]);
+
+        $project->tags()->attach($request->tags);
+
 
         return redirect()->route('project.index');
     }
@@ -104,7 +110,9 @@ class ProjectController extends Controller
             throw new AuthorizationException("You are not authorized for this action");
         }
 
-        return view('project.edit', compact('project'));
+        $tags = Tag::all();
+
+        return view('project.edit', compact('project', 'tags'));
     }
 
     /**
@@ -123,6 +131,8 @@ class ProjectController extends Controller
         }
 
         $project->update($request->only(['title', 'description']));
+
+        $project->tags()->sync($request->get('tags'));
 
         return redirect()->route('project.show', ['project' => $project->id]);
     }
