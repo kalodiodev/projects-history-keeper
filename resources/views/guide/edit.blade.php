@@ -9,6 +9,7 @@
 
                     <div class="card-body">
                         <form method="post" action="{{ route('guide.update', ['guide' => $guide->id]) }}">
+                            {{ method_field('PATCH') }}
 
                             @include('guide._form')
 
