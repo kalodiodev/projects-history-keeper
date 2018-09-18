@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Tag;
 use App\Guide;
-use App\Http\Requests\GuideRequest;
 use Illuminate\Http\Request;
+use App\Http\Requests\GuideRequest;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Auth\Access\AuthorizationException;
 
@@ -67,7 +68,9 @@ class GuideController extends Controller
             throw new AuthorizationException("You are not authorized for this action");
         }
 
-        return view('guide.create');
+        $tags = Tag::all();
+
+        return view('guide.create', compact('tags'));
     }
 
     /**
@@ -84,13 +87,15 @@ class GuideController extends Controller
             throw new AuthorizationException("You are not authorized for this action");
         }
 
-        Guide::create([
+        $guide = Guide::create([
             'title' => $request->get('title'),
             'description' => $request->get('description'),
             'body' => $request->get('body'),
             'featured_image' => $request->get('featured_image'),
             'user_id' => auth()->user()->id
         ]);
+
+        $guide->tags()->attach($request->tags);
 
         return redirect()->route('guide.index');
     }
@@ -109,7 +114,9 @@ class GuideController extends Controller
             throw new AuthorizationException("You are not authorized for this action");
         }
 
-        return view('guide.edit', compact('guide'));
+        $tags = Tag::all();
+
+        return view('guide.edit', compact('guide', 'tags'));
     }
 
     /**
@@ -128,6 +135,8 @@ class GuideController extends Controller
         }
 
         $guide->update($request->only(['title', 'description', 'body']));
+
+        $guide->tags()->sync($request->get('tags'));
 
         return redirect()->route('guide.index');
     }

@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Guide;
+use App\Tag;
 use Tests\IntegrationTestCase;
 
 class GuideEditTest extends IntegrationTestCase
@@ -123,6 +124,28 @@ class GuideEditTest extends IntegrationTestCase
 
         $this->patch(route('guide.update', ['guide' => $guide->id]), $this->guideValidFields())
             ->assertRedirect(route('login'));
+    }
+
+    /** @test */
+    public function tags_can_be_synced_to_guide()
+    {
+        $this->signInAdmin();
+
+        // Stored Guide
+        $guide = create(Guide::class);
+        $tag = create(Tag::class);
+
+        $guide->tags()->attach($tag);
+
+        // Tags to sync guide
+        $tags = create(Tag::class, [], 3);
+
+        // Update guide
+        $this->patch(route('guide.update', [
+            'guide' => $guide->id
+        ]), $this->guideValidFields(['tags' => $tags]));
+
+        $this->assertEquals(3, $guide->fresh()->tags->count());
     }
 
     /**

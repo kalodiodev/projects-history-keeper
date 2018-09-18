@@ -67,7 +67,15 @@
 
     <div class="col-md-8">
         <select multiple class="form-control" id="tags" name="tags[]">
-            <option value="tmp">Temporary</option>
+            @foreach($tags as $tag)
+                <option
+                        @if((isset($guide)) && ($guide->hasTag($tag)))
+                        selected
+                        @endif
+                        value="{{ $tag->id }}">
+                    {{ $tag->name }}
+                </option>
+            @endforeach
         </select>
     </div>
 </div>

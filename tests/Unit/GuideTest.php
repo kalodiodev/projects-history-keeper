@@ -3,6 +3,7 @@
 namespace Tests\Unit;
 
 use App\Guide;
+use App\Tag;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -34,5 +35,17 @@ class GuideTest extends TestCase
         $guide = create(Guide::class, ['title' => 'My guide title']);
 
         $this->assertEquals('my-guide-title', $guide->slug);
+    }
+
+    /** @test */
+    public function it_determines_whether_guide_has_given_tag()
+    {
+        $tag = create(Tag::class);
+        $guide = create(Guide::class);
+
+        $guide->tags()->attach($tag);
+
+        $this->assertTrue($guide->hasTag($tag));
+        $this->assertFalse($guide->hasTag(100));
     }
 }

@@ -2,6 +2,8 @@
 
 namespace Tests\Feature;
 
+use App\Guide;
+use App\Tag;
 use Tests\IntegrationTestCase;
 
 class GuideCreateTest extends IntegrationTestCase
@@ -84,6 +86,20 @@ class GuideCreateTest extends IntegrationTestCase
 
         $this->post(route('guide.store'), $this->guideValidFields(['description' => str_random(192)]))
             ->assertSessionHasErrors(['description']);
+    }
+
+    /** @test */
+    public function tags_can_be_attached_to_guide()
+    {
+        $this->signInAdmin();
+
+        $tags = create(Tag::class, [], 3);
+
+        $this->post(route('guide.store'), $this->guideValidFields(['tags' => $tags->pluck('id')->toArray()]));
+
+        $guide = Guide::first();
+
+        $this->assertEquals(3, $guide->tags->count());
     }
 
 
