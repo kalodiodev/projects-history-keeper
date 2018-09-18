@@ -10,7 +10,10 @@
             <div>
                 <h3>{{ $guide->title }}</h3>
                 <p>{{ $guide->description }}</p>
-                <div class="text-right mt-5"><a class="btn btn-primary" href="#">Read More ...</a></div>
+                <div class="text-right mt-5">
+                    <a class="btn btn-primary"
+                       href="{{ route('guide.show', ['guide' => $guide->id])  }}">Read More ...</a>
+                </div>
             </div>
         @endforeach
 
