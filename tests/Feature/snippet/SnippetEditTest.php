@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Snippet;
+use App\Tag;
 use Tests\IntegrationTestCase;
 
 class SnippetEditTest extends IntegrationTestCase
@@ -152,6 +153,30 @@ class SnippetEditTest extends IntegrationTestCase
         $this->patch(route('snippet.update', ['snippet' => $snippet->id]),
             $this->snippetValidFields(['description' => str_random(192)]))
             ->assertSessionHasErrors(['description']);
+    }
+
+
+    /** @test */
+    public function tags_can_be_synced_to_snippet()
+    {
+        $this->signInAdmin();
+
+        // Stored Snippet
+        $snippet = create(Snippet::class);
+        $tag = create(Tag::class);
+
+        $snippet->tags()->attach($tag);
+
+        // Tags to sync snippet
+        $tags = create(Tag::class, [], 3);
+
+        // Update snippet
+        $this->patch(
+            route('snippet.update', ['snippet' => $snippet->id]),
+            $this->snippetValidFields(['tags' => $tags])
+        );
+
+        $this->assertEquals(3, $snippet->fresh()->tags->count());
     }
 
     /**

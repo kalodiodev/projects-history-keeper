@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Snippet;
+use App\Tag;
 use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\SnippetRequest;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -67,7 +68,9 @@ class SnippetController extends Controller
             throw new AuthorizationException("You are not authorized for this action");
         }
 
-        return view('snippet.create');
+        $tags = Tag::all();
+
+        return view('snippet.create', compact('tags'));
     }
 
     /**
@@ -84,9 +87,14 @@ class SnippetController extends Controller
             throw new AuthorizationException("You are not authorized for this action");
         }
 
-        auth()->user()
-            ->snippets()
-            ->create($request->only(['title', 'description', 'code']));
+        $snippet = Snippet::create([
+            'user_id'     => auth()->id(),
+            'title'       => $request->title,
+            'description' => $request->description,
+            'code'        => $request->code
+        ]);
+        
+        $snippet->tags()->attach($request->tags);
 
         return redirect()->route('snippet.index');
     }
@@ -105,7 +113,9 @@ class SnippetController extends Controller
             throw new AuthorizationException("You are not authorized for this action");
         }
 
-        return view('snippet.edit', compact('snippet'));
+        $tags = Tag::all();
+
+        return view('snippet.edit', compact('snippet', 'tags'));
     }
 
     /**
@@ -124,6 +134,8 @@ class SnippetController extends Controller
         }
 
         $snippet->update($request->only(['title', 'description', 'code']));
+
+        $snippet->tags()->sync($request->get('tags'));
 
         return redirect()->route('snippet.index');
     }

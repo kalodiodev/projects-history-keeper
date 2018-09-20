@@ -2,6 +2,8 @@
 
 namespace Tests\Feature;
 
+use App\Snippet;
+use App\Tag;
 use Tests\IntegrationTestCase;
 
 class SnippetCreateTest extends IntegrationTestCase
@@ -80,6 +82,23 @@ class SnippetCreateTest extends IntegrationTestCase
 
         $this->post(route('snippet.store'), $this->snippetValidFields(['description' => str_random(192)]))
             ->assertSessionHasErrors(['description']);
+    }
+
+    /** @test */
+    public function tags_can_be_attached_to_snippet()
+    {
+        $this->signInAdmin();
+
+        $tags = create(Tag::class, [], 3);
+
+        $this->post(
+            route('snippet.store'),
+            $this->snippetValidFields(['tags' => $tags->pluck('id')->toArray()])
+        );
+
+        $snippet = Snippet::first();
+
+        $this->assertEquals(3, $snippet->tags->count());
     }
 
     /**

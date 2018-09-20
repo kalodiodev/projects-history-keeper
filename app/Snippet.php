@@ -14,7 +14,8 @@ class Snippet extends Model
     protected $fillable = [
         'title',
         'description',
-        'code'
+        'code',
+        'user_id'
     ];
 
     /**
@@ -44,5 +45,20 @@ class Snippet extends Model
     public function tags()
     {
         return $this->morphToMany(Tag::class, 'taggable');
+    }
+
+    /**
+     * Determine whether snippet has given tag
+     *
+     * @param $tag
+     * @return bool
+     */
+    public function hasTag($tag)
+    {
+        if($tag instanceof Tag) {
+            $tag = $tag->id;
+        }
+
+        return $this->tags()->whereId($tag)->first() != null;
     }
 }

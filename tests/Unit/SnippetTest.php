@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use App\Tag;
 use App\User;
 use App\Snippet;
 use Tests\TestCase;
@@ -27,5 +28,17 @@ class SnippetTest extends TestCase
         $this->assertInstanceOf(
             'Illuminate\Database\Eloquent\Collection', $snippet->tags
         );
+    }
+
+    /** @test */
+    public function it_determines_whether_snippet_has_given_tag()
+    {
+        $tag = create(Tag::class);
+        $snippet = create(Snippet::class);
+
+        $snippet->tags()->attach($tag);
+
+        $this->assertTrue($snippet->hasTag($tag));
+        $this->assertFalse($snippet->hasTag(100));
     }
 }
