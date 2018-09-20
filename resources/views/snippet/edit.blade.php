@@ -9,7 +9,7 @@
 
                     <div class="card-body">
                         <form method="post" action="{{ route('snippet.update', ['snippet' => $snippet->id]) }}">
-
+                            @method('PATCH')
                             @include('snippet._form')
 
                             {{-- Buttons --}}
