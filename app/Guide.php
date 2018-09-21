@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Guide extends Model
 {
+    use Taggable;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -38,30 +40,5 @@ class Guide extends Model
     public function creator()
     {
         return $this->belongsTo(User::class, 'user_id');
-    }
-
-    /**
-     * A guide belongs to many tags
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\MorphToMany
-     */
-    public function tags()
-    {
-        return $this->morphToMany(Tag::class, 'taggable');
-    }
-
-    /**
-     * Determine whether guide has given tag
-     *
-     * @param $tag
-     * @return bool
-     */
-    public function hasTag($tag)
-    {
-        if($tag instanceof Tag) {
-            $tag = $tag->id;
-        }
-
-        return $this->tags()->whereId($tag)->first() != null;
     }
 }

@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Project extends Model
 {
+    use Taggable;
+    
     /**
      * The attributes that are mass assignable.
      *
@@ -55,30 +57,4 @@ class Project extends Model
     {
         return $this->hasMany(Task::class);
     }
-
-    /**
-     * A project belongs to many tags
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\MorphToMany
-     */
-    public function tags()
-    {
-        return $this->morphToMany(Tag::class, 'taggable');
-    }
-
-    /**
-     * Determine whether project has given tag
-     *
-     * @param $tag
-     * @return bool
-     */
-    public function hasTag($tag)
-    {
-        if($tag instanceof Tag) {
-            $tag = $tag->id;
-        }
-
-        return $this->tags()->whereId($tag)->first() != null;
-    }
-
 }
