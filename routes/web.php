@@ -40,6 +40,11 @@ Route::get('/user/{user}/edit', 'UserController@edit')->name('user.edit');
 Route::patch('/user/{user}', 'UserController@update')->name('user.update');
 
 /*
+ * Profile Routes
+ */
+Route::get('/profile', 'ProfileController@edit')->name('profile.edit');
+
+/*
  * Invitation Routes
  */
 Route::get('/user/invite', 'InvitationController@create')->name('invitation.create');
