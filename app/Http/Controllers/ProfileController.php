@@ -25,4 +25,19 @@ class ProfileController extends Controller
 
         return view('profile.edit', compact('user'));
     }
+
+    /**
+     * Update Profile
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function update(Request $request)
+    {
+        $user = auth()->user();
+
+        $user->update($request->only(['name', 'slogan', 'bio']));
+
+        return redirect()->route('home');
+    }
 }
