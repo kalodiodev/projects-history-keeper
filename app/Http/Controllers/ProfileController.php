@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\ProfileRequest;
 
 class ProfileController extends Controller
 {
@@ -29,14 +29,14 @@ class ProfileController extends Controller
     /**
      * Update Profile
      *
-     * @param Request $request
+     * @param ProfileRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(Request $request)
+    public function update(ProfileRequest $request)
     {
         $user = auth()->user();
 
-        $user->update($request->only(['name', 'slogan', 'bio']));
+        $user->update($request->only(['name', 'email', 'slogan', 'bio']));
 
         return redirect()->route('home');
     }

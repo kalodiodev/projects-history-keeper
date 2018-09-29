@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\User;
 use Tests\IntegrationTestCase;
 
 class ProfileTest extends IntegrationTestCase
@@ -33,6 +34,7 @@ class ProfileTest extends IntegrationTestCase
         $this->assertDatabaseHas('users', [
             'id'     => $user->id,
             'name'   => $this->validProfileFields()['name'],
+            'email'  => $this->validProfileFields()['email'],
             'slogan' => $this->validProfileFields()['slogan'],
             'bio'    => $this->validProfileFields()['bio'],
         ]);
@@ -45,6 +47,22 @@ class ProfileTest extends IntegrationTestCase
             ->assertRedirect(route('login'));
     }
 
+    /** @test */
+    public function email_cannot_be_updated_with_an_existing_one()
+    {
+        create(User::class, ['email' => 'user@example.com']);
+
+        $user = $this->signInDefault();
+
+        $this->patch(route('profile.update'), $this->validProfileFields(['email' => 'user@example.com']))
+            ->assertSessionHasErrors(['email']);
+
+        $this->assertDatabaseHas('users', [
+            'id' => $user->id,
+            'email' => $user->email
+        ]);
+    }
+
     /**
      * Get valid user profile fields
      *
@@ -53,10 +71,11 @@ class ProfileTest extends IntegrationTestCase
      */
     protected function validProfileFields($overrides = [])
     {
-        return [
+        return array_merge([
             'name'   => 'New name',
+            'email'  => 'newmail@example.com',
             'slogan' => 'A new slogan',
             'bio'    => 'A new bio'
-        ];
+        ], $overrides);
     }
 }

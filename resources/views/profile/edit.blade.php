@@ -41,9 +41,7 @@
                            class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}"
                            name="email"
                            value="@if(isset($user)){{ old('email', $user->email) }}@else{{ old('email')}}@endif"
-                           required
-                           disabled
-                           autofocus>
+                           required>
 
                     @if ($errors->has('email'))
                         <span class="invalid-feedback" role="alert">
