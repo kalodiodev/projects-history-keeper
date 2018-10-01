@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\User;
 use App\Http\Requests\ProfileRequest;
 use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Support\Facades\Gate;
 
 class ProfileController extends Controller
 {
@@ -53,10 +52,7 @@ class ProfileController extends Controller
      */
     public function show(User $user)
     {
-        if(Gate::denies('profile_view', User::class))
-        {
-            throw new AuthorizationException("You are not authorized for this action");
-        }
+        $this->isAuthorized('profile_view', User::class);
 
         return view('profile.show', compact('user'));
     }

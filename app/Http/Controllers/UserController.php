@@ -27,10 +27,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        if(Gate::denies('manage', User::class))
-        {
-            throw new AuthorizationException("You are not authorized for this action");
-        }
+        $this->isAuthorized('manage', User::class);
 
         $users = User::paginate(40);
 
@@ -46,10 +43,7 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        if(Gate::denies('edit', User::class))
-        {
-            throw new AuthorizationException("You are not authorized for this action");
-        }
+        $this->isAuthorized('edit', User::class);
 
         $roles = Role::all();
 
@@ -66,10 +60,7 @@ class UserController extends Controller
      */
     public function update(User $user, Request $request)
     {
-        if(Gate::denies('edit', User::class))
-        {
-            throw new AuthorizationException("You are not authorized for this action");
-        }
+        $this->isAuthorized('edit', User::class);
 
         $this->updateUser($user, $request->only(['name', 'role_id']));
 

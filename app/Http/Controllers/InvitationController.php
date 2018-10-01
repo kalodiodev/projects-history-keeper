@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\User;
 use App\Invitation;
-use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\InvitationRequest;
 use Illuminate\Auth\Access\AuthorizationException;
 
@@ -26,10 +25,7 @@ class InvitationController extends Controller
      */
     public function create()
     {
-        if(Gate::denies('invite', User::class))
-        {
-            throw new AuthorizationException("You are not authorized for this action");
-        }
+        $this->isAuthorized('invite', User::class);
 
         return view('invitation.create');
     }
@@ -43,10 +39,7 @@ class InvitationController extends Controller
      */
     public function store(InvitationRequest $request)
     {
-        if(Gate::denies('invite', User::class))
-        {
-            throw new AuthorizationException("You are not authorized for this action");
-        }
+        $this->isAuthorized('invite', User::class);
 
         Invitation::create($request->only(['email']));
 

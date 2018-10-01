@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Project;
 use App\Tag;
+use App\Project;
 use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\ProjectRequest;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -43,10 +43,7 @@ class ProjectController extends Controller
      */
     public function create()
     {
-        if(Gate::denies('create', Project::class))
-        {
-            throw new AuthorizationException("You are not authorized for this action");
-        }
+        $this->isAuthorized('create', Project::class);
 
         $tags = Tag::all();
         
@@ -62,10 +59,7 @@ class ProjectController extends Controller
      */
     public function store(ProjectRequest $request)
     {
-        if(Gate::denies('create', Project::class))
-        {
-            throw new AuthorizationException("You are not authorized for this action");
-        }
+        $this->isAuthorized('create', Project::class);
 
         $project = Project::create([
             'user_id'     => auth()->id(),
@@ -74,7 +68,6 @@ class ProjectController extends Controller
         ]);
 
         $project->tags()->attach($request->tags);
-
 
         return redirect()->route('project.index');
     }
@@ -88,10 +81,7 @@ class ProjectController extends Controller
      */
     public function show(Project $project)
     {
-        if(Gate::denies('view', $project))
-        {
-            throw new AuthorizationException("You are not authorized for this action");
-        }
+        $this->isAuthorized('view', $project);
 
         return view('project.show', compact('project'));
     }
@@ -105,10 +95,7 @@ class ProjectController extends Controller
      */
     public function edit(Project $project)
     {
-        if(Gate::denies('update', $project))
-        {
-            throw new AuthorizationException("You are not authorized for this action");
-        }
+        $this->isAuthorized('update', $project);
 
         $tags = Tag::all();
 
@@ -125,10 +112,7 @@ class ProjectController extends Controller
      */
     public function update(ProjectRequest $request, Project $project)
     {
-        if(Gate::denies('update', $project))
-        {
-            throw new AuthorizationException("You are not authorized for this action");
-        }
+        $this->isAuthorized('update', $project);
 
         $project->update($request->only(['title', 'description']));
 
@@ -147,10 +131,7 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project)
     {
-        if(Gate::denies('delete', $project))
-        {
-            throw new AuthorizationException("You are not authorized for this action");
-        }
+        $this->isAuthorized('delete', $project);
 
         $project->delete();
 

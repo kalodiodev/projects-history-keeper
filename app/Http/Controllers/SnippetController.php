@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Snippet;
 use App\Tag;
+use App\Snippet;
 use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\SnippetRequest;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -26,9 +26,7 @@ class SnippetController extends Controller
      */
     public function index()
     {
-        if(Gate::denies('index', Snippet::class)) {
-            throw new AuthorizationException("You are not authorized for this action");
-        }
+        $this->isAuthorized('index', Snippet::class);
 
         if(Gate::allows('view_all', Snippet::class)) {
             $snippets = Snippet::paginate(14);
@@ -48,9 +46,7 @@ class SnippetController extends Controller
      */
     public function show(Snippet $snippet)
     {
-        if(Gate::denies('view', $snippet)) {
-            throw new AuthorizationException("You are not authorized for this action");
-        }
+        $this->isAuthorized('view', $snippet);
 
         return view('snippet.show', compact('snippet'));
     }
@@ -63,10 +59,7 @@ class SnippetController extends Controller
      */
     public function create()
     {
-        if(Gate::denies('create', Snippet::class))
-        {
-            throw new AuthorizationException("You are not authorized for this action");
-        }
+        $this->isAuthorized('create', Snippet::class);
 
         $tags = Tag::all();
 
@@ -82,10 +75,7 @@ class SnippetController extends Controller
      */
     public function store(SnippetRequest $request)
     {
-        if(Gate::denies('create', Snippet::class))
-        {
-            throw new AuthorizationException("You are not authorized for this action");
-        }
+        $this->isAuthorized('create', Snippet::class);
 
         $snippet = Snippet::create([
             'user_id'     => auth()->id(),
@@ -108,10 +98,7 @@ class SnippetController extends Controller
      */
     public function edit(Snippet $snippet)
     {
-        if(Gate::denies('update', $snippet))
-        {
-            throw new AuthorizationException("You are not authorized for this action");
-        }
+        $this->isAuthorized('update', $snippet);
 
         $tags = Tag::all();
 
@@ -128,10 +115,7 @@ class SnippetController extends Controller
      */
     public function update(Snippet $snippet, SnippetRequest $request)
     {
-        if(Gate::denies('update', $snippet))
-        {
-            throw new AuthorizationException("You are not authorized for this action");
-        }
+        $this->isAuthorized('update', $snippet);
 
         $snippet->update($request->only(['title', 'description', 'code']));
 
@@ -150,9 +134,7 @@ class SnippetController extends Controller
      */
     public function destroy(Snippet $snippet)
     {
-        if(Gate::denies('delete', $snippet)) {
-            throw new AuthorizationException("You are not authorized for this action");
-        }
+        $this->isAuthorized('delete', $snippet);
 
         $snippet->delete();
 

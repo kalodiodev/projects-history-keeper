@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Tag;
 use App\Http\Requests\TagRequest;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Auth\Access\AuthorizationException;
 
 class TagController extends Controller
@@ -25,10 +24,7 @@ class TagController extends Controller
      */
     public function index()
     {
-        if(Gate::denies('manage', Tag::class))
-        {
-            throw new AuthorizationException("You are not authorized for this action");
-        }
+        $this->isAuthorized('manage', Tag::class);
 
         $tags = Tag::paginate(30);
 
@@ -43,10 +39,7 @@ class TagController extends Controller
      */
     public function create()
     {
-        if(Gate::denies('create', Tag::class))
-        {
-            throw new AuthorizationException("You are not authorized for this action");
-        }
+        $this->isAuthorized('create', Tag::class);
 
         return view('tag.create');
     }
@@ -60,10 +53,7 @@ class TagController extends Controller
      */
     public function store(TagRequest $request)
     {
-        if(Gate::denies('create', Tag::class))
-        {
-            throw new AuthorizationException("You are not authorized for this action");
-        }
+        $this->isAuthorized('create', Tag::class);
 
         Tag::create([
             'name' => $request->get('name')
@@ -81,10 +71,7 @@ class TagController extends Controller
      */
     public function edit(Tag $tag)
     {
-        if(Gate::denies('update', Tag::class))
-        {
-            throw new AuthorizationException("You are not authorized for this action");
-        }
+        $this->isAuthorized('update', Tag::class);
 
         return view('tag.edit', compact('tag'));
     }
@@ -99,10 +86,7 @@ class TagController extends Controller
      */
     public function update(Tag $tag, TagRequest $request)
     {
-        if(Gate::denies('update', Tag::class))
-        {
-            throw new AuthorizationException("You are not authorized for this action");
-        }
+        $this->isAuthorized('update', Tag::class);
 
         $tag->update($request->only(['name']));
 
@@ -118,10 +102,7 @@ class TagController extends Controller
      */
     public function destroy(Tag $tag)
     {
-        if(Gate::denies('delete', Tag::class))
-        {
-            throw new AuthorizationException("You are not authorized for this action");
-        }
+        $this->isAuthorized('delete', Tag::class);
 
         $tag->delete();
 

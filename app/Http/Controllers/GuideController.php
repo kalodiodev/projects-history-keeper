@@ -27,10 +27,8 @@ class GuideController extends Controller
      */
     public function index()
     {
-        if(Gate::denies('index', Guide::class)) {
-            throw new AuthorizationException("You are not authorized for this action");
-        }
-        
+        $this->isAuthorized('index', Guide::class);
+
         if(Gate::allows('view_all', Guide::class)) {
             $guides = Guide::paginate(14);
         } else {
@@ -49,9 +47,7 @@ class GuideController extends Controller
      */
     public function show(Guide $guide)
     {
-        if(Gate::denies('view', $guide)) {
-            throw new AuthorizationException("You are not authorized for this action");
-        }
+        $this->isAuthorized('view', $guide);
 
         return view('guide.show', compact('guide'));
     }
@@ -63,10 +59,7 @@ class GuideController extends Controller
      */
     public function create()
     {
-        if(Gate::denies('create', Guide::class))
-        {
-            throw new AuthorizationException("You are not authorized for this action");
-        }
+        $this->isAuthorized('create', Guide::class);
 
         $tags = Tag::all();
 
@@ -82,10 +75,7 @@ class GuideController extends Controller
      */
     public function store(GuideRequest $request)
     {
-        if(Gate::denies('create', Guide::class))
-        {
-            throw new AuthorizationException("You are not authorized for this action");
-        }
+        $this->isAuthorized('create', Guide::class);
 
         $guide = Guide::create([
             'title' => $request->get('title'),
@@ -109,10 +99,7 @@ class GuideController extends Controller
      */
     public function edit(Guide $guide)
     {
-        if(Gate::denies('update', $guide))
-        {
-            throw new AuthorizationException("You are not authorized for this action");
-        }
+        $this->isAuthorized('update', $guide);
 
         $tags = Tag::all();
 
@@ -129,10 +116,7 @@ class GuideController extends Controller
      */
     public function update(Guide $guide, Request $request)
     {
-        if(Gate::denies('update', $guide))
-        {
-            throw new AuthorizationException("You are not authorized for this action");
-        }
+        $this->isAuthorized('update', $guide);
 
         $guide->update($request->only(['title', 'description', 'body']));
 
@@ -151,9 +135,7 @@ class GuideController extends Controller
      */
     public function destroy(Guide $guide)
     {
-        if(Gate::denies('delete', $guide)) {
-            throw new AuthorizationException("You are not authorized for this action");
-        }
+        $this->isAuthorized('delete', $guide);
 
         $guide->delete();
 

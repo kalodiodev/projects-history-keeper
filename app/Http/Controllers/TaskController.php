@@ -6,7 +6,6 @@ use App\Task;
 use App\Project;
 use App\Http\Requests\TaskRequest;
 use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Support\Facades\Gate;
 
 class TaskController extends Controller
 {
@@ -27,10 +26,7 @@ class TaskController extends Controller
      */
     public function create(Project $project)
     {
-        if(Gate::denies('create', [Task::class, $project]))
-        {
-            throw new AuthorizationException("You are not authorized for this action");
-        }
+        $this->isAuthorized('create', [Task::class, $project]);
 
         return view('task.create', compact('project'));
     }
@@ -45,11 +41,8 @@ class TaskController extends Controller
      */
     public function store(Project $project, TaskRequest $request)
     {
-        if(Gate::denies('create', [Task::class, $project]))
-        {
-            throw new AuthorizationException("You are not authorized for this action");
-        }
-        
+        $this->isAuthorized('create', [Task::class, $project]);
+
         Task::create(array_merge([
             'project_id'  => $project->id,
             'user_id'     => auth()->user()->id
@@ -67,10 +60,7 @@ class TaskController extends Controller
      */
     public function edit(Task $task)
     {
-        if(Gate::denies('update', $task))
-        {
-            throw new AuthorizationException("You are not authorized for this action");
-        }
+        $this->isAuthorized('update', $task);
 
         return view('task.edit', compact('task'));
     }
@@ -85,10 +75,7 @@ class TaskController extends Controller
      */
     public function update(Task $task, TaskRequest $request)
     {
-        if(Gate::denies('update', $task))
-        {
-            throw new AuthorizationException("You are not authorized for this action");
-        }
+        $this->isAuthorized('update', $task);
 
         $task->update($request->only(['title', 'description', 'date']));
 
@@ -104,10 +91,7 @@ class TaskController extends Controller
      */
     public function destroy(Task $task)
     {
-        if(Gate::denies('delete', $task))
-        {
-            throw new AuthorizationException("You are not authorized for this action");
-        }
+        $this->isAuthorized('delete', $task);
 
         $task->delete();
         
