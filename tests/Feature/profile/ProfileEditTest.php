@@ -5,7 +5,7 @@ namespace Tests\Feature;
 use App\User;
 use Tests\IntegrationTestCase;
 
-class ProfileTest extends IntegrationTestCase
+class ProfileEditTest extends IntegrationTestCase
 {
     /** @test */
     public function an_authenticated_user_can_view_own_profile_edit()

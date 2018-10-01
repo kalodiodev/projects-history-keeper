@@ -32,7 +32,7 @@ class UserPolicy
     }
 
     /**
-     * Determine whether the user can create a new user
+     * Determine whether the user can invite a user
      *
      * @param User $user
      * @return bool
@@ -40,5 +40,16 @@ class UserPolicy
     public function invite(User $user)
     {
         return $user->hasPermission('user-invite');
+    }
+
+    /**
+     * Determine whether the user can view others profile
+     *
+     * @param User $user
+     * @return bool
+     */
+    public function profile_view(User $user)
+    {
+        return $user->hasPermission('profile-view');
     }
 }

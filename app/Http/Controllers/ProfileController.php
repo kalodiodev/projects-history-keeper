@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use App\Http\Requests\ProfileRequest;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Support\Facades\Gate;
 
 class ProfileController extends Controller
 {
@@ -39,5 +42,22 @@ class ProfileController extends Controller
         $user->update($request->only(['name', 'email', 'slogan', 'bio']));
 
         return redirect()->route('home');
+    }
+
+    /**
+     * Show User profile
+     *
+     * @param User $user
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws AuthorizationException
+     */
+    public function show(User $user)
+    {
+        if(Gate::denies('profile_view', User::class))
+        {
+            throw new AuthorizationException("You are not authorized for this action");
+        }
+
+        return view('profile.show', compact('user'));
     }
 }
