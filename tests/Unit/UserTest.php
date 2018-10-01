@@ -137,4 +137,14 @@ class UserTest extends TestCase
         $this->assertTrue($user->ownsSnippet($usersSnippet));
         $this->assertFalse($user->ownsSnippet($othersSnippet));
     }
+
+    /** @test */
+    public function it_determines_if_user_has_avatar()
+    {
+        $user1 = create(User::class, ['avatar' => 'image.jpg']);
+        $user2 = create(User::class, ['avatar' => null]);
+
+        $this->assertTrue($user1->hasAvatar());
+        $this->assertFalse($user2->hasAvatar());
+    }
 }

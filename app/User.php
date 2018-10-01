@@ -186,4 +186,14 @@ class User extends Authenticatable
     {
         return $this->id == $snippet->user_id;
     }
+
+    /**
+     * Determine whether user has avatar
+     *
+     * @return bool
+     */
+    public function hasAvatar()
+    {
+        return $this->avatar ? true : false;
+    }
 }
