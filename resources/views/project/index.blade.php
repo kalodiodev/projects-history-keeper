@@ -1,57 +1,59 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
+    <div class="container-fluid">
 
         <h1>Projects</h1>
         <p>All projects available</p>
         <hr>
 
-        @foreach($projects->chunk(2) as $projects_group)
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="card-deck">
-                        @foreach($projects_group as $project)
-                        <div class="card mb-3">
-                            <div class="card-header">
-                                {{ $project->title }}
-                            </div>
+        <div class="row">
+            @include('tag._index')
 
-                            <div class="card-body">
-                                <p>{{ $project->description }}</p>
-
-                                <table>
-                                    <tr><th>Created By:</th><td>{{ $project->creator->name }}</td></tr>
-                                    <tr><th>Created At:</th><td>{{ $project->created_at }}</td></tr>
-                                </table>
-
-                                <div class="text-right mt-5">
-                                    <a href="{{ route('project.show', ['project' => $project->id]) }}" class="btn btn-primary">Open</a>
-                                </div>
-                            </div>
-
-                            <div class="card-footer text-right">
-                                <strong>Status: </strong> Active
-                            </div>
-                        </div>
+            <div class="col-md-10">
+                <h3>Projects</h3>
+                <div class="table-container">
+                    <table class="table">
+                        @foreach($projects as $project)
+                            <tr>
+                                <td>
+                                    Created By:<br>
+                                    <a href="{{ route('profile.show', ['user' => $project->creator->id]) }}">
+                                        {{ $project->creator->name }}
+                                    </a>
+                                </td>
+                                <td>
+                                    <div style="font-weight: 600">
+                                        <a href="{{ route('project.show', ['project' => $project->id]) }}">
+                                            {{ $project->title }}
+                                        </a>
+                                    </div>
+                                    <div style="padding-top: 10px;">{{ $project->description }}</div>
+                                    <div style="padding-top: 10px;">
+                                        @foreach($project->tags as $tag)
+                                            <span class="badge badge-primary">{{ $tag->name }}</span>
+                                        @endforeach
+                                    </div>
+                                </td>
+                                <td class="text-success">Active</td>
+                                <td>{{ $project->created_at }}</td>
+                            </tr>
                         @endforeach
+                    </table>
+
+                    @if($projects->count() == 0)
+                        <p class="text-center">No projects available</p>
+                    @endif
+
+                    <div class="row justify-content-center mt-3">
+                        {{ $projects->links() }}
                     </div>
+
+                    @can('create', \App\Project::class)
+                        <a href="{{ route('project.create') }}" class="btn btn-primary">Add Project</a>
+                    @endcan
                 </div>
             </div>
-        @endforeach
-
-        @if($projects->count() == 0)
-            <p class="text-center">No guides available</p>
-        @endif
-
-        <div class="row justify-content-center mt-3">
-            {{ $projects->links() }}
         </div>
-
-        @can('create', \App\Project::class)
-            <div class="text-right mt-5">
-                <a href="{{ route('project.create') }}" class="btn btn-primary">Add Project</a>
-            </div>
-        @endcan
     </div>
 @endsection

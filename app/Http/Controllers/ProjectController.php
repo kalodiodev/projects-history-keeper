@@ -24,15 +24,17 @@ class ProjectController extends Controller
      * @return \Illuminate\Http\Response
      * @throws AuthorizationException
      */
-    public function index() {
-
+    public function index()
+    {
         if(Gate::allows('view_all', Project::class)) {
             $projects = Project::paginate(14);
         } else {
             $projects = auth()->user()->projects()->paginate(14);
         }
 
-        return view('project.index', compact('projects'));
+        $tags = Tag::all();
+
+        return view('project.index', compact('projects', 'tags'));
     }
 
     /**
