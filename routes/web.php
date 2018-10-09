@@ -47,6 +47,11 @@ Route::patch('/profile', 'ProfileController@update')->name('profile.update');
 Route::get('/profile/{user}', 'ProfileController@show')->name('profile.show');
 
 /*
+ * Avatar Routes
+ */
+Route::patch('/profile/avatar', 'ProfileController@update_avatar')->name('profile.avatar.update');
+
+/*
  * Invitation Routes
  */
 Route::get('/user/invite', 'InvitationController@create')->name('invitation.create');
