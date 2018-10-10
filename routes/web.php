@@ -50,6 +50,7 @@ Route::get('/profile/{user}', 'ProfileController@show')->name('profile.show');
  * Avatar Routes
  */
 Route::patch('/profile/avatar', 'ProfileController@update_avatar')->name('profile.avatar.update');
+Route::get('/images/avatars/{avatar}', 'AvatarController@show')->name('avatar.show');
 
 /*
  * Invitation Routes
