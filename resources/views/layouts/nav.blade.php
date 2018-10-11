@@ -51,6 +51,13 @@
                 @else
                     <li class="nav-item dropdown">
                         <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                            <span>
+                                @if(Auth::user()->hasAvatar())
+                                    <img src="{{ Auth::user()->avatar }}" alt="avatar" class="avatar">
+                                @else
+                                    <img src="{{ asset('images/person.png') }}" alt="avatar" class="avatar">
+                                @endif
+                            </span>
                             {{ Auth::user()->name }} <span class="caret"></span>
                         </a>
 
