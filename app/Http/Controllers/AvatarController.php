@@ -26,6 +26,8 @@ class AvatarController extends Controller
     {
         $user = auth()->user();
 
+        $this->validateAvatar($request);
+
         /** @var UploadedFile $avatar */
         $avatar = $request->file('avatar')->store('images/avatars');
 
@@ -53,4 +55,17 @@ class AvatarController extends Controller
         return response()->file(Storage::path('images/avatars/' . $avatar));
     }
 
+    /**
+     * Validate Avatar request
+     *
+     * @param Request $request
+     */
+    protected function validateAvatar(Request $request)
+    {
+        $rules = [
+            'avatar' => 'mimes:jpeg,png|dimensions:min_width=100,min_height=100,max_width=300,max_height=300'
+        ];
+
+        return $request->validate($rules);
+    }
 }

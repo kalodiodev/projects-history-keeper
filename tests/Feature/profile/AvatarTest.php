@@ -44,6 +44,19 @@ class AvatarTest extends IntegrationTestCase
     }
 
     /** @test */
+    public function avatar_dimensions_should_be_whithin_limits_allowed()
+    {
+        $this->signInDefault();
+
+        // Update Avatar
+        $this->patch(route('avatar.update'), ['avatar' => $this->fake_image_file('image.png', 400, 400)])
+            ->assertSessionHasErrors('avatar');
+
+        $this->patch(route('avatar.update'), ['avatar' => $this->fake_image_file('image.png', 50, 50)])
+            ->assertSessionHasErrors('avatar');
+    }
+
+    /** @test */
     public function an_unauthenticated_user_cannot_update_avatar()
     {
         $this->patch(route('avatar.update'), ['avatar' => $this->fake_image_file('image.png')])
@@ -76,11 +89,13 @@ class AvatarTest extends IntegrationTestCase
      * Create fake image file
      *
      * @param $filename
+     * @param int $width
+     * @param int $height
      * @return \Illuminate\Http\Testing\File
      */
-    protected function fake_image_file($filename)
+    protected function fake_image_file($filename, $width = 250, $height = 250)
     {
-        return UploadedFile::fake()->image($filename);
+        return UploadedFile::fake()->image($filename, $width, $height);
     }
 
 }

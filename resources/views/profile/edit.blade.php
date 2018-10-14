@@ -26,13 +26,18 @@
 
                         <div class="col-md-8">
                             <input id="avatar"
+                                   class="form-control-file{{ $errors->has('avatar') ? ' is-invalid' : '' }}"
                                    type="file"
                                    name="avatar">
 
                             @if ($errors->has('avatar'))
-                                <span class="invalid-feedback" role="alert">
-                            <strong>{{ $errors->first('avatar') }}</strong>
-                        </span>
+                            <span class="invalid-feedback" role="alert">
+                                <ul>
+                                    @foreach($errors->all() as $error)
+                                        <li><strong>{{ $error }}</strong></li>
+                                    @endforeach
+                                </ul>
+                            </span>
                             @endif
                         </div>
                     </div>
