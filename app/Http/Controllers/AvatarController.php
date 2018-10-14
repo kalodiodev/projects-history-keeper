@@ -29,6 +29,10 @@ class AvatarController extends Controller
         /** @var UploadedFile $avatar */
         $avatar = $request->file('avatar')->store('images/avatars');
 
+        if($user->hasAvatar()) {
+            Storage::delete('images' . $user->avatar);
+        }
+
         $user->update(['avatar' => ltrim($avatar, 'images')]);
 
         return redirect()->route('profile.edit');
@@ -48,4 +52,5 @@ class AvatarController extends Controller
 
         return response()->file(Storage::path('images/avatars/' . $avatar));
     }
+
 }
