@@ -9,6 +9,30 @@ use Illuminate\Support\Facades\Storage;
 class AvatarTest extends IntegrationTestCase
 {
     /** @test */
+    public function an_authenticated_user_can_update_avatar()
+    {
+        Storage::fake('testfs');
+        $avatar = UploadedFile::fake()->image('image.png');
+
+        $user = $this->signInDefault();
+
+        $this->patch(route('avatar.update'), ['avatar' => $avatar])
+            ->assertRedirect(route('profile.edit'));
+  
+        Storage::disk('testfs')->assertExists('images' . $user->avatar);
+    }
+
+    /** @test */
+    public function an_unauthenticated_user_cannot_update_avatar()
+    {
+        Storage::fake('testfs');
+        $avatar = UploadedFile::fake()->image('image.png');
+
+        $this->patch(route('avatar.update'), ['avatar' => $avatar])
+            ->assertRedirect(route('login'));
+    }
+
+    /** @test */
     public function an_authenticated_user_can_view_avatar_image()
     {
         Storage::fake('testfs');

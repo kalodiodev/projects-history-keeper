@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\User;
-use Illuminate\Http\Request;
-use Illuminate\Http\UploadedFile;
 use App\Http\Requests\ProfileRequest;
 use Illuminate\Auth\Access\AuthorizationException;
 
@@ -44,25 +42,7 @@ class ProfileController extends Controller
 
         return redirect()->route('home');
     }
-
-    /**
-     * Update Avatar
-     *
-     * @param Request $request
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function update_avatar(Request $request)
-    {
-        $user = auth()->user();
-
-        /** @var UploadedFile $avatar */
-        $avatar = $request->file('avatar')->store('images/avatars');
-
-        $user->update(['avatar' => $avatar]);
-
-        return redirect()->route('profile.edit');
-    }
-
+    
     /**
      * Show User profile
      *

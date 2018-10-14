@@ -3,8 +3,6 @@
 namespace Tests\Feature;
 
 use App\User;
-use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Storage;
 use Tests\IntegrationTestCase;
 
 class ProfileEditTest extends IntegrationTestCase
@@ -50,30 +48,6 @@ class ProfileEditTest extends IntegrationTestCase
     }
 
     /** @test */
-    public function an_authenticated_user_can_update_avatar()
-    {
-        Storage::fake('testfs');
-        $avatar = UploadedFile::fake()->image('image.png');
-
-        $user = $this->signInDefault();
-
-        $this->patch(route('profile.avatar.update'), ['avatar' => $avatar])
-            ->assertRedirect(route('profile.edit'));
-
-        Storage::disk('testfs')->assertExists($user->avatar);
-    }
-
-    /** @test */
-    public function an_unauthenticated_user_cannot_update_avatar()
-    {
-        Storage::fake('testfs');
-        $avatar = UploadedFile::fake()->image('image.png');
-
-        $this->patch(route('profile.avatar.update'), ['avatar' => $avatar])
-            ->assertRedirect(route('login'));
-    }
-
-        /** @test */
     public function email_cannot_be_updated_with_an_existing_one()
     {
         create(User::class, ['email' => 'user@example.com']);

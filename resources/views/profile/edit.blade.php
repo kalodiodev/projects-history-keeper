@@ -16,7 +16,7 @@
             </div>
 
             <div class="col-md-8">
-                <form method="post" action="{{ route('profile.avatar.update') }}" enctype=multipart/form-data>
+                <form method="post" action="{{ route('avatar.update') }}" enctype=multipart/form-data>
                     @csrf
                     {{ method_field('PATCH') }}
 
