@@ -56,6 +56,26 @@ class AvatarController extends Controller
     }
 
     /**
+     * Delete avatar
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function destroy()
+    {
+        $user = auth()->user();
+
+        if(Storage::has('images/' . $user->avatar)) {
+            Storage::delete('images/' . $user->avatar);
+        }
+
+        $user->update([
+            'avatar' => null
+        ]);
+
+        return redirect()->route('profile.edit');
+    }
+
+    /**
      * Validate Avatar request
      *
      * @param Request $request

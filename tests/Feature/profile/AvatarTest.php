@@ -57,6 +57,20 @@ class AvatarTest extends IntegrationTestCase
     }
 
     /** @test */
+    public function a_user_can_remove_avatar()
+    {
+        UploadedFile::fake()->image('image.png')->storeAs('images/avatars','image.png');
+
+        $user = $this->signInDefault(['avatar' => 'avatars/image.png']);
+
+        $this->delete(route('avatar.destroy'))
+            ->assertRedirect(route('profile.edit'));
+
+        Storage::disk('testfs')->assertMissing('images/avatars/image.png');
+        $this->assertNull($user->avatar);
+    }
+
+    /** @test */
     public function an_unauthenticated_user_cannot_update_avatar()
     {
         $this->patch(route('avatar.update'), ['avatar' => $this->fake_image_file('image.png')])

@@ -16,6 +16,7 @@
             </div>
 
             <div class="col-md-8">
+                {{-- Update Avatar --}}
                 <form method="post" action="{{ route('avatar.update') }}" enctype=multipart/form-data>
                     @csrf
                     {{ method_field('PATCH') }}
@@ -49,6 +50,20 @@
                         </div>
                     </div>
                 </form>
+
+                @if($user->hasAvatar())
+                    {{-- Remove Avatar --}}
+                    <form method="post" action="{{ route('avatar.destroy') }}">
+                        {{ csrf_field() }}
+                        {{ method_field('DELETE') }}
+
+                        <div class="form-group row mb-0">
+                            <div class="col-md-8 offset-md-2 text-right">
+                                <button type="submit" class="btn btn-primary">Remove Avatar</button>
+                            </div>
+                        </div>
+                    </form>
+                @endif
             </div>
         </div>
 
