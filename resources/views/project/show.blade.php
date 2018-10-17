@@ -1,55 +1,48 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
+    <div class="container-fluid">
 
-        <h1>Project</h1>
+        <h1>Project - {{ $project->title }}</h1>
+        <p>
+            Created By
+            <a href="{{ route('profile.show', ['user' => $project->creator->id]) }}">{{ $project->creator->name }}</a>
+            At {{ $project->created_at }}
+        </p>
+
+        <div>
+            {{-- Edit Project Button --}}
+            <a class="btn btn-warning"
+               href="{{ route('project.edit', ['project' => $project->id]) }}">Edit</a>
+
+            {{-- Delete Project Button --}}
+            <a class="btn btn-danger"
+               onclick="event.preventDefault();
+                               document.getElementById('project-delete-form').submit();"
+               href="{{ route('project.destroy', ['project' => $project->id]) }}">Delete</a>
+
+            {{-- Delete Project Hidden Form --}}
+            <form id="project-delete-form"
+                  method="post"
+                  action="{{ route('project.destroy', ['project' => $project->id]) }}"
+                  style="display: none;">
+                @csrf
+                {{ method_field('DELETE') }}
+            </form>
+        </div>
         <hr>
 
         <div class="row">
-            <div class="col-md-12">
-                <div class="card mb-4">
-                    <div class="card-header">{{ $project->title }}</div>
-
-                    <div class="card-body">
-                        <p>{{ $project->description }}</p>
-
-                        <h4>Details</h4>
-                        <table>
-                            <tbody>
-                                <tr><th>Created By:</th><td>{{ $project->creator->name }}</td></tr>
-                                <tr><th>Created At:</th><td>{{ $project->created_at }}</td></tr>
-                                <tr><th>Last Updated At:</th><td>{{ $project->updated_at }}</td></tr>
-                            </tbody>
-                        </table>
-
-                        <div class="text-right">
-                            {{-- Edit Project Button --}}
-                            <a class="btn btn-warning"
-                               href="{{ route('project.edit', ['project' => $project->id]) }}">Edit</a>
-
-                            {{-- Delete Project Button --}}
-                            <a class="btn btn-danger"
-                               onclick="event.preventDefault();
-                               document.getElementById('project-delete-form').submit();"
-                               href="{{ route('project.destroy', ['project' => $project->id]) }}">Delete</a>
-
-                            {{-- Delete Project Hidden Form --}}
-                            <form id="project-delete-form"
-                                  method="post"
-                                  action="{{ route('project.destroy', ['project' => $project->id]) }}"
-                                  style="display: none;">
-                                @csrf
-                                {{ method_field('DELETE') }}
-                            </form>
-                        </div>
-                    </div>
-                </div>
+            <div class="col-md-2">
+                <h2>Description</h2>
+                @if(!empty($project->description))
+                    <p>{{ $project->description }}</p>
+                @else
+                    <p>Project has no description</p>
+                @endif
             </div>
-        </div>
 
-        <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-10">
                 <h2>Tasks</h2>
 
                 @include('task._index', ['tasks' => $project->tasks()->paginate(25)])
@@ -57,5 +50,6 @@
                 <a class="btn btn-primary" href="{{ route('project.task.create', ['project' => $project->id]) }}">Add Task</a>
             </div>
         </div>
+
     </div>
 @endsection
