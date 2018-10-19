@@ -10479,3 +10479,34 @@ a.text-dark:focus {
   border-radius: 50%;
 }
 
+#flash-message {
+  position: absolute;
+  top: 100px;
+  right: 30px;
+  z-index: 10;
+  -webkit-animation: flash-message 6s forwards;
+          animation: flash-message 6s forwards;
+}
+
+@-webkit-keyframes flash-message {
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    display: none;
+  }
+}
+
+@keyframes flash-message {
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    display: none;
+  }
+}
+

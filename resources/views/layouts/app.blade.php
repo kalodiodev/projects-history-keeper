@@ -26,6 +26,8 @@
         @include('layouts.nav')
 
         <main class="py-4">
+            @include('partials.flash')
+
             @yield('content')
         </main>
     </div>

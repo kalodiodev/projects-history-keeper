@@ -71,6 +71,8 @@ class ProjectController extends Controller
 
         $project->tags()->attach($request->tags);
 
+        session()->flash('message', 'Project stored successfully');
+
         return redirect()->route('project.index');
     }
 
@@ -120,6 +122,8 @@ class ProjectController extends Controller
 
         $project->tags()->sync($request->get('tags'));
 
+        session()->flash('message', 'Project updated successfully');
+
         return redirect()->route('project.show', ['project' => $project->id]);
     }
 
@@ -136,6 +140,8 @@ class ProjectController extends Controller
         $this->isAuthorized('delete', $project);
 
         $project->delete();
+
+        session()->flash('message', 'Project deleted successfully');
 
         return redirect()->route('project.index');
     }
