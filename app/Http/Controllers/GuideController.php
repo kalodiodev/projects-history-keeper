@@ -87,6 +87,8 @@ class GuideController extends Controller
 
         $guide->tags()->attach($request->tags);
 
+        session()->flash('message', 'Guide created successfully');
+
         return redirect()->route('guide.index');
     }
 
@@ -122,6 +124,8 @@ class GuideController extends Controller
 
         $guide->tags()->sync($request->get('tags'));
 
+        session()->flash('message', 'Guide updated successfully');
+
         return redirect()->route('guide.index');
     }
 
@@ -138,6 +142,8 @@ class GuideController extends Controller
         $this->isAuthorized('delete', $guide);
 
         $guide->delete();
+
+        session()->flash('message', 'Guide deleted successfully');
 
         return redirect()->route('guide.index');
     }
