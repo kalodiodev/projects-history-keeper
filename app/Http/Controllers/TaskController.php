@@ -48,6 +48,8 @@ class TaskController extends Controller
             'user_id'     => auth()->user()->id
         ], $request->only(['title', 'description', 'date'])));
 
+        session()->flash('message', 'Task created successfully');
+
         return redirect()->route('project.show', ['project' => $project->id]);
     }
 
@@ -79,6 +81,8 @@ class TaskController extends Controller
 
         $task->update($request->only(['title', 'description', 'date']));
 
+        session()->flash('message', 'Task updated successfully');
+
         return redirect()->route('project.show', ['project' => $task->project->id]);
     }
 
@@ -94,6 +98,8 @@ class TaskController extends Controller
         $this->isAuthorized('delete', $task);
 
         $task->delete();
+
+        session()->flash('message', 'Task deleted successfully');
         
         return redirect()->route('project.show', ['project' => $task->project->id]);
     }
