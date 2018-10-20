@@ -15,7 +15,8 @@ class TaskDeleteTest extends IntegrationTestCase
         $task = create(Task::class, ['user_id' => $user->id]);
 
         $this->delete(route('project.task.destroy', ['task' => $task->id]))
-            ->assertRedirect(route('project.show', ['project' => $task->project->id]));
+            ->assertRedirect(route('project.show', ['project' => $task->project->id]))
+            ->assertSessionHas('message');
 
         $this->assertDatabaseMissing('tasks', [
             'id' => $task->id,
@@ -47,7 +48,8 @@ class TaskDeleteTest extends IntegrationTestCase
         $task = create(Task::class);
 
         $this->delete(route('project.task.destroy', ['task' => $task->id]))
-            ->assertRedirect(route('project.show', ['project' => $task->project->id]));
+            ->assertRedirect(route('project.show', ['project' => $task->project->id]))
+            ->assertSessionHas('message');
 
         $this->assertDatabaseMissing('tasks', [
             'id' => $task->id,

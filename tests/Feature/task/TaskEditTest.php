@@ -58,7 +58,8 @@ class TaskEditTest extends IntegrationTestCase
         $task = create(Task::class, ['user_id' => $user->id]);
 
         $this->patch(route('project.task.update', ['task' => $task->id]), $this->taskValidFields())
-            ->assertRedirect(route('project.show', ['project' => $task->project->id]));
+            ->assertRedirect(route('project.show', ['project' => $task->project->id]))
+            ->assertSessionHas('message');
 
         $this->assertDatabaseHas('tasks', $this->taskValidFields(['id'  => $task->id]));
     }
@@ -82,7 +83,8 @@ class TaskEditTest extends IntegrationTestCase
         $task = create(Task::class);
 
         $this->patch(route('project.task.update', ['task' => $task->id]), $this->taskValidFields())
-            ->assertRedirect(route('project.show', ['project' => $task->project->id]));
+            ->assertRedirect(route('project.show', ['project' => $task->project->id]))
+            ->assertSessionHas('message');
 
         $this->assertDatabaseHas('tasks', $this->taskValidFields(['id'  => $task->id]));
     }
@@ -99,7 +101,7 @@ class TaskEditTest extends IntegrationTestCase
     }
 
     /** @test */
-    public function an_unauthenticated_user_can_update_a_task()
+    public function an_unauthenticated_user_cannot_update_a_task()
     {
         $task = create(Task::class);
 

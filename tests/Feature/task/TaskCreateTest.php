@@ -72,7 +72,8 @@ class TaskCreateTest extends IntegrationTestCase
         $task = make(Task::class);
 
         $this->post(route('project.task.store', ['project' => $project->id]), $task->toArray())
-            ->assertRedirect(route('project.show', ['project' => $project->id]));
+            ->assertRedirect(route('project.show', ['project' => $project->id]))
+            ->assertSessionHas('message');
 
         $this->assertDatabaseHas('tasks', [
             'project_id'  => $project->id,
@@ -115,7 +116,8 @@ class TaskCreateTest extends IntegrationTestCase
         $task = make(Task::class);
 
         $this->post(route('project.task.store', ['project' => $project->id]), $task->toArray())
-            ->assertRedirect(route('project.show', ['project' => $project->id]));
+            ->assertRedirect(route('project.show', ['project' => $project->id]))
+            ->assertSessionHas('message');
 
         $this->assertDatabaseHas('tasks', [
             'project_id'  => $project->id,

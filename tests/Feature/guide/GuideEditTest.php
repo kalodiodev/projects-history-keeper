@@ -73,7 +73,8 @@ class GuideEditTest extends IntegrationTestCase
         $guide = create(Guide::class, ['user_id' => $user->id]);
 
         $this->patch(route('guide.update', ['guide' => $guide->id]), $this->guideValidFields())
-            ->assertRedirect(route('guide.index'));
+            ->assertRedirect(route('guide.index'))
+            ->assertSessionHas('message');
 
         $this->assertDatabaseHas('guides', array_merge([
             'id' => $user->id,
@@ -99,7 +100,8 @@ class GuideEditTest extends IntegrationTestCase
         $guide = create(Guide::class);
 
         $this->patch(route('guide.update', ['guide' => $guide->id]), $this->guideValidFields())
-            ->assertRedirect(route('guide.index'));
+            ->assertRedirect(route('guide.index'))
+            ->assertSessionHas('message');
 
         $this->assertDatabaseHas('guides', array_merge([
             'id' => $user->id,

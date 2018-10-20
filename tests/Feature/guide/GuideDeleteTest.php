@@ -15,7 +15,8 @@ class GuideDeleteTest extends IntegrationTestCase
         $guide = create(Guide::class, ['user_id' => $user->id]);
 
         $this->delete(route('guide.destroy', ['guide' => $guide->id]))
-            ->assertRedirect(route('guide.index'));
+            ->assertRedirect(route('guide.index'))
+            ->assertSessionHas('message');
 
         $this->assertDatabaseMissing('guides', $guide->toArray());
     }
@@ -50,7 +51,8 @@ class GuideDeleteTest extends IntegrationTestCase
         $guide = create(Guide::class);
 
         $this->delete(route('guide.destroy', ['guide' => $guide->id]))
-            ->assertRedirect(route('guide.index'));
+            ->assertRedirect(route('guide.index'))
+            ->assertSessionHas('message');
 
         $this->assertDatabaseMissing('guides', $guide->toArray());
     }

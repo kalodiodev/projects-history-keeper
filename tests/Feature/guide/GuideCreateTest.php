@@ -40,7 +40,8 @@ class GuideCreateTest extends IntegrationTestCase
         $this->signInDefault();
 
         $this->post(route('guide.store'), $this->guideValidFields())
-            ->assertRedirect(route('guide.index'));
+            ->assertRedirect(route('guide.index'))
+            ->assertSessionHas('message');
 
         $this->assertDatabaseHas('guides', $this->guideValidFields());
     }

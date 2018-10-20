@@ -41,7 +41,8 @@ class ProjectCreateTest extends IntegrationTestCase
         $this->signInAdmin();
 
         $this->postProject($this->validData())
-            ->assertRedirect(route('project.index'));
+            ->assertRedirect(route('project.index'))
+            ->assertSessionHas('message');
 
         $this->assertDatabaseHas('projects', $this->validData());
     }

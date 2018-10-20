@@ -73,7 +73,8 @@ class ProjectEditTest extends IntegrationTestCase
         $project = create(Project::class, ['user_id' => $user]);
 
         $this->patch(route('project.update', ['project' => $project->id]), $this->projectData())
-            ->assertRedirect(route('project.show', ['project' => $project['id']]));
+            ->assertRedirect(route('project.show', ['project' => $project['id']]))
+            ->assertSessionHas('message');
 
         $this->assertDatabaseHas('projects', array_merge([
             'id' => $project->id
@@ -99,7 +100,8 @@ class ProjectEditTest extends IntegrationTestCase
         $project = create(Project::class);
 
         $this->patch(route('project.update', ['project' => $project->id]), $this->projectData())
-            ->assertRedirect(route('project.show', ['project' => $project['id']]));
+            ->assertRedirect(route('project.show', ['project' => $project['id']]))
+            ->assertSessionHas('message');
 
         $this->assertDatabaseHas('projects', array_merge([
             'id' => $project->id

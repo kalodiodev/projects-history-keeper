@@ -50,7 +50,8 @@ class ProjectDeleteTest extends IntegrationTestCase
         $project = create(Project::class);
 
         $this->delete(route('project.destroy', ['project' => $project->id]))
-            ->assertRedirect(route('project.index'));
+            ->assertRedirect(route('project.index'))
+            ->assertSessionHas('message');
 
         $this->assertDatabaseMissing('projects', $project->toArray());
     }
