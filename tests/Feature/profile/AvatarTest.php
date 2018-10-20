@@ -21,7 +21,8 @@ class AvatarTest extends IntegrationTestCase
         $user = $this->signInDefault();
 
         $this->patch(route('avatar.update'), ['avatar' => $this->fake_image_file('image.png')])
-            ->assertRedirect(route('profile.edit'));
+            ->assertRedirect(route('profile.edit'))
+            ->assertSessionHas('message');
   
         Storage::disk('testfs')->assertExists('images' . $user->avatar);
     }
@@ -64,7 +65,8 @@ class AvatarTest extends IntegrationTestCase
         $user = $this->signInDefault(['avatar' => 'avatars/image.png']);
 
         $this->delete(route('avatar.destroy'))
-            ->assertRedirect(route('profile.edit'));
+            ->assertRedirect(route('profile.edit'))
+            ->assertSessionHas('message');
 
         Storage::disk('testfs')->assertMissing('images/avatars/image.png');
         $this->assertNull($user->avatar);

@@ -37,6 +37,8 @@ class AvatarController extends Controller
 
         $user->update(['avatar' => ltrim($avatar, 'images')]);
 
+        session()->flash('message', 'Avatar updated successfully');
+
         return redirect()->route('profile.edit');
     }
 
@@ -71,6 +73,8 @@ class AvatarController extends Controller
         $user->update([
             'avatar' => null
         ]);
+
+        session()->flash('message', 'Avatar removed successfully');
 
         return redirect()->route('profile.edit');
     }
