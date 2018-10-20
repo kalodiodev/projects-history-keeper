@@ -29,7 +29,8 @@ class ProfileEditTest extends IntegrationTestCase
         $user =$this->signInDefault();
 
         $this->patch(route('profile.update'), $this->validProfileFields())
-            ->assertRedirect(route('home'));
+            ->assertRedirect(route('home'))
+            ->assertSessionHas('message');
 
         $this->assertDatabaseHas('users', [
             'id'     => $user->id,

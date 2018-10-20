@@ -40,6 +40,8 @@ class ProfileController extends Controller
 
         $user->update($request->only(['name', 'email', 'slogan', 'bio']));
 
+        session()->flash('message', 'Profile updated successfully');
+
         return redirect()->route('home');
     }
     
