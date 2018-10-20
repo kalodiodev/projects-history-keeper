@@ -41,7 +41,8 @@ class UserInviteTest extends IntegrationTestCase
         $this->signInAdmin();
         
         $this->post(route('invitation.store'), $this->userValidFields([]))
-            ->assertRedirect(route('user.index'));
+            ->assertRedirect(route('user.index'))
+            ->assertSessionHas('message');
 
         $this->assertDatabaseHas('invitations', $this->userValidFields());
     }

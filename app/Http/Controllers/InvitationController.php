@@ -43,6 +43,8 @@ class InvitationController extends Controller
 
         Invitation::create($request->only(['email']));
 
+        session()->flash('message', 'Invitation sent');
+
         return redirect()->route('user.index');
     }
 }
