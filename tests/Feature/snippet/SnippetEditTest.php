@@ -73,7 +73,8 @@ class SnippetEditTest extends IntegrationTestCase
         $snippet = create(Snippet::class, ['user_id' => $user->id]);
 
         $this->patch(route('snippet.update', ['snippet' => $snippet->id]), $this->snippetValidFields())
-            ->assertRedirect(route('snippet.index'));
+            ->assertRedirect(route('snippet.index'))
+            ->assertSessionHas('message');
 
         $this->assertDatabaseHas('snippets', array_merge([
             'id' => $snippet->id
@@ -99,7 +100,8 @@ class SnippetEditTest extends IntegrationTestCase
         $snippet = create(Snippet::class);
         
         $this->patch(route('snippet.update', ['snippet' => $snippet->id]), $this->snippetValidFields())
-            ->assertRedirect(route('snippet.index'));
+            ->assertRedirect(route('snippet.index'))
+            ->assertSessionHas('message');
 
         $this->assertDatabaseHas('snippets', array_merge([
             'id' => $snippet->id

@@ -86,6 +86,8 @@ class SnippetController extends Controller
         
         $snippet->tags()->attach($request->tags);
 
+        session()->flash('message', 'Snippet created successfully');
+
         return redirect()->route('snippet.index');
     }
 
@@ -121,6 +123,8 @@ class SnippetController extends Controller
 
         $snippet->tags()->sync($request->get('tags'));
 
+        session()->flash('message', 'Snippet updated successfully');
+
         return redirect()->route('snippet.index');
     }
 
@@ -137,6 +141,8 @@ class SnippetController extends Controller
         $this->isAuthorized('delete', $snippet);
 
         $snippet->delete();
+
+        session()->flash('message', 'Snippet deleted successfully');
 
         return redirect()->route('snippet.index');
     }

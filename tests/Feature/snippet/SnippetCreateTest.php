@@ -39,13 +39,14 @@ class SnippetCreateTest extends IntegrationTestCase
         $this->signInDefault();
 
         $this->post(route('snippet.store'), $this->snippetValidFields())
-            ->assertRedirect(route('snippet.index'));
+            ->assertRedirect(route('snippet.index'))
+            ->assertSessionHas('message');
 
         $this->assertDatabaseHas('snippets', $this->snippetValidFields());
     }
 
     /** @test */
-    public function an_unauthorized_user_can_store_a_snippet()
+    public function an_unauthorized_user_cannot_store_a_snippet()
     {
         $this->signInRestricted();
 

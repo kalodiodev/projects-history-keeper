@@ -50,7 +50,8 @@ class SnippetDeleteTest extends IntegrationTestCase
         $snippet = create(Snippet::class);
 
         $this->delete(route('snippet.destroy', ['snippet' => $snippet->id]))
-            ->assertRedirect(route('snippet.index'));
+            ->assertRedirect(route('snippet.index'))
+            ->assertSessionHas('message');
 
         $this->assertDatabaseMissing('snippets', $snippet->toArray());
     }
