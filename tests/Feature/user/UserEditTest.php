@@ -49,7 +49,8 @@ class UserEditTest extends IntegrationTestCase
         $user = create(User::class);
 
         $this->patch(route('user.update', ['user' => $user->id]), $this->userValidFields())
-            ->assertRedirect(route('user.index'));
+            ->assertRedirect(route('user.index'))
+            ->assertSessionHas('message');
 
         $this->assertDatabaseHas('users', array_merge([
             'id' => $user->id,

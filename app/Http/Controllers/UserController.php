@@ -68,8 +68,13 @@ class UserController extends Controller
             auth()->setUser($user->fresh());
         }
 
-        return Gate::denies('manage', User::class) ?
-            redirect('/') : redirect()->route('user.index');
+        if(Gate::allows('manage', User::class)) {
+            session()->flash('message', 'User updated successfully');
+
+            return redirect()->route('user.index');
+        }
+
+        return redirect('/');
     }
 
     /**
