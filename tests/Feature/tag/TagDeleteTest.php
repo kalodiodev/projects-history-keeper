@@ -15,7 +15,8 @@ class TagDeleteTest extends IntegrationTestCase
         $tag = create(Tag::class);
 
         $this->delete(route('tag.destroy', ['tag' => $tag->id]))
-            ->assertRedirect(route('tag.index'));
+            ->assertRedirect(route('tag.index'))
+            ->assertSessionHas('message');
 
         $this->assertDatabaseMissing('tags', ['id' => $tag->id]);
     }

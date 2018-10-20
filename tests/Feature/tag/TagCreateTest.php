@@ -41,7 +41,8 @@ class TagCreateTest extends IntegrationTestCase
         $tag = make(Tag::class);
 
         $this->post(route('tag.store'), $tag->toArray())
-            ->assertRedirect(route('tag.index'));
+            ->assertRedirect(route('tag.index'))
+            ->assertSessionHas('message');
 
         $this->assertDatabaseHas('tags', ['name' => $tag->name]);
     }

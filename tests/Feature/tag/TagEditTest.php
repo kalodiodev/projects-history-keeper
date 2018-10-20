@@ -38,7 +38,8 @@ class TagEditTest extends IntegrationTestCase
         $this->signInAdmin();
 
         $this->updateTag($tag = create(Tag::class), $newData = ['name' => 'New Name'])
-            ->assertRedirect(route('tag.index'));
+            ->assertRedirect(route('tag.index'))
+            ->assertSessionHas('message');
 
         $this->assertDatabaseHas('tags', array_merge([
             'id' => $tag->id,
