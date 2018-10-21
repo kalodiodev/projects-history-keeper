@@ -4,6 +4,7 @@ namespace Tests\Unit;
 
 use App\Project;
 use App\Tag;
+use App\Task;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -72,5 +73,18 @@ class ProjectTest extends TestCase
 
         $this->assertTrue($project->hasTag($tag));
         $this->assertFalse($project->hasTag(100));
+    }
+
+    /** @test */
+    public function deleting_a_project_should_also_delete_its_tasks()
+    {
+        $project = create(Project::class);
+        create(Task::class, ['project_id' => $project->id], 2);
+
+        $project->delete();
+
+        $this->assertDatabaseMissing('tasks', [
+            'project_id' => $project->id
+        ]);
     }
 }

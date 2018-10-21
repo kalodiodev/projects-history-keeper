@@ -35,6 +35,7 @@ class Project extends Model
 
         static::deleting(function ($project) {
             $project->tags()->detach();
+            $project->tasks()->delete();
         });
     }
 
