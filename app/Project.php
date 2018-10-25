@@ -58,4 +58,14 @@ class Project extends Model
     {
         return $this->hasMany(Task::class);
     }
+
+    /**
+     * A project has many images
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function images()
+    {
+        return $this->morphToMany(Image::class, 'imageable');
+    }
 }

@@ -51,5 +51,23 @@
             </div>
         </div>
 
+        <div class="row pt-5">
+            <div class="col-md-10 offset-md-2">
+                <h2>Images</h2>
+
+                <form method="post"
+                      action="{{ route('project.image.store', ['project' => $project->id]) }}"
+                      enctype=multipart/form-data
+                >
+                    @csrf
+
+                    <div class="form-group">
+                        <input name="image" class="form-control-file" type="file">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add Image</button>
+                </form>
+            </div>
+        </div>
+
     </div>
 @endsection
