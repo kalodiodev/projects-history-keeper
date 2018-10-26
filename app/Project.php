@@ -28,7 +28,11 @@ class Project extends Model
         'user_id' => 'int',
     ];
 
-
+    /**
+     * The "booting" method of the model.
+     *
+     * @return void
+     */
     public static function boot()
     {
         parent::boot();
@@ -36,6 +40,7 @@ class Project extends Model
         static::deleting(function ($project) {
             $project->tags()->detach();
             $project->tasks()->delete();
+            $project->images()->delete();
         });
     }
 
@@ -66,6 +71,6 @@ class Project extends Model
      */
     public function images()
     {
-        return $this->morphToMany(Image::class, 'imageable');
+        return $this->morphMany(Image::class, 'imageable');
     }
 }

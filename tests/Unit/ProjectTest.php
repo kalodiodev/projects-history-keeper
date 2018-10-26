@@ -2,9 +2,10 @@
 
 namespace Tests\Unit;
 
-use App\Project;
 use App\Tag;
 use App\Task;
+use App\Image;
+use App\Project;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -85,6 +86,32 @@ class ProjectTest extends TestCase
 
         $this->assertDatabaseMissing('tasks', [
             'project_id' => $project->id
+        ]);
+    }
+
+    /** @test */
+    public function a_project_may_have_many_images()
+    {
+        $project = make(Project::class);
+
+        $this->assertInstanceOf(
+            'Illuminate\Database\Eloquent\Collection', $project->images
+        );
+    }
+
+    /** @test */
+    public function deleting_a_project_should_also_delete_its_images()
+    {
+        $project = create(Project::class);
+        $image = create(Image::class, [
+            'imageable_type' => Project::class, 
+            'imageable_id' => $project->id
+        ]);
+        
+        $project->delete();
+
+        $this->assertDatabaseMissing('images', [
+            'id' => $image->id
         ]);
     }
 }
