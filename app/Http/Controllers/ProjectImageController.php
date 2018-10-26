@@ -25,6 +25,8 @@ class ProjectImageController extends Controller
      */
     public function store(Project $project, Request $request)
     {
+        $this->isAuthorized('upload_image', $project);
+
         /** @var UploadedFile $stored_image */
         $stored_image = $request->file('image')->store('images');
 

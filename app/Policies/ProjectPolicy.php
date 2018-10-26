@@ -2,8 +2,8 @@
 
 namespace App\Policies;
 
-use App\Project;
 use App\User;
+use App\Project;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class ProjectPolicy
@@ -78,5 +78,21 @@ class ProjectPolicy
     public function view_all(User $user)
     {
         return $user->hasPermission('project-view-any');
+    }
+
+    /**
+     * Determine whether the user can store image to project
+     *
+     * @param User $user
+     * @param Project $project
+     * @return bool
+     */
+    public function upload_image(User $user, Project $project)
+    {
+        if($user->hasPermission('image-store-any-project')) {
+            return true;
+        }
+
+        return $user->ownsProject($project);
     }
 }

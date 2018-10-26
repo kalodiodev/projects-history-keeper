@@ -16,6 +16,9 @@ class PermissionsTableSeedeer extends Seeder
         ['name' => 'project-delete-any', 'label' => 'User can delete any project'],
         ['name' => 'project-view-any', 'label' => 'User can view any project'],
 
+        // Project Image
+        ['name' => 'image-store-any-project', 'label' => 'User can upload image to any project'],
+
         // Task
         ['name' => 'task-create-any', 'label' => 'User can create a task to any project'],
         ['name' => 'task-update-any', 'label' => 'User can update any task'],
