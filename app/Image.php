@@ -12,8 +12,19 @@ class Image extends Model
      * @var array
      */
     protected $fillable = [
-        'url'
+        'file',
+        'path'
     ];
+
+    /**
+     * Get the route key for the model.
+     *
+     * @return string
+     */
+    public function getRouteKeyName()
+    {
+        return 'file';
+    }
 
     /**
      * Get imageable model
@@ -23,5 +34,15 @@ class Image extends Model
     public function imageable()
     {
         return $this->morphTo();
+    }
+
+    /**
+     * Get Image full path
+     *
+     * @return string
+     */
+    public function fullpath()
+    {
+        return $this->path . $this->file;
     }
 }

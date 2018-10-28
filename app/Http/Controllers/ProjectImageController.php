@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Project;
 use Illuminate\Http\Request;
-use Illuminate\Http\UploadedFile;
 
 class ProjectImageController extends Controller
 {
@@ -27,11 +26,11 @@ class ProjectImageController extends Controller
     {
         $this->isAuthorized('upload_image', $project);
 
-        /** @var UploadedFile $stored_image */
         $stored_image = $request->file('image')->store('images');
 
         $project->images()->create([
-            'url' => $stored_image
+            'file' => ltrim($stored_image, 'images/'),
+            'path' => 'images/'
         ]);
 
         session()->flash('message', 'Image stored successfully');
