@@ -19,6 +19,10 @@ class Project extends Model
         'description'
     ];
 
+    protected $with = [
+        'images'
+    ];
+
     /**
      * The attributes that should be cast to native types.
      *

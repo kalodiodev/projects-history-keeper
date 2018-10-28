@@ -55,6 +55,14 @@
             <div class="col-md-10 offset-md-2">
                 <h2>Images</h2>
 
+                <div class="row">
+                    @foreach($project->images as $image)
+                    <div class="col-md-3">
+                        <img src="{{ route('image.show', ['image' => $image->file]) }}" height="250">
+                    </div>
+                    @endforeach
+                </div>
+
                 <form method="post"
                       action="{{ route('project.image.store', ['project' => $project->id]) }}"
                       enctype=multipart/form-data
@@ -64,7 +72,7 @@
                     <div class="form-group">
                         <input name="image" class="form-control-file" type="file">
                     </div>
-                    <button type="submit" class="btn btn-primary">Add Image</button>
+                    <button type="submit" class="btn btn-primary">Upload Image</button>
                 </form>
             </div>
         </div>
