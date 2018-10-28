@@ -31,7 +31,7 @@ class ProjectImagesTest extends IntegrationTestCase
             ->assertSessionHas('message');
 
         $this->assertEquals(1, Image::all()->count());
-        Storage::disk('testfs')->assertExists('images/' . Image::first()->url);
+        Storage::disk('testfs')->assertExists(Image::first()->fullpath());
     }
 
     /** @test */
