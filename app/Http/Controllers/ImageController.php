@@ -29,4 +29,22 @@ class ImageController extends Controller
 
         return response()->file(Storage::path($image->fullpath()));
     }
+
+    /**
+     * Delete Image
+     *
+     * @param Image $image
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function destroy(Image $image)
+    {
+        if(! Storage::has($image->fullpath())) {
+            abort(404);
+        }
+
+        Storage::delete($image->fullpath());
+        $image->delete();
+
+        return redirect()->back();
+    }
 }

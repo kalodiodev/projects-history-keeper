@@ -59,10 +59,18 @@
                     @foreach($project->images as $image)
                     <div class="col-md-3">
                         <img src="{{ route('image.show', ['image' => $image->file]) }}" height="250">
+
+                        {{-- Delete Image --}}
+                        <form method="post" action="{{ route('image.destroy', ['image' => $image->file]) }}">
+                            @csrf
+                            {{ method_field('DELETE') }}
+                            <button class="btn btn-danger" type="submit">Delete</button>
+                        </form>
                     </div>
                     @endforeach
                 </div>
 
+                {{-- Upload Image --}}
                 <form method="post"
                       action="{{ route('project.image.store', ['project' => $project->id]) }}"
                       enctype=multipart/form-data
