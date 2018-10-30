@@ -23,6 +23,8 @@ class ImageController extends Controller
      */
     public function show(Image $image)
     {
+        $this->isAuthorized('view', $image->imageable);
+
         if(! Storage::has($image->fullpath())) {
             abort(404);
         }
@@ -38,6 +40,8 @@ class ImageController extends Controller
      */
     public function destroy(Image $image)
     {
+        $this->isAuthorized('delete', $image->imageable);
+
         if(! Storage::has($image->fullpath())) {
             abort(404);
         }
