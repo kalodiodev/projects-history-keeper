@@ -37,6 +37,21 @@
                                 {{ method_field('DELETE') }}
                             </form>
                         </div>
+
+                        <h4>Images</h4>
+                        <hr>
+                        {{-- Upload Image --}}
+                        <form method="post"
+                              action="{{ route('guide.image.store', ['guide' => $guide->id]) }}"
+                              enctype=multipart/form-data
+                        >
+                            @csrf
+
+                            <div class="form-group">
+                                <input name="image" class="form-control-file" type="file">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Upload Image</button>
+                        </form>
                     </div>
                 </div>
             </div>

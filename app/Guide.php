@@ -41,4 +41,14 @@ class Guide extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+
+    /**
+     * A guide has many images
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function images()
+    {
+        return $this->morphMany(Image::class, 'imageable');
+    }
 }
