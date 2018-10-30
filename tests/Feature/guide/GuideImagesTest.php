@@ -43,4 +43,29 @@ class GuideImagesTest extends IntegrationTestCase
         $this->post(route('guide.image.store', ['guide' => $guide->id]), ['image' => $this->image])
             ->assertRedirect(route('login'));
     }
+
+    /** @test */
+    public function an_unauthorized_user_cannot_upload_image_to_other_users_guide()
+    {
+        $this->signInDefault();
+
+        $guide = create(Guide::class);
+
+        $this->post(route('guide.image.store', ['guide' => $guide->id]), ['image' => $this->image])
+            ->assertStatus(403);
+    }
+
+    /** @test */
+    public function an_authorized_user_can_upload_image_to_any_guide()
+    {
+        $this->signInAdmin();
+
+        $guide = create(Guide::class);
+
+        $this->post(route('guide.image.store', ['guide' => $guide->id]), ['image' => $this->image])
+            ->assertRedirect(route('guide.show', ['guide' => $guide->id]))
+            ->assertSessionHas('message');
+
+        $this->assertEquals(1, Image::all()->count());
+    }
 }

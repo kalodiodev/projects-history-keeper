@@ -25,6 +25,8 @@ class GuideImageController extends Controller
      */
     public function store(Guide $guide, Request $request)
     {
+        $this->isAuthorized('update', $guide);
+        
         $stored_image = $request->file('image')->store('images');
 
         $guide->images()->create([
