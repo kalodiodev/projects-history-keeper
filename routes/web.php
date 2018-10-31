@@ -118,3 +118,8 @@ Route::delete('/snippet/{snippet}', 'SnippetController@destroy')->name('snippet.
  */
 Route::get('/image/{image}', 'ImageController@show')->name('image.show');
 Route::delete('/image/{image}', 'ImageController@destroy')->name('image.destroy');
+
+/*
+ * Role Routes
+ */
+Route::get('/roles', 'RoleController@index')->name('role.index');
