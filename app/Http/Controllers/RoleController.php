@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 
 class RoleController extends Controller
 {
+    /**
+     * RoleController constructor.
+     */
     public function __construct()
     {
         $this->middleware('auth');
@@ -19,6 +22,8 @@ class RoleController extends Controller
      */
     public function index()
     {
+        $this->isAuthorized('view', Role::class);
+        
         $roles = Role::paginate(14);
 
         return view('role.index', compact('roles'));

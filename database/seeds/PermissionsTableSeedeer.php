@@ -37,7 +37,10 @@ class PermissionsTableSeedeer extends Seeder
         // Snippet
         ['name' => 'snippet-view-any', 'label' => 'User can view any snippet'],
         ['name' => 'snippet-update-any', 'label' => 'User can update any snippet'],
-        ['name' => 'snippet-delete-any', 'label' => 'User can delete any snippet']
+        ['name' => 'snippet-delete-any', 'label' => 'User can delete any snippet'],
+
+        // Role
+        ['name' => 'role-view', 'label' => 'User can view a role'],
     ];
 
     private $default_actions = [

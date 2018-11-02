@@ -7,7 +7,7 @@ use Tests\IntegrationTestCase;
 class RoleIndexTest extends IntegrationTestCase
 {
     /** @test */
-    public function a_user_can_view_roles_index()
+    public function an_authorized_user_can_view_roles_index()
     {
         $this->signInAdmin();
 
@@ -21,5 +21,14 @@ class RoleIndexTest extends IntegrationTestCase
     {
         $this->get(route('role.index'))
             ->assertRedirect(route('login'));
+    }
+    
+    /** @test */
+    public function an_unauthorized_user_cannot_view_roles_index()
+    {
+        $this->signInRestricted();
+        
+        $this->get(route('role.index'))
+            ->assertStatus(403);
     }
 }
