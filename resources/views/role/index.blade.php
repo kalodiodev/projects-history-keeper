@@ -36,7 +36,7 @@
         </div>
 
         <div class="text-right mt-5">
-            <a href="" class="btn btn-primary">Add Role</a>
+            <a href="{{ route('role.create') }}" class="btn btn-primary">Add Role</a>
         </div>
     </div>
 @endsection

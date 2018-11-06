@@ -28,4 +28,14 @@ class RoleController extends Controller
 
         return view('role.index', compact('roles'));
     }
+
+    /**
+     * Create Role
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function create()
+    {
+        return view('role.create');
+    }
 }

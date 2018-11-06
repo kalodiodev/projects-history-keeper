@@ -4,7 +4,7 @@ use App\Role;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class PermissionsTableSeedeer extends Seeder
+class PermissionsTableSeeder extends Seeder
 {
     private $admin_actions = [
         // User
@@ -45,7 +45,7 @@ class PermissionsTableSeedeer extends Seeder
 
     private $default_actions = [
         // Project
-        ['name' => 'project-create', 'label' => 'Create a project'],
+        ['name' => 'project-create', 'label' => 'Use can create a project'],
         ['name' => 'project-update', 'label' => 'User can update own project'],
         ['name' => 'project-delete', 'label' => 'User can delete own project'],
         ['name' => 'project-view', 'label' => 'User can view own project'],
