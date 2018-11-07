@@ -124,3 +124,4 @@ Route::delete('/image/{image}', 'ImageController@destroy')->name('image.destroy'
  */
 Route::get('/roles', 'RoleController@index')->name('role.index');
 Route::get('/role/create', 'RoleController@create')->name('role.create');
+Route::post('/role', 'RoleController@store')->name('role.store');

@@ -38,4 +38,18 @@ class RoleController extends Controller
     {
         return view('role.create');
     }
+
+    /**
+     * Store Role
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function store(Request $request)
+    {
+        $role = Role::create($request->only(['name', 'label']));
+        $role->grantPermissions(array_keys($request->except(['name', 'label'])));
+
+        return redirect()->route('role.index');
+    }
 }

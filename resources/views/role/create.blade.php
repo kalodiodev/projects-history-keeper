@@ -8,7 +8,7 @@
 
         <div class="row">
             <div class="col-md-12">
-                <form method="POST" action="">
+                <form method="POST" action="{{ route('role.store') }}">
                     @csrf
 
                     <div class="form-group">
@@ -28,7 +28,7 @@
                             <h4>User</h4>
                             @foreach(\App\Permission::where('name','like','%project%')->get() as $permission)
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="{{ $permission->name }}">
+                                    <input class="form-check-input" type="checkbox" name="{{ $permission->name }}">
                                     <label class="form-check-label" for="{{ $permission->name }}">{{ $permission->label }}</label>
                                 </div>
                             @endforeach
@@ -37,7 +37,7 @@
                             <h4>Profile</h4>
                             @foreach(\App\Permission::where('name','like','%profile%')->get() as $permission)
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="{{ $permission->name }}">
+                                    <input class="form-check-input" type="checkbox" name="{{ $permission->name }}">
                                     <label class="form-check-label" for="{{ $permission->name }}">{{ $permission->label }}</label>
                                 </div>
                             @endforeach
@@ -47,7 +47,7 @@
                             <h4>Role</h4>
                             @foreach(\App\Permission::where('name','like','%role%')->get() as $permission)
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="{{ $permission->name }}">
+                                    <input class="form-check-input" type="checkbox" name="{{ $permission->name }}">
                                     <label class="form-check-label" for="{{ $permission->name }}">{{ $permission->label }}</label>
                                 </div>
                             @endforeach
@@ -57,7 +57,7 @@
                             <h4>Project</h4>
                             @foreach(\App\Permission::where('name','like','%project%')->get() as $permission)
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="{{ $permission->name }}">
+                                    <input class="form-check-input" type="checkbox" name="{{ $permission->name }}">
                                     <label class="form-check-label" for="{{ $permission->name }}">{{ $permission->label }}</label>
                                 </div>
                             @endforeach
@@ -67,7 +67,7 @@
                             <h4>Tag</h4>
                             @foreach(\App\Permission::where('name','like','%tag%')->get() as $permission)
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="{{ $permission->name }}">
+                                    <input class="form-check-input" type="checkbox" name="{{ $permission->name }}">
                                     <label class="form-check-label" for="{{ $permission->name }}">{{ $permission->label }}</label>
                                 </div>
                             @endforeach
@@ -77,7 +77,7 @@
                             <h4>Task</h4>
                             @foreach(\App\Permission::where('name','like','%task%')->get() as $permission)
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="{{ $permission->name }}">
+                                    <input class="form-check-input" type="checkbox" name="{{ $permission->name }}">
                                     <label class="form-check-label" for="{{ $permission->name }}">{{ $permission->label }}</label>
                                 </div>
                             @endforeach
@@ -87,7 +87,7 @@
                             <h4>Guide</h4>
                             @foreach(\App\Permission::where('name','like','%guide%')->get() as $permission)
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="{{ $permission->name }}">
+                                    <input class="form-check-input" type="checkbox" name="{{ $permission->name }}">
                                     <label class="form-check-label" for="{{ $permission->name }}">{{ $permission->label }}</label>
                                 </div>
                             @endforeach
@@ -97,7 +97,7 @@
                             <h4>Snippet</h4>
                             @foreach(\App\Permission::where('name','like','%snippet%')->get() as $permission)
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="{{ $permission->name }}">
+                                    <input class="form-check-input" type="checkbox" name="{{ $permission->name }}">
                                     <label class="form-check-label" for="{{ $permission->name }}">{{ $permission->label }}</label>
                                 </div>
                             @endforeach
