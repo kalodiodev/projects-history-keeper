@@ -3,12 +3,13 @@
 @section('content')
     <div class="container">
 
-        <h1>Create Role</h1>
-        <p>Create a new role</p>
+        <h1>Edit Role</h1>
+        <p>Edit role <strong>{{ $role->name }}</strong></p>
 
         <div class="row">
             <div class="col-md-12">
-                <form method="POST" action="{{ route('role.store') }}">
+                <form method="POST" action="">
+                    {{ method_field('PATCH') }}
                     @csrf
 
                     @include('role._form')
