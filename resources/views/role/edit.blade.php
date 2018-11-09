@@ -8,7 +8,7 @@
 
         <div class="row">
             <div class="col-md-12">
-                <form method="POST" action="">
+                <form method="POST" action="{{ route('role.update', ['role' => $role->id]) }}">
                     {{ method_field('PATCH') }}
                     @csrf
 

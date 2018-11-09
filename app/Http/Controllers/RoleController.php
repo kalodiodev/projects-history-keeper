@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Role;
-use App\Permission;
 use Illuminate\Http\Request;
 
 class RoleController extends Controller
@@ -48,9 +47,8 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
-        $permissions = Permission::all()->pluck('name')->toArray();
         $role = Role::create($request->only(['name', 'label']));
-        $role->grantPermissions(array_keys($request->only($permissions)));
+        $role->permissions()->sync($request->permissions);
 
         return redirect()->route('role.index');
     }
@@ -63,8 +61,23 @@ class RoleController extends Controller
      */
     public function edit(Role $role)
     {
-        $role_permissions = $role->permissions->pluck('name')->toArray();
+        $role_permissions = $role->permissions->pluck('id')->toArray();
 
         return view('role.edit', compact('role', 'role_permissions'));
+    }
+
+    /**
+     * Update Role
+     *
+     * @param Role $role
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function update(Role $role, Request $request)
+    {
+        $role->update($request->only(['name', 'label']));
+        $role->permissions()->sync($request->permissions);
+
+        return redirect()->route('role.index');
     }
 }

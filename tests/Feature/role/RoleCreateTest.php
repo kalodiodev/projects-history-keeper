@@ -32,7 +32,7 @@ class RoleCreateTest extends IntegrationTestCase
         $role = make(Role::class);
         
         $data = array_merge($role->toArray(), [
-            'project-update-any' => 'on'
+            'permissions' => ['3']
         ]);
         
         $this->post(route('role.store'), $data)
