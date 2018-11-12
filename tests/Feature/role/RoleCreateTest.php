@@ -28,23 +28,19 @@ class RoleCreateTest extends IntegrationTestCase
     public function a_user_can_store_a_role()
     {
         $this->signInAdmin();
-        
-        $role = make(Role::class);
-        
-        $data = array_merge($role->toArray(), [
-            'permissions' => ['3']
-        ]);
-        
-        $this->post(route('role.store'), $data)
+
+        $role_name = 'TestRole';
+        $permissions = [3];
+
+        $this->post_role(['name' => $role_name], $permissions)
             ->assertRedirect(route('role.index'));
         
-        $fresh = Role::where('name', $role->name)->firstOrFail();
-        
         $this->assertDatabaseHas('roles', [
-            'name' => $role->name
+            'name' => $role_name
         ]);
-        
-        $this->assertEquals(1, $fresh->permissions->count());
+
+        $role = Role::where('name', $role_name)->firstOrFail();
+        $this->assertEquals(1, $role->permissions->count());
     }
     
     /** @test */
@@ -54,5 +50,52 @@ class RoleCreateTest extends IntegrationTestCase
         
         $this->post(route('role.store'), $role->toArray())
             ->assertRedirect(route('login'));
+    }
+    
+    /** @test */
+    public function a_role_requires_a_name()
+    {
+        $this->signInAdmin();
+        
+        $this->post_role(['name' => ''])
+            ->assertSessionHasErrors(['name']);
+    }
+    
+    /** @test */
+    public function role_name_must_be_unique()
+    {
+        $this->signInAdmin();
+        
+        create(Role::class, ['name' => 'Test']);
+
+        $this->post_role(['name' => 'Test'])
+            ->assertSessionHasErrors(['name']);
+    }
+
+    /** @test */
+    public function a_role_requires_a_label()
+    {
+        $this->signInAdmin();
+        
+        $this->post_role(['label' => ''])
+            ->assertSessionHasErrors(['label']);
+    }
+
+    /**
+     * Post a new role
+     *
+     * @param array $overrides role overrides
+     * @param array $permissions_ids role permissions ids
+     * @return \Illuminate\Foundation\Testing\TestResponse
+     */
+    protected function post_role($overrides = [], $permissions_ids = [])
+    {
+        $role = make(Role::class, $overrides);
+        
+        $data = array_merge($role->toArray(), [
+            'permissions' => $permissions_ids
+        ]);
+
+        return $this->post(route('role.store'), $data);
     }
 }

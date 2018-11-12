@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Role;
 use Illuminate\Http\Request;
+use App\Http\Requests\RoleRequest;
 
 class RoleController extends Controller
 {
@@ -42,10 +43,10 @@ class RoleController extends Controller
     /**
      * Store Role
      *
-     * @param Request $request
+     * @param RoleRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request)
+    public function store(RoleRequest $request)
     {
         $role = Role::create($request->only(['name', 'label']));
         $role->permissions()->sync($request->permissions);
