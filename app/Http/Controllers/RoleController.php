@@ -65,6 +65,8 @@ class RoleController extends Controller
      */
     public function edit(Role $role)
     {
+        $this->isAuthorized('update', Role::class);
+        
         $role_permissions = $role->permissions->pluck('id')->toArray();
 
         return view('role.edit', compact('role', 'role_permissions'));
@@ -79,6 +81,8 @@ class RoleController extends Controller
      */
     public function update(Role $role, RoleRequest $request)
     {
+        $this->isAuthorized('update', Role::class);
+        
         $role->update($request->only(['name', 'label']));
         $role->permissions()->sync($request->permissions);
 

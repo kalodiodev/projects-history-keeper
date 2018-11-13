@@ -8,7 +8,7 @@ use Tests\IntegrationTestCase;
 class RoleEditTest extends IntegrationTestCase
 {
     /** @test */
-    public function a_user_can_view_role_edit_page()
+    public function an_authorized_user_can_view_role_edit_page()
     {
         $this->signInAdmin();
         
@@ -91,6 +91,20 @@ class RoleEditTest extends IntegrationTestCase
         // Updating a role without changing name
         $this->patch(route('role.update', ['role' => $role->id]), $this->updateData(['name' => 'Test2']))
             ->assertSessionHasNoErrors();
+    }
+    
+    /** @test */
+    public function an_unauthorized_user_cannot_edit_role()
+    {
+        $this->signInDefault();
+
+        $role = create(Role::class);
+        
+        $this->get(route('role.edit', ['role' => $role->id]))
+            ->assertStatus(403);
+
+        $this->patch(route('role.update', ['role' => $role->id]), $this->updateData())
+            ->assertStatus(403);
     }
 
     protected function updateData($overrides = [])

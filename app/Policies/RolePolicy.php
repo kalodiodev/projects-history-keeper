@@ -17,7 +17,7 @@ class RolePolicy
      */
     public function view(User $user)
     {
-        return $user->hasPermission('role-view') || $this->create($user);
+        return $user->hasPermission('role-view') || $this->create($user) || $this->update($user);
     }
 
     /**
@@ -29,5 +29,16 @@ class RolePolicy
     public function create(User $user)
     {
         return $user->hasPermission('role-create');
+    }
+
+    /**
+     * Determine whether the user has permission to update a role
+     *
+     * @param User $user
+     * @return bool
+     */
+    public function update(User $user)
+    {
+        return $user->hasPermission('role-update');
     }
 }
