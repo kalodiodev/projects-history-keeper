@@ -36,6 +36,8 @@ class RoleController extends Controller
      */
     public function create()
     {
+        $this->isAuthorized('create', Role::class);
+
         return view('role.create');
     }
 
@@ -47,6 +49,8 @@ class RoleController extends Controller
      */
     public function store(RoleRequest $request)
     {
+        $this->isAuthorized('create', Role::class);
+        
         $role = Role::create($request->only(['name', 'label']));
         $role->permissions()->sync($request->permissions);
 

@@ -41,6 +41,7 @@ class PermissionsTableSeeder extends Seeder
 
         // Role
         ['name' => 'role-view', 'label' => 'User can view a role'],
+        ['name' => 'role-create', 'label' => 'User can create a role']
     ];
 
     private $default_actions = [

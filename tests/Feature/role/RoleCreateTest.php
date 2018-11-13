@@ -8,7 +8,7 @@ use Tests\IntegrationTestCase;
 class RoleCreateTest extends IntegrationTestCase
 {
     /** @test */
-    public function a_user_can_view_create_role_page()
+    public function an_authorized_user_can_view_create_role_page()
     {
         $this->signInAdmin();
 
@@ -79,6 +79,16 @@ class RoleCreateTest extends IntegrationTestCase
         
         $this->post_role(['label' => ''])
             ->assertSessionHasErrors(['label']);
+    }
+    
+    /** @test */
+    public function an_unauthorized_user_cannot_create_a_role()
+    {
+        $this->signInDefault();
+
+        $this->get(route('role.create'))->assertStatus(403);
+        
+        $this->post_role()->assertStatus(403);
     }
 
     /**
