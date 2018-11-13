@@ -34,9 +34,11 @@
                         <a class="nav-link" href="{{ route('user.index') }}">Users</a>
                     </li>
                 @endcan
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('role.index') }}">Roles</a>
-                </li>
+                @can('view', App\Role::class)
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('role.index') }}">Roles</a>
+                    </li>
+                @endcan
                 @can('manage', App\Tag::class)
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('tag.index') }}">Tags</a>
