@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Role;
-use Illuminate\Http\Request;
 use App\Http\Requests\RoleRequest;
 
 class RoleController extends Controller
@@ -71,10 +70,10 @@ class RoleController extends Controller
      * Update Role
      *
      * @param Role $role
-     * @param Request $request
+     * @param RoleRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(Role $role, Request $request)
+    public function update(Role $role, RoleRequest $request)
     {
         $role->update($request->only(['name', 'label']));
         $role->permissions()->sync($request->permissions);

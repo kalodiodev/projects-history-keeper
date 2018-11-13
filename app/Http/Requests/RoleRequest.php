@@ -23,9 +23,17 @@ class RoleRequest extends FormRequest
      */
     public function rules()
     {
-        return [
+        $rules = [
             'name'  => 'required|unique:roles',
             'label' => 'required'
         ];
+
+        if($this->method() == 'PATCH') {
+            $role = $this->route()->parameter('role');
+
+            $rules['name'] = 'required|unique:roles,name,' . $role->id;
+        }
+
+        return $rules;
     }
 }

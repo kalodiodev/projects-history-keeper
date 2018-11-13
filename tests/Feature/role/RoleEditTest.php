@@ -55,10 +55,49 @@ class RoleEditTest extends IntegrationTestCase
             ->assertRedirect(route('login'));
     }
 
+    /** @test */
+    public function a_role_requires_a_name()
+    {
+        $this->signInAdmin();
+
+        $role = create(Role::class);
+
+        $this->patch(route('role.update', ['role' => $role->id]), $this->updateData(['name' => '']))
+            ->assertSessionHasErrors(['name']);
+    }
+
+    /** @test */
+    public function a_role_requires_a_label()
+    {
+        $this->signInAdmin();
+
+        $role = create(Role::class);
+
+        $this->patch(route('role.update', ['role' => $role->id]), $this->updateData(['label' => '']))
+            ->assertSessionHasErrors(['label']);
+    }
+
+    /** @test */
+    public function role_name_must_be_unique()
+    {
+        $this->signInAdmin();
+
+        create(Role::class, ['name' => 'Test']);
+        $role = create(Role::class, ['name' => 'Test2']);
+
+        $this->patch(route('role.update', ['role' => $role->id]), $this->updateData(['name' => 'Test']))
+            ->assertSessionHasErrors(['name']);
+
+        // Updating a role without changing name
+        $this->patch(route('role.update', ['role' => $role->id]), $this->updateData(['name' => 'Test2']))
+            ->assertSessionHasNoErrors();
+    }
+
     protected function updateData($overrides = [])
     {
         return array_merge([
             'name' => 'New Name',
+            'label' => 'New Label',
             'permissions' => [
                 '3'
             ]

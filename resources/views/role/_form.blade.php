@@ -1,18 +1,32 @@
 <div class="form-group">
     <label for="name">Name</label>
-    <input class="form-control" name="name"
+    <input class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}"
+           name="name"
            value="@if(isset($role)){{ old('name', $role->name) }}@else{{ old('name')}}@endif">
+
+    @if ($errors->has('name'))
+        <div class="invalid-feedback">
+            {{ $errors->first('name') }}
+        </div>
+    @endif
 </div>
 
 <div class="form-group">
     <label for="label">Label</label>
-    <input class="form-control" name="label"
+    <input class="form-control{{ $errors->has('label') ? ' is-invalid' : '' }}"
+           name="label"
            value="@if(isset($role)){{ old('label', $role->label) }}@else{{ old('label') }}@endif">
+
+    @if ($errors->has('label'))
+        <div class="invalid-feedback">
+            {{ $errors->first('label') }}
+        </div>
+    @endif
 </div>
 
 <h3>Permissions</h3>
 
-<div class="row">
+<div class="form-row">
     {{-- User Permissions --}}
     <div class="col-md-4 mt-3">
         <h4>User</h4>
