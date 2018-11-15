@@ -88,4 +88,23 @@ class RoleController extends Controller
 
         return redirect()->route('role.index');
     }
+
+    /**
+     * Delete Role
+     * 
+     * @param Role $role
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Exception
+     */
+    public function destroy(Role $role)
+    {
+        if(! $role->isAssigned()) {
+            $role->delete();
+            session()->flash('message', 'Role deleted successfully');
+        } else {
+            session()->flash('error-message', 'Role is assigned to Users, cannot be deleted');
+        }
+        
+        return redirect()->route('role.index');
+    }
 }

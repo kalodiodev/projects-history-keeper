@@ -87,4 +87,14 @@ class Role extends Model
     {
         return $this->users()->save($user);
     }
+
+    /**
+     * Determine if role is assigned to any user
+     * 
+     * @return bool
+     */
+    public function isAssigned()
+    {
+        return $this->users->count() >  0;
+    }
 }

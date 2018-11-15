@@ -23,8 +23,23 @@
                     <td>{{ $role->name }}</td>
                     <td>{{ $role->label }}</td>
                     <td>
+                        {{-- Edit Role Button --}}
                         <a class="btn btn-warning" href="{{ route('role.edit', ['role' => $role->id]) }}">Edit</a>
-                        <a class="btn btn-danger"  href="">Delete</a>
+
+                        {{-- Delete Role Button --}}
+                        <a class="btn btn-danger"
+                           onclick="event.preventDefault();
+                           document.getElementById('role-delete-form-{{ $role->id }}').submit();"
+                           href="{{ route('role.destroy', ['role' => $role->id]) }}">Delete</a>
+
+                        {{-- Delete Role Hidden Form --}}
+                        <form id="role-delete-form-{{ $role->id }}"
+                              method="post"
+                              action="{{ route('role.destroy', ['role' => $role->id]) }}"
+                              style="display: none;">
+                            @csrf
+                            {{ method_field('DELETE') }}
+                        </form>
                     </td>
                 </tr>
             @endforeach

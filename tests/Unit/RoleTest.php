@@ -2,9 +2,9 @@
 
 namespace Tests\Unit;
 
-use App\Permission;
 use App\Role;
 use App\User;
+use App\Permission;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -70,5 +70,17 @@ class RoleTest extends TestCase
         $role->grantPermissions($permissions = create(Permission::class, [], 4)->toArray());
         
         $this->assertEquals($role->permissions->count(), 4);
+    }
+
+    /** @test */
+    public function it_determines_whether_role_has_been_assigned_to_any_user()
+    {
+        $role = create(Role::class);
+        
+        $this->assertFalse($role->fresh()->isAssigned());
+        
+        create(User::class, ['role_id' => $role->id]);
+        
+        $this->assertTrue($role->fresh()->isAssigned());
     }
 }
