@@ -54,6 +54,8 @@ class RoleController extends Controller
         $role = Role::create($request->only(['name', 'label']));
         $role->permissions()->sync($request->permissions);
 
+        session()->flash('message', 'Role created successfully');
+
         return redirect()->route('role.index');
     }
 
@@ -85,6 +87,8 @@ class RoleController extends Controller
         
         $role->update($request->only(['name', 'label']));
         $role->permissions()->sync($request->permissions);
+
+        session()->flash('message', 'Role updated successfully');
 
         return redirect()->route('role.index');
     }

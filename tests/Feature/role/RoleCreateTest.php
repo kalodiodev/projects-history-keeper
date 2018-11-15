@@ -33,7 +33,8 @@ class RoleCreateTest extends IntegrationTestCase
         $permissions = [3];
 
         $this->post_role(['name' => $role_name], $permissions)
-            ->assertRedirect(route('role.index'));
+            ->assertRedirect(route('role.index'))
+            ->assertSessionHas('message');
         
         $this->assertDatabaseHas('roles', [
             'name' => $role_name

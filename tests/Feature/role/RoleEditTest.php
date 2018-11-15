@@ -36,7 +36,8 @@ class RoleEditTest extends IntegrationTestCase
         $role = create(Role::class);
         
         $this->patch(route('role.update', ['role' => $role->id]), $this->updateData())
-            ->assertRedirect(route('role.index'));
+            ->assertRedirect(route('role.index'))
+            ->assertSessionHas('message');
         
         $this->assertDatabaseHas('roles', [
             'id' => $role->id,
