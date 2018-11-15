@@ -48,4 +48,14 @@ class RoleDeleteTest extends IntegrationTestCase
         $this->assertDatabaseHas('roles', ['id' => $role->id]);
     }
 
+    /** @test */
+    public function an_unauthorized_user_cannot_delete_a_role()
+    {
+        $this->signInRestricted();
+        
+        $role = create(Role::class);
+        
+        $this->delete(route('role.destroy', ['role' => $role->id]))
+            ->assertStatus(403);
+    }
 }

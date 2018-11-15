@@ -98,13 +98,15 @@ class RoleController extends Controller
      */
     public function destroy(Role $role)
     {
+        $this->isAuthorized('delete', Role::class);
+        
         if(! $role->isAssigned()) {
             $role->delete();
             session()->flash('message', 'Role deleted successfully');
         } else {
             session()->flash('error-message', 'Role is assigned to Users, cannot be deleted');
         }
-        
+
         return redirect()->route('role.index');
     }
 }

@@ -41,4 +41,15 @@ class RolePolicy
     {
         return $user->hasPermission('role-update');
     }
+
+    /**
+     * Determine whether the user has permission to delete a role
+     * 
+     * @param User $user
+     * @return bool
+     */
+    public function delete(User $user)
+    {
+        return $user->hasPermission('role-delete');
+    }
 }
