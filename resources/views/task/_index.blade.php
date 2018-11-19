@@ -19,11 +19,11 @@
                     {{-- Delete Task Button --}}
                     <a class="btn btn-danger"
                        onclick="event.preventDefault();
-                               document.getElementById('task-delete-form').submit();"
+                               document.getElementById('task-delete-form-{{ $task->id }}').submit();"
                        href="{{ route('project.task.destroy', ['task' => $task->id]) }}">Delete</a>
 
                     {{-- Delete Task Hidden Form --}}
-                    <form id="task-delete-form"
+                    <form id="task-delete-form-{{ $task->id }}"
                           method="post"
                           action="{{ route('project.task.destroy', ['task' => $task->id]) }}"
                           style="display: none;">
