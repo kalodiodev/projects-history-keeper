@@ -24,11 +24,11 @@
                             {{-- Delete Tag Button --}}
                             <a class="btn btn-danger"
                                onclick="event.preventDefault();
-                               document.getElementById('tag-delete-form').submit();"
+                               document.getElementById('tag-delete-form-{{ $tag->id }}').submit();"
                                href="{{ route('tag.destroy', ['tag' => $tag->id]) }}">Delete</a>
 
                             {{-- Delete Tag Hidden Form --}}
-                            <form id="tag-delete-form"
+                            <form id="tag-delete-form-{{ $tag->id }}"
                                   method="post"
                                   action="{{ route('tag.destroy', ['tag' => $tag->id]) }}"
                                   style="display: none;">
