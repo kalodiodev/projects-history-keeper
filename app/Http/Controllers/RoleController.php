@@ -104,6 +104,10 @@ class RoleController extends Controller
     {
         $this->isAuthorized('delete', Role::class);
         
+        if($role->isLocked()) {
+            return abort(403);
+        }
+        
         if(! $role->isAssigned()) {
             $role->delete();
             session()->flash('message', 'Role deleted successfully');

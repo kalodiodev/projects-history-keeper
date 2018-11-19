@@ -6,8 +6,8 @@ use Illuminate\Support\Facades\DB;
 class RolesTableSeeder extends Seeder
 {
     private $roles = [
-        ['name' => 'admin', 'label' => 'Administrator'],
-        ['name' => 'default', 'label' => 'Default user']
+        ['name' => 'admin', 'label' => 'Administrator', 'locked' => true],
+        ['name' => 'default', 'label' => 'Default user', 'locked' => true]
     ];
 
     /**

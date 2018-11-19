@@ -83,4 +83,16 @@ class RoleTest extends TestCase
         
         $this->assertTrue($role->fresh()->isAssigned());
     }
+
+    /** @test */
+    public function it_determines_whether_role_is_locked()
+    {
+        $role = create(Role::class);
+        
+        $this->assertFalse($role->isLocked());
+
+        $role->locked = true;
+
+        $this->assertTrue($role->isLocked());
+    }
 }

@@ -58,4 +58,15 @@ class RoleDeleteTest extends IntegrationTestCase
         $this->delete(route('role.destroy', ['role' => $role->id]))
             ->assertStatus(403);
     }
+
+    /** @test */
+    public function a_locked_role_cannot_be_deleted()
+    {
+        $this->signInAdmin();
+
+        $role = create(Role::class, ['locked' => true]);
+
+        $this->delete(route('role.destroy', ['role' => $role->id]))
+            ->assertStatus(403);
+    }
 }

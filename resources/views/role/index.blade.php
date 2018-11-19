@@ -26,20 +26,22 @@
                         {{-- Edit Role Button --}}
                         <a class="btn btn-warning" href="{{ route('role.edit', ['role' => $role->id]) }}">Edit</a>
 
-                        {{-- Delete Role Button --}}
-                        <a class="btn btn-danger"
-                           onclick="event.preventDefault();
-                           document.getElementById('role-delete-form-{{ $role->id }}').submit();"
-                           href="{{ route('role.destroy', ['role' => $role->id]) }}">Delete</a>
+                        @if(! $role->isLocked())
+                            {{-- Delete Role Button --}}
+                            <a class="btn btn-danger"
+                               onclick="event.preventDefault();
+                               document.getElementById('role-delete-form-{{ $role->id }}').submit();"
+                               href="{{ route('role.destroy', ['role' => $role->id]) }}">Delete</a>
 
-                        {{-- Delete Role Hidden Form --}}
-                        <form id="role-delete-form-{{ $role->id }}"
-                              method="post"
-                              action="{{ route('role.destroy', ['role' => $role->id]) }}"
-                              style="display: none;">
-                            @csrf
-                            {{ method_field('DELETE') }}
-                        </form>
+                            {{-- Delete Role Hidden Form --}}
+                            <form id="role-delete-form-{{ $role->id }}"
+                                  method="post"
+                                  action="{{ route('role.destroy', ['role' => $role->id]) }}"
+                                  style="display: none;">
+                                @csrf
+                                {{ method_field('DELETE') }}
+                            </form>
+                        @endif
                     </td>
                 </tr>
             @endforeach

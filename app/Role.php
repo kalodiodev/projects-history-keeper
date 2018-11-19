@@ -13,7 +13,7 @@ class Role extends Model
      */
     protected $fillable = [
         'name',
-        'label'
+        'label',
     ];
     
     /**
@@ -96,5 +96,15 @@ class Role extends Model
     public function isAssigned()
     {
         return $this->users->count() >  0;
+    }
+
+    /**
+     * Determine if role is locked
+     *
+     * @return boolean
+     */
+    public function isLocked()
+    {
+        return $this->locked;
     }
 }
