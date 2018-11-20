@@ -93,6 +93,17 @@ class RoleEditTest extends IntegrationTestCase
         $this->patch(route('role.update', ['role' => $role->id]), $this->updateData(['name' => 'Test2']))
             ->assertSessionHasNoErrors();
     }
+
+    /** @test */
+    public function a_locked_role_cannot_be_updated()
+    {
+        $this->signInAdmin();
+
+        $role = create(Role::class, ['locked' => true]);
+
+        $this->patch(route('role.update', ['role' => $role->id]), $this->updateData())
+            ->assertStatus(403);
+    }
     
     /** @test */
     public function an_unauthorized_user_cannot_edit_role()

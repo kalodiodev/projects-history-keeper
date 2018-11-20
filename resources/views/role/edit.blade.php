@@ -14,7 +14,9 @@
 
                     @include('role._form')
 
-                    <button type="submit" class="mt-3 btn btn-primary">Store Role</button>
+                    @if(! $role->isLocked())
+                        <button type="submit" class="mt-3 btn btn-primary">Update Role</button>
+                    @endif
                 </form>
             </div>
         </div>

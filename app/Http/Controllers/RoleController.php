@@ -84,6 +84,10 @@ class RoleController extends Controller
     public function update(Role $role, RoleRequest $request)
     {
         $this->isAuthorized('update', Role::class);
+
+        if($role->isLocked()) {
+            return abort(403);
+        }
         
         $role->update($request->only(['name', 'label']));
         $role->permissions()->sync($request->permissions);
