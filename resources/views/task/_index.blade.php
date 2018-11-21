@@ -14,22 +14,29 @@
                 <td>{{ $task->title }}</td>
                 <td>{{ $task->description }}</td>
                 <td>
-                    <a href="{{ route('project.task.edit', ['task' => $task->id]) }}" class="btn btn-warning">Edit</a>
+                    @can('edit', $task)
+                        <a href="{{ route('project.task.edit', ['task' => $task->id]) }}"
+                           class="btn btn-warning">
+                            Edit
+                        </a>
+                    @endcan
 
-                    {{-- Delete Task Button --}}
-                    <a class="btn btn-danger"
-                       onclick="event.preventDefault();
-                               document.getElementById('task-delete-form-{{ $task->id }}').submit();"
-                       href="{{ route('project.task.destroy', ['task' => $task->id]) }}">Delete</a>
+                    @can('delete', $task)
+                        {{-- Delete Task Button --}}
+                        <a class="btn btn-danger"
+                           onclick="event.preventDefault();
+                                   document.getElementById('task-delete-form-{{ $task->id }}').submit();"
+                           href="{{ route('project.task.destroy', ['task' => $task->id]) }}">Delete</a>
 
-                    {{-- Delete Task Hidden Form --}}
-                    <form id="task-delete-form-{{ $task->id }}"
-                          method="post"
-                          action="{{ route('project.task.destroy', ['task' => $task->id]) }}"
-                          style="display: none;">
-                        @csrf
-                        {{ method_field('DELETE') }}
-                    </form>
+                        {{-- Delete Task Hidden Form --}}
+                        <form id="task-delete-form-{{ $task->id }}"
+                              method="post"
+                              action="{{ route('project.task.destroy', ['task' => $task->id]) }}"
+                              style="display: none;">
+                            @csrf
+                            {{ method_field('DELETE') }}
+                        </form>
+                    @endcan
                 </td>
             </tr>
         @endforeach

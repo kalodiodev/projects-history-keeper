@@ -62,11 +62,14 @@ class ProjectPolicy
      */
     public function view(User $user, Project $project)
     {
-        if($user->hasPermission('project-view-any')) {
+        if($user->hasPermission('project-view-any') ||
+            $user->hasPermission('project-update-any') ||
+            $user->hasPermission('project-delete-any'))
+        {
             return true;
         }
         
-        return (($user->hasPermission('project-view')) && ($user->ownsProject($project)));
+        return ($user->hasPermission('project-view')) && ($user->ownsProject($project));
     }
 
     /**
@@ -77,7 +80,9 @@ class ProjectPolicy
      */
     public function view_all(User $user)
     {
-        return $user->hasPermission('project-view-any');
+        return $user->hasPermission('project-view-any') ||
+            $user->hasPermission('project-update-any') ||
+            $user->hasPermission('project-delete-any');
     }
 
     /**

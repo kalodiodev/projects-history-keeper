@@ -11,24 +11,28 @@
         </p>
 
         <div>
-            {{-- Edit Project Button --}}
-            <a class="btn btn-warning"
-               href="{{ route('project.edit', ['project' => $project->id]) }}">Edit</a>
+            @can('update', $project)
+                {{-- Edit Project Button --}}
+                <a class="btn btn-warning"
+                   href="{{ route('project.edit', ['project' => $project->id]) }}">Edit</a>
+            @endcan
 
-            {{-- Delete Project Button --}}
-            <a class="btn btn-danger"
-               onclick="event.preventDefault();
-                               document.getElementById('project-delete-form').submit();"
-               href="{{ route('project.destroy', ['project' => $project->id]) }}">Delete</a>
+            @can('delete', $project)
+                {{-- Delete Project Button --}}
+                <a class="btn btn-danger"
+                   onclick="event.preventDefault();
+                                   document.getElementById('project-delete-form').submit();"
+                   href="{{ route('project.destroy', ['project' => $project->id]) }}">Delete</a>
 
-            {{-- Delete Project Hidden Form --}}
-            <form id="project-delete-form"
-                  method="post"
-                  action="{{ route('project.destroy', ['project' => $project->id]) }}"
-                  style="display: none;">
-                @csrf
-                {{ method_field('DELETE') }}
-            </form>
+                {{-- Delete Project Hidden Form --}}
+                <form id="project-delete-form"
+                      method="post"
+                      action="{{ route('project.destroy', ['project' => $project->id]) }}"
+                      style="display: none;">
+                    @csrf
+                    {{ method_field('DELETE') }}
+                </form>
+            @endcan
         </div>
         <hr>
 
@@ -47,7 +51,10 @@
 
                 @include('task._index', ['tasks' => $project->tasks()->paginate(25)])
 
-                <a class="btn btn-primary" href="{{ route('project.task.create', ['project' => $project->id]) }}">Add Task</a>
+                @can('create', [\App\Task::class, $project])
+                    <a class="btn btn-primary"
+                       href="{{ route('project.task.create', ['project' => $project->id]) }}">Add Task</a>
+                @endcan
             </div>
         </div>
 
@@ -57,31 +64,33 @@
 
                 <div class="row">
                     @foreach($project->images as $image)
-                    <div class="col-md-3">
-                        <img src="{{ route('image.show', ['image' => $image->file]) }}" height="250">
+                        <div class="col-md-3">
+                            <img src="{{ route('image.show', ['image' => $image->file]) }}" height="250">
 
-                        {{-- Delete Image --}}
-                        <form method="post" action="{{ route('image.destroy', ['image' => $image->file]) }}">
-                            @csrf
-                            {{ method_field('DELETE') }}
-                            <button class="btn btn-danger" type="submit">Delete</button>
-                        </form>
-                    </div>
+                            {{-- Delete Image --}}
+                            <form method="post" action="{{ route('image.destroy', ['image' => $image->file]) }}">
+                                @csrf
+                                {{ method_field('DELETE') }}
+                                <button class="btn btn-danger" type="submit">Delete</button>
+                            </form>
+                        </div>
                     @endforeach
                 </div>
 
-                {{-- Upload Image --}}
-                <form method="post"
-                      action="{{ route('project.image.store', ['project' => $project->id]) }}"
-                      enctype=multipart/form-data
-                >
-                    @csrf
+                @can('update', $project)
+                    {{-- Upload Image --}}
+                    <form method="post"
+                          action="{{ route('project.image.store', ['project' => $project->id]) }}"
+                          enctype=multipart/form-data
+                    >
+                        @csrf
 
-                    <div class="form-group">
-                        <input name="image" class="form-control-file" type="file">
-                    </div>
-                    <button type="submit" class="btn btn-primary">Upload Image</button>
-                </form>
+                        <div class="form-group">
+                            <input name="image" class="form-control-file" type="file">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Upload Image</button>
+                    </form>
+                @endcan
             </div>
         </div>
 
