@@ -4,6 +4,7 @@ namespace Tests\Unit;
 
 use App\Guide;
 use App\Tag;
+use App\User;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -17,6 +18,16 @@ class GuideTest extends TestCase
         $guide = make(Guide::class);
 
         $this->assertInstanceOf('App\User', $guide->creator);
+    }
+    
+    /** @test */
+    public function it_should_return_a_soft_deleted_creator()
+    {
+        $user = create(User::class);
+        $guide = create(Guide::class, ['user_id' => $user->id]);
+        $user->delete();
+        
+        $this->assertInstanceOf('App\User', $guide->fresh()->creator);
     }
 
     /** @test */

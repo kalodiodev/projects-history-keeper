@@ -26,7 +26,21 @@
                         @can('edit', \App\User::class)
                             <a class="btn btn-warning" href="{{ route('user.edit', ['user' => $user->id]) }}">Edit</a>
                         @endcan
-                        <a class="btn btn-danger"  href="">Delete</a>
+
+                        {{-- Delete User Button --}}
+                        <a class="btn btn-danger"
+                           onclick="event.preventDefault();
+                                   document.getElementById('user-delete-form-{{ $user->id }}').submit();"
+                           href="{{ route('user.destroy', ['user' => $user->id]) }}">Delete</a>
+
+                        {{-- Delete User Hidden Form --}}
+                        <form id="user-delete-form-{{ $user->id }}"
+                              method="post"
+                              action="{{ route('user.destroy', ['user' => $user->id]) }}"
+                              style="display: none;">
+                            @csrf
+                            {{ method_field('DELETE') }}
+                        </form>
                     </td>
                 </tr>
             @endforeach

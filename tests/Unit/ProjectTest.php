@@ -6,6 +6,7 @@ use App\Tag;
 use App\Task;
 use App\Image;
 use App\Project;
+use App\User;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -19,6 +20,16 @@ class ProjectTest extends TestCase
         $project = make(Project::class);
 
         $this->assertInstanceOf('App\User', $project->creator);
+    }
+    
+    /** @test */
+    public function it_should_return_a_soft_deleted_creator()
+    {
+        $user = create(User::class);
+        $project = create(Project::class, ['user_id' => $user->id]);
+        $user->delete();
+
+        $this->assertInstanceOf('App\User', $project->fresh()->creator);
     }
 
     /** @test */

@@ -38,6 +38,7 @@ Route::get('/', 'HomeController@index')->name('home');
 Route::get('/users', 'UserController@index')->name('user.index');
 Route::get('/user/{user}/edit', 'UserController@edit')->name('user.edit');
 Route::patch('/user/{user}', 'UserController@update')->name('user.update');
+Route::delete('/user/{user}', 'UserController@destroy')->name('user.destroy');
 
 /*
  * Profile Routes

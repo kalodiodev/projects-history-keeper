@@ -19,6 +19,16 @@ class SnippetTest extends TestCase
 
         $this->assertInstanceOf(User::class, $snippet->creator);
     }
+    
+    /** @test */
+    public function it_should_return_a_soft_deleted_user()
+    {
+        $user = create(User::class);
+        $snippet = create(Snippet::class, ['user_id' => $user->id]);
+        $user->delete();
+        
+        $this->assertInstanceOf(User::class, $snippet->fresh()->creator);
+    }
 
     /** @test */
     public function a_snippet_belongs_to_tags()

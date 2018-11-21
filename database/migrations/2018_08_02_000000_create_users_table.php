@@ -23,6 +23,7 @@ class CreateUsersTable extends Migration
             $table->string('slogan')->nullable();
             $table->text('bio')->nullable();
             $table->rememberToken();
+            $table->softDeletes();
             $table->timestamps();
 
             $table->foreign('role_id')

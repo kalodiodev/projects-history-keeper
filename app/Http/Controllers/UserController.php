@@ -51,6 +51,20 @@ class UserController extends Controller
     }
 
     /**
+     * Delete User
+     *
+     * @param User $user
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Exception
+     */
+    public function destroy(User $user)
+    {
+        $user->delete();
+
+        return redirect()->route('user.index');
+    }
+
+    /**
      * Update User
      *
      * @param User $user
