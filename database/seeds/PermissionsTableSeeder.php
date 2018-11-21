@@ -10,6 +10,7 @@ class PermissionsTableSeeder extends Seeder
         // User
         ['name' => 'user-invite', 'label' => 'User can invite a new user'],
         ['name' => 'user-edit', 'label' => 'User can edit a user'],
+        ['name' => 'user-delete', 'label' => 'User can delete a user'],
 
         // Project
         ['name' => 'project-update-any', 'label' => 'User can update any project'],

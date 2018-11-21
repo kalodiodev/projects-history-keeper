@@ -59,6 +59,8 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
+        $this->authorize('delete', User::class);
+        
         $user->delete();
 
         return redirect()->route('user.index');

@@ -29,4 +29,15 @@ class UserDeleteTest extends IntegrationTestCase
         $this->delete(route('user.destroy', ['user' => $user->id]))
             ->assertRedirect(route('login'));
     }
+    
+    /** @test */
+    public function an_unauthorized_user_cannot_delete_a_user()
+    {
+        $this->signInRestricted();
+        
+        $user = create(User::class);
+        
+        $this->delete(route('user.destroy', ['user' => $user->id]))
+            ->assertStatus(403);
+    }
 }

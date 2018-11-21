@@ -30,7 +30,7 @@
     {{-- User Permissions --}}
     <div class="col-md-4 mt-3">
         <h4>User</h4>
-        @foreach(\App\Permission::where('name','like','%project%')->get() as $permission)
+        @foreach(\App\Permission::where('name','like','%user%')->get() as $permission)
             <div class="form-check">
                 <input id="{{ $permission->name }}"
                        class="form-check-input" type="checkbox" name="permissions[]" value="{{ $permission->id }}"

@@ -17,7 +17,9 @@ class UserPolicy
      */
     public function manage(User $user)
     {
-        return $user->hasPermission('user-invite') || $user->hasPermission('user-edit');
+        return $user->hasPermission('user-invite') ||
+            $user->hasPermission('user-edit') ||
+            $user->hasPermission('user-delete');
     }
 
     /**
@@ -40,6 +42,17 @@ class UserPolicy
     public function invite(User $user)
     {
         return $user->hasPermission('user-invite');
+    }
+
+    /**
+     * Determine whether the user can delete a user
+     *
+     * @param User $user
+     * @return bool
+     */
+    public function delete(User $user)
+    {
+        return $user->hasPermission('user-delete');
     }
 
     /**
