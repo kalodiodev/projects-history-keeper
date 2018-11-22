@@ -3,6 +3,7 @@
 namespace Tests\Unit;
 
 use App\Guide;
+use App\Permission;
 use App\Snippet;
 use App\User;
 use App\Role;
@@ -72,6 +73,38 @@ class UserTest extends TestCase
 
         $this->assertFalse($jane->hasRole($admin->name));
         $this->assertFalse($jane->hasRole($admin));
+    }
+    
+    /** @test */
+    public function it_determines_if_user_has_the_given_permission()
+    {
+        $permission = create(Permission::class);
+        
+        $role = create(Role::class);
+        $role->grantPermission($permission);
+        
+        $user = create(User::class, ['role_id' => $role->id]);
+        
+        $this->assertTrue($user->hasPermission($permission));
+        $this->assertTrue($user->hasPermission($permission->name));
+        
+        $permission = create(Permission::class);
+        
+        $this->assertFalse($user->hasPermission($permission));
+        $this->assertFalse($user->hasPermission($permission->name));
+    }
+    
+    /** @test */
+    public function it_determines_if_user_has_any_of_the_given_permissions()
+    {
+        $permissions = create(Permission::class, [], 3);
+        $role = create(Role::class);
+        $role->grantPermission($permissions->first());
+        
+        $user = create(User::class, ['role_id' => $role->id]);
+        
+        $this->assertTrue($user->hasAnyOfPermissions($permissions->pluck('name')->all()));
+        $this->assertFalse($user->hasAnyOfPermissions(['test1', 'test2']));
     }
 
     /** @test */

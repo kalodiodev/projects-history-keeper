@@ -11,6 +11,26 @@ class ProjectPolicy
     use HandlesAuthorization;
 
     /**
+     * Determine whether user can index projects
+     *
+     * @param User $user
+     * @return bool
+     */
+    public function index(User $user)
+    {
+        $permissions_required = [
+            'project-create',
+            'project-update',
+            'project-delete',
+            'project-view-any',
+            'project-update-any',
+            'project-delete-any',
+        ];
+
+        return $user->hasAnyOfPermissions($permissions_required);
+    }
+
+    /**
      * Create Project policy
      *
      * @param User $user user that creates a project
@@ -69,7 +89,7 @@ class ProjectPolicy
             return true;
         }
         
-        return ($user->hasPermission('project-view')) && ($user->ownsProject($project));
+        return $user->ownsProject($project);
     }
 
     /**

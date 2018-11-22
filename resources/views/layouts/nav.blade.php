@@ -11,9 +11,12 @@
             <!-- Left Side Of Navbar -->
             <ul class="navbar-nav mr-auto">
                 @auth
+                    {{-- Projects --}}
+                    @can('index', App\Project::class)
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('project.index') }}">Projects</a>
                     </li>
+                    @endcan
 
                     {{-- Guides --}}
                     @can('index', App\Guide::class)

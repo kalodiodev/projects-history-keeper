@@ -135,6 +135,25 @@ class User extends Authenticatable
     }
 
     /**
+     * Determine whether user has any of the given permissions
+     *
+     * @param array $permissions
+     * @return bool
+     */
+    public function hasAnyOfPermissions(array $permissions)
+    {
+        $user_permissions = $this->role->permissions->pluck('name')->all();
+
+        foreach($permissions as $permission) {
+            if(in_array($permission, $user_permissions)) {
+                return true;
+            }
+        }
+        
+        return false;
+    }
+
+    /**
      * Determine if user has the given permission
      *
      * @param $permission

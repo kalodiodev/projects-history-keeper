@@ -49,10 +49,9 @@ class PermissionsTableSeeder extends Seeder
 
     private $default_actions = [
         // Project
-        ['name' => 'project-create', 'label' => 'Use can create a project'],
+        ['name' => 'project-create', 'label' => 'User can create a project'],
         ['name' => 'project-update', 'label' => 'User can update own project'],
         ['name' => 'project-delete', 'label' => 'User can delete own project'],
-        ['name' => 'project-view', 'label' => 'User can view own project'],
 
         // Task
         ['name' => 'task-create', 'label' => 'User can create a task to a project he/she created'],
