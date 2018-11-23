@@ -10,6 +10,7 @@ class GuideViewTest extends IntegrationTestCase
     /** @test */
     public function a_guide_can_be_viewed_by_its_creator()
     {
+        $this->withoutExceptionHandling();
         $user = $this->signInDefault();
 
         $guide = create(Guide::class, ['user_id' => $user->id]);

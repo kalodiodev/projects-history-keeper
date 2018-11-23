@@ -60,7 +60,6 @@ class PermissionsTableSeeder extends Seeder
 
         // Guide
         ['name' => 'guide-create', 'label' => 'User can create a guide'],
-        ['name' => 'guide-view', 'label' => 'User can view own guide'],
         ['name' => 'guide-update', 'label' => 'User can update own guide'],
         ['name' => 'guide-delete', 'label' => 'User can delete own guide'],
 

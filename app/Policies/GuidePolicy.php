@@ -29,7 +29,16 @@ class GuidePolicy
      */
     public function index(User $user)
     {
-        return $user->hasPermission('guide-view') || $user->hasPermission('guide-view-any');
+        $permissions_required = [
+            'guide-create',
+            'guide-update',
+            'guide-delete',
+            'guide-view-any',
+            'guide-update-any',
+            'guide-delete-any',
+        ];
+
+        return $user->hasAnyOfPermissions($permissions_required);
     }
 
     /**
@@ -45,7 +54,7 @@ class GuidePolicy
             return true;
         }
 
-        return (($user->hasPermission('guide-view')) && ($user->ownsGuide($guide)));
+        return $user->ownsGuide($guide);
     }
 
     /**
