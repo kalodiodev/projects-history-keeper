@@ -65,7 +65,6 @@ class PermissionsTableSeeder extends Seeder
 
         // Snippet
         ['name' => 'snippet-create', 'label' => 'User can create a snippet'],
-        ['name' => 'snippet-view', 'label' => 'User can view own snippet'],
         ['name' => 'snippet-update', 'label' => 'User can update own snippet'],
         ['name' => 'snippet-delete', 'label' => 'User can delete own snippet'],
 

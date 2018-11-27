@@ -2,8 +2,8 @@
 
 namespace App\Policies;
 
-use App\Snippet;
 use App\User;
+use App\Snippet;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class SnippetPolicy
@@ -18,7 +18,16 @@ class SnippetPolicy
      */
     public function index(User $user)
     {
-        return $user->hasPermission('snippet-view') || $user->hasPermission('snippet-view-any');
+        $permissions_required = [
+            'snippet-create',
+            'snippet-update',
+            'snippet-delete',
+            'snippet-view-any',
+            'snippet-update-any',
+            'snippet-delete-any',
+        ];
+
+        return $user->hasAnyOfPermissions($permissions_required);
     }
 
     /**
@@ -30,11 +39,13 @@ class SnippetPolicy
      */
     public function view(User $user, Snippet $snippet)
     {
-        if($user->hasPermission('snippet-view-any')) {
-            return true;
-        }
+        $required_permissions = [
+            'snippet-view-any',
+            'snippet-update-any',
+            'snippet-delete-any'
+        ];
 
-        return (($user->hasPermission('snippet-view')) && ($user->ownsSnippet($snippet)));
+        return $user->ownsSnippet($snippet) || $user->hasAnyOfPermissions($required_permissions);
     }
 
     /**
@@ -45,7 +56,13 @@ class SnippetPolicy
      */
     public function view_all(User $user)
     {
-        return $user->hasPermission('snippet-view-any');
+        $required_permissions = [
+            'snippet-view-any',
+            'snippet-update-any',
+            'snippet-delete-any'
+        ];
+
+        return $user->hasAnyOfPermissions($required_permissions);
     }
 
 
