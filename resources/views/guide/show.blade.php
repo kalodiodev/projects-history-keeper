@@ -40,18 +40,36 @@
 
                         <h4>Images</h4>
                         <hr>
-                        {{-- Upload Image --}}
-                        <form method="post"
-                              action="{{ route('guide.image.store', ['guide' => $guide->id]) }}"
-                              enctype=multipart/form-data
-                        >
-                            @csrf
 
-                            <div class="form-group">
-                                <input name="image" class="form-control-file" type="file">
-                            </div>
-                            <button type="submit" class="btn btn-primary">Upload Image</button>
-                        </form>
+                        <div class="row">
+                            @foreach($guide->images as $image)
+                                <div class="col-md-3">
+                                    <img src="{{ route('image.show', ['image' => $image->file]) }}" height="250">
+
+                                    {{-- Delete Image --}}
+                                    <form method="post" action="{{ route('image.destroy', ['image' => $image->file]) }}">
+                                        @csrf
+                                        {{ method_field('DELETE') }}
+                                        <button class="btn btn-danger" type="submit">Delete</button>
+                                    </form>
+                                </div>
+                            @endforeach
+                        </div>
+
+                        @can('update', $guide)
+                            {{-- Upload Image --}}
+                            <form method="post"
+                                  action="{{ route('guide.image.store', ['guide' => $guide->id]) }}"
+                                  enctype=multipart/form-data
+                            >
+                                @csrf
+
+                                <div class="form-group">
+                                    <input name="image" class="form-control-file" type="file">
+                                </div>
+                                <button type="submit" class="btn btn-primary">Upload Image</button>
+                            </form>
+                        @endcan
                     </div>
                 </div>
             </div>
