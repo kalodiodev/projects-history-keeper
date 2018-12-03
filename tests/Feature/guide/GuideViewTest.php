@@ -18,7 +18,7 @@ class GuideViewTest extends IntegrationTestCase
         $this->get(route('guide.show', ['guide' => $guide->id]))
             ->assertStatus(200)
             ->assertViewIs('guide.show')
-            ->assertViewHas('guide', $guide->fresh());
+            ->assertViewHas('guide');
     }
 
     /** @test */
@@ -42,7 +42,7 @@ class GuideViewTest extends IntegrationTestCase
         $this->get(route('guide.show', ['guide' => $guide->id]))
             ->assertStatus(200)
             ->assertViewIs('guide.show')
-            ->assertViewHas('guide', $guide->fresh());
+            ->assertViewHas('guide');
     }
 
     /** @test */

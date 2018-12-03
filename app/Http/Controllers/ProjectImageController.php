@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Project;
-use Illuminate\Http\Request;
+use App\Http\Requests\ImageRequest;
 
 class ProjectImageController extends Controller
 {
@@ -19,10 +19,10 @@ class ProjectImageController extends Controller
      * Store Project Image
      *
      * @param Project $project
-     * @param Request $request
+     * @param ImageRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Project $project, Request $request)
+    public function store(Project $project, ImageRequest $request)
     {
         $this->isAuthorized('upload_image', $project);
 

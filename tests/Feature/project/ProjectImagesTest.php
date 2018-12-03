@@ -67,4 +67,20 @@ class ProjectImagesTest extends IntegrationTestCase
 
         $this->assertEquals(1, Image::all()->count());
     }
+    
+    /** @test */
+    public function an_image_should_be_of_type_jpg_or_png()
+    {
+        $this->signInAdmin();
+
+        $project = create(Project::class);
+        
+        $bmp_file = UploadedFile::fake()->image('image.bmp', 300, 300);
+        $this->post(route('project.image.store', ['project' => $project->id]), ['image' => $bmp_file])
+            ->assertSessionHasErrors(['image']);
+        
+        $jpeg_file = UploadedFile::fake()->image('image.jpg', 300, 300);
+        $this->post(route('project.image.store', ['project' => $project->id]), ['image' => $jpeg_file])
+            ->assertSessionHasNoErrors();
+    }
 }
