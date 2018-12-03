@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Guide;
+use App\Http\Requests\ImageRequest;
 use Illuminate\Http\Request;
 
 class GuideImageController extends Controller
@@ -19,11 +20,11 @@ class GuideImageController extends Controller
      * Store guide image
      *
      * @param Guide $guide
-     * @param Request $request
+     * @param ImageRequest $request
      * @return \Illuminate\Http\RedirectResponse
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function store(Guide $guide, Request $request)
+    public function store(Guide $guide, ImageRequest $request)
     {
         $this->isAuthorized('update', $guide);
         

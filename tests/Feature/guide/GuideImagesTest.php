@@ -68,4 +68,20 @@ class GuideImagesTest extends IntegrationTestCase
 
         $this->assertEquals(1, Image::all()->count());
     }
+
+    /** @test */
+    public function an_image_should_be_of_type_jpg_or_png()
+    {
+        $this->signInAdmin();
+
+        $guide = create(Guide::class);
+
+        $bmp_file = UploadedFile::fake()->image('image.bmp', 300, 300);
+        $this->post(route('guide.image.store', ['guide' => $guide->id]), ['image' => $bmp_file])
+            ->assertSessionHasErrors(['image']);
+
+        $jpeg_file = UploadedFile::fake()->image('image.jpg', 300, 300);
+        $this->post(route('guide.image.store', ['guide' => $guide->id]), ['image' => $jpeg_file])
+            ->assertSessionHasNoErrors();
+    }
 }
