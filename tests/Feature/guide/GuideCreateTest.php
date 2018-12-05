@@ -4,6 +4,8 @@ namespace Tests\Feature;
 
 use App\Guide;
 use App\Tag;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Tests\IntegrationTestCase;
 
 class GuideCreateTest extends IntegrationTestCase
@@ -101,6 +103,24 @@ class GuideCreateTest extends IntegrationTestCase
         $guide = Guide::first();
 
         $this->assertEquals(3, $guide->tags->count());
+    }
+    
+    /** @test */
+    public function a_guide_may_have_a_featured_image()
+    {
+        Storage::fake('testfs');
+
+        $this->signInAdmin();
+        
+        $image = UploadedFile::fake()->image('featured.png', 300, 300);
+
+        $this->post(route('guide.store'), $this->guideValidFields(['featured_image' => $image]))
+            ->assertRedirect(route('guide.index'));
+
+        $guide = Guide::first();
+
+        $this->assertNotNull($guide->featured_image);
+        Storage::disk('testfs')->assertExists('images' . $guide->featured_image);
     }
 
 

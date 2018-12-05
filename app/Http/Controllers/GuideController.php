@@ -6,6 +6,7 @@ use App\Tag;
 use App\Guide;
 use Illuminate\Http\Request;
 use App\Http\Requests\GuideRequest;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Auth\Access\AuthorizationException;
 
@@ -77,11 +78,18 @@ class GuideController extends Controller
     {
         $this->isAuthorized('create', Guide::class);
 
+        /** @var UploadedFile $featured */
+        if($request->hasFile('featured_image')) {
+            $featured = ltrim($request->file('featured_image')->store('images'), 'images');
+        } else {
+            $featured = null;  
+        }
+
         $guide = Guide::create([
             'title' => $request->get('title'),
             'description' => $request->get('description'),
             'body' => $request->get('body'),
-            'featured_image' => $request->get('featured_image'),
+            'featured_image' => $featured,
             'user_id' => auth()->user()->id
         ]);
 

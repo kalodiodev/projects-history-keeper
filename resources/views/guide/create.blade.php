@@ -8,7 +8,7 @@
                     <div class="card-header">New Guide</div>
 
                     <div class="card-body">
-                        <form method="post" action="{{ route('guide.store') }}">
+                        <form method="post" action="{{ route('guide.store') }}" enctype=multipart/form-data>
 
                             @include('guide._form')
 

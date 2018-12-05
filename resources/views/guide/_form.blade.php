@@ -61,6 +61,26 @@
     </div>
 </div>
 
+{{-- Guide Featured Image --}}
+<div class="form-group row">
+    <label for="featured_image" class="col-sm-2 col-form-label text-md-right">Featured Image</label>
+
+    <div class="col-md-8">
+        <input id="featured_image"
+               type="file"
+               class="form-control-file{{ $errors->has('featured_image') ? ' is-invalid' : '' }}"
+               name="featured_image"
+               value="@if(isset($guide)){{ old('featured_image', $guide->file) }}@else{{ old('featured_image')}}@endif"
+               required>
+
+        @if ($errors->has('featured_image'))
+            <span class="invalid-feedback" role="alert">
+                <strong>{{ $errors->first('featured_image') }}</strong>
+            </span>
+        @endif
+    </div>
+</div>
+
 {{-- Guide Tags --}}
 <div class="form-group row">
     <label for="tags" class="col-sm-2 col-form-label text-md-right">Tags</label>
