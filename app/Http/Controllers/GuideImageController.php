@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Guide;
 use App\Http\Requests\ImageRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class GuideImageController extends Controller
 {
@@ -14,6 +15,15 @@ class GuideImageController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+    }
+
+    public function featured($featured)
+    {
+        if(! Storage::has('/images/guide/' . $featured)) {
+            abort(404);
+        }
+
+        return response()->file(Storage::path('/images/guide/'. $featured));
     }
 
     /**

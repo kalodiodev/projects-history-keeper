@@ -120,7 +120,7 @@ class GuideCreateTest extends IntegrationTestCase
         $guide = Guide::first();
 
         $this->assertNotNull($guide->featured_image);
-        Storage::disk('testfs')->assertExists('images' . $guide->featured_image);
+        Storage::disk('testfs')->assertExists($guide->featured_image);
     }
 
 

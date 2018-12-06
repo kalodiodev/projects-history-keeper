@@ -12,6 +12,9 @@
                     <div class="card-header">{{ $guide->title }}</div>
 
                     <div class="card-body">
+
+                        <img src="{{ $guide->featured_image }}"/>
+
                         <p>{{ $guide->description }}</p>
 
                         <h4>Guide Content</h4>

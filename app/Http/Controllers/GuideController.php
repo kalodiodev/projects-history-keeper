@@ -80,16 +80,17 @@ class GuideController extends Controller
 
         /** @var UploadedFile $featured */
         if($request->hasFile('featured_image')) {
-            $featured = ltrim($request->file('featured_image')->store('images'), 'images');
+            $featured =
+                $request->file('featured_image')->store('/images/guide');
         } else {
-            $featured = null;  
+            $featured = null;
         }
 
         $guide = Guide::create([
             'title' => $request->get('title'),
             'description' => $request->get('description'),
             'body' => $request->get('body'),
-            'featured_image' => $featured,
+            'featured_image' => '/'. $featured,
             'user_id' => auth()->user()->id
         ]);
 

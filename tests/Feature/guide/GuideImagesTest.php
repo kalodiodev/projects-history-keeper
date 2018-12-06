@@ -84,4 +84,20 @@ class GuideImagesTest extends IntegrationTestCase
         $this->post(route('guide.image.store', ['guide' => $guide->id]), ['image' => $jpeg_file])
             ->assertSessionHasNoErrors();
     }
+
+    /** @test */
+    public function an_authorized_user_can_view_guide_featured_image()
+    {
+        $this->signInAdmin();
+
+        UploadedFile::fake()->image('/guide/featured.png', 300, 300)
+            ->storeAs('images/guide/','featured.png');
+        
+        create(Guide::class, ['featured_image' => '/images/guide/featured.png']);
+        
+        $response = $this->get(route('guide.image.featured', ['image' => 'featured.png']))
+            ->assertStatus(200);
+
+        $response->assertHeader('Content-Type', 'image/png');
+    }
 }
