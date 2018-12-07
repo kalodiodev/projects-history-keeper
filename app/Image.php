@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Image extends Model
 {
@@ -15,6 +16,22 @@ class Image extends Model
         'file',
         'path'
     ];
+
+    /**
+     * The "booting" method of the model.
+     *
+     * @return void
+     */
+    public static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($image) {
+            if (Storage::has($image->fullpath())) {
+                Storage::delete($image->fullpath());
+            }
+        });
+    }
 
     /**
      * Get the route key for the model.
