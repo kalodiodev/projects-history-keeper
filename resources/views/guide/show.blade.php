@@ -14,6 +14,16 @@
                     <div class="card-body">
 
                         <img src="{{ $guide->featured_image }}"/>
+                        <form method="post" action="{{ $guide->featured_image }}">
+                            {{ csrf_field() }}
+                            {{ method_field('DELETE') }}
+
+                            <div class="form-group row mb-0">
+                                <div class="col-md-8 offset-md-2 text-right">
+                                    <button type="submit" class="btn btn-primary">Remove Featured Image</button>
+                                </div>
+                            </div>
+                        </form>
 
                         <p>{{ $guide->description }}</p>
 

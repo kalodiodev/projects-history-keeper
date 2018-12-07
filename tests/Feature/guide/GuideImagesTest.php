@@ -121,4 +121,20 @@ class GuideImagesTest extends IntegrationTestCase
         $this->get(route('guide.image.featured', ['image' => 'featured.png']))
             ->assertStatus(403);
     }
+    
+    /** @test */
+    public function an_authorized_user_can_delete_guide_featured_image()
+    {
+        $this->signInAdmin();
+
+        UploadedFile::fake()->image('/guide/featured.png', 300, 300)
+            ->storeAs('images/guide/','featured.png');
+
+        $guide = create(Guide::class, ['featured_image' => '/images/guide/featured.png']);
+        
+        $this->delete(route('guide.image.featured.destroy', ['image' => 'featured.png']))
+            ->assertRedirect(route('guide.show', ['guide' => $guide->id]));
+        
+        $this->assertNull($guide->fresh()->featured_image);
+    }
 }

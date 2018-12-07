@@ -24,10 +24,27 @@ class GuideImageController extends Controller
         }
         
         $guide = Guide::where('featured_image', '/images/guide/' . $featured)->firstOrFail();
-        
+
         $this->isAuthorized('view', $guide);
 
         return response()->file(Storage::path('/images/guide/'. $featured));
+    }
+
+    public function featured_destroy($featured)
+    {
+        if(! Storage::has('/images/guide/' . $featured)) {
+            abort(404);
+        }
+
+        $guide = Guide::where('featured_image', '/images/guide/' . $featured)->firstOrFail();
+
+        $guide->update([
+            'featured_image' => null
+        ]);
+
+        Storage::delete('/images/guide' . $featured);
+
+        return redirect()->route('guide.show', ['guide' => $guide->id]);
     }
 
     /**
