@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Guide extends Model
 {
@@ -30,7 +31,25 @@ class Guide extends Model
         'user_id' => 'int',
     ];
 
-    use SlugTrait;
+    use SlugTrait {
+        boot as slug_boot;
+    }
+
+    /**
+     * The "booting" method of the model.
+     *
+     * @return void
+     */
+    public static function boot()
+    {
+        self::slug_boot();
+
+        static::deleting(function ($guide) {
+            if ($guide->featured_image && Storage::has($guide->featured_image)) {
+                Storage::delete($guide->featured_image);
+            }
+        });
+    }
 
     /**
      * Guide belongs to a creator

@@ -2,10 +2,12 @@
 
 namespace Tests\Unit;
 
-use App\Guide;
 use App\Tag;
 use App\User;
+use App\Guide;
 use Tests\TestCase;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class GuideTest extends TestCase
@@ -58,5 +60,20 @@ class GuideTest extends TestCase
 
         $this->assertTrue($guide->hasTag($tag));
         $this->assertFalse($guide->hasTag(100));
+    }
+    
+    /** @test */
+    public function deleting_a_guide_should_also_delete_its_featured_image()
+    {
+        Storage::fake('testfs');
+        
+        $featured = UploadedFile::fake()->image('featured.png', 300, 300)->storeAs('images/guide','featured.png');
+        $guide = create(Guide::class, ['featured_image' => $featured]);
+        
+        Storage::disk('testfs')->assertExists($guide->featured_image);
+
+        $guide->delete();
+
+        Storage::disk('testfs')->assertMissing($guide->featured_image);
     }
 }
