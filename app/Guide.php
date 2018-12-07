@@ -48,6 +48,8 @@ class Guide extends Model
             if ($guide->featured_image && Storage::has($guide->featured_image)) {
                 Storage::delete($guide->featured_image);
             }
+
+            $guide->images()->delete();
         });
     }
 

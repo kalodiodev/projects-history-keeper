@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use App\Image;
 use App\Tag;
 use App\User;
 use App\Guide;
@@ -75,5 +76,21 @@ class GuideTest extends TestCase
         $guide->delete();
 
         Storage::disk('testfs')->assertMissing($guide->featured_image);
+    }
+
+    /** @test */
+    public function deleting_a_guide_should_also_delete_its_images()
+    {
+        $guide = create(Guide::class);
+        $image = create(Image::class, [
+            'imageable_type' => Guide::class,
+            'imageable_id' => $guide->id
+        ]);
+
+        $guide->delete();
+
+        $this->assertDatabaseMissing('images', [
+            'id' => $image->id
+        ]);
     }
 }
