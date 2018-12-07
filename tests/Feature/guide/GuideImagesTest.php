@@ -100,4 +100,25 @@ class GuideImagesTest extends IntegrationTestCase
 
         $response->assertHeader('Content-Type', 'image/png');
     }
+
+    /** @test */
+    public function an_unauthenticated_user_cannot_view_guide_featured_image()
+    {
+        $this->get(route('guide.image.featured', ['image' => 'featured.png']))
+            ->assertRedirect(route('login'));
+    }
+    
+    /** @test */
+    public function an_unauthorized_user_cannot_view_guide_featured_image()
+    {
+        $this->signInRestricted();
+
+        UploadedFile::fake()->image('/guide/featured.png', 300, 300)
+            ->storeAs('images/guide/','featured.png');
+
+        create(Guide::class, ['featured_image' => '/images/guide/featured.png']);
+        
+        $this->get(route('guide.image.featured', ['image' => 'featured.png']))
+            ->assertStatus(403);
+    }
 }

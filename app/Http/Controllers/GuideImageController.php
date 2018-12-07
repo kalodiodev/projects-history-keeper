@@ -22,6 +22,10 @@ class GuideImageController extends Controller
         if(! Storage::has('/images/guide/' . $featured)) {
             abort(404);
         }
+        
+        $guide = Guide::where('featured_image', '/images/guide/' . $featured)->firstOrFail();
+        
+        $this->isAuthorized('view', $guide);
 
         return response()->file(Storage::path('/images/guide/'. $featured));
     }
