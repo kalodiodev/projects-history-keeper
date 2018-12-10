@@ -64,6 +64,16 @@ class GuideTest extends TestCase
     }
     
     /** @test */
+    public function it_determines_whether_guide_has_featured_image()
+    {
+        $guide = make(Guide::class);
+        $this->assertFalse($guide->hasFeaturedImage());
+        
+        $guide = make(Guide::class, ['featured_image' => 'myimage.png']);
+        $this->assertTrue($guide->hasFeaturedImage());
+    }
+    
+    /** @test */
     public function deleting_a_guide_should_also_delete_its_featured_image()
     {
         Storage::fake('testfs');

@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Guide;
 use App\Http\Requests\ImageRequest;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class GuideImageController extends Controller
@@ -17,6 +16,13 @@ class GuideImageController extends Controller
         $this->middleware('auth');
     }
 
+    /**
+     * Featured Image
+     * 
+     * @param $featured
+     * @return mixed
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
     public function featured($featured)
     {
         if(! Storage::has('/images/guide/' . $featured)) {
@@ -28,23 +34,6 @@ class GuideImageController extends Controller
         $this->isAuthorized('view', $guide);
 
         return response()->file(Storage::path('/images/guide/'. $featured));
-    }
-
-    public function featured_destroy($featured)
-    {
-        if(! Storage::has('/images/guide/' . $featured)) {
-            abort(404);
-        }
-
-        $guide = Guide::where('featured_image', '/images/guide/' . $featured)->firstOrFail();
-
-        $guide->update([
-            'featured_image' => null
-        ]);
-
-        Storage::delete('/images/guide' . $featured);
-
-        return redirect()->route('guide.show', ['guide' => $guide->id]);
     }
 
     /**

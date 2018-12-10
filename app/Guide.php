@@ -72,4 +72,18 @@ class Guide extends Model
     {
         return $this->morphMany(Image::class, 'imageable');
     }
+
+    /**
+     * Determine whether guide has featured image
+     * 
+     * @return bool
+     */
+    public function hasFeaturedImage()
+    {
+        if ($this->featured_image != null && ! empty($this->featured_image)) {
+            return true;
+        }
+
+        return false;
+    }
 }

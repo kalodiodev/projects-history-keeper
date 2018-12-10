@@ -70,8 +70,7 @@
                type="file"
                class="form-control-file{{ $errors->has('featured_image') ? ' is-invalid' : '' }}"
                name="featured_image"
-               value="@if(isset($guide)){{ old('featured_image', $guide->file) }}@else{{ old('featured_image')}}@endif"
-               required>
+               value="@if(isset($guide)){{ old('featured_image', $guide->file) }}@else{{ old('featured_image')}}@endif">
 
         @if ($errors->has('featured_image'))
             <span class="invalid-feedback" role="alert">
@@ -80,6 +79,20 @@
         @endif
     </div>
 </div>
+
+{{-- Clear Guide Featured Image --}}
+@if(isset($guide) && $guide->hasFeaturedImage())
+<div class="form-group form-check row">
+    <div class="col-md-8 offset-md-2">
+        <input id="clear_featured_image"
+               type="checkbox"
+               class="form-check-input"
+               name="clear_featured_image">
+
+        <label class="form-check-label">Remove current Featured Image</label>
+    </div>
+</div>
+@endif
 
 {{-- Guide Tags --}}
 <div class="form-group row">

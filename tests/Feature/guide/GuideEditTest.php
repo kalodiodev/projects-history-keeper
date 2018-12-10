@@ -4,6 +4,8 @@ namespace Tests\Feature;
 
 use App\Guide;
 use App\Tag;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Tests\IntegrationTestCase;
 
 class GuideEditTest extends IntegrationTestCase
@@ -126,6 +128,44 @@ class GuideEditTest extends IntegrationTestCase
 
         $this->patch(route('guide.update', ['guide' => $guide->id]), $this->guideValidFields())
             ->assertRedirect(route('login'));
+    }
+
+    /** @test */
+    public function featured_image_remains_unchanged_when_no_new_image_is_provided()
+    {
+        $this->signInAdmin();
+        $image_path = 'images/guide/featured.png';
+
+        Storage::fake('testfs');
+        UploadedFile::fake()->image('/guide/featured.png', 300, 300)
+            ->storeAs('images/guide/','featured.png');
+
+        $guide = create(Guide::class, ['featured_image' => '/' . $image_path]);
+
+        $this->patch(route('guide.update', ['guide' => $guide->id]), $this->guideValidFields());
+
+        $this->assertDatabaseHas('guides', [
+            'id' => $guide->id,
+            'featured_image' => '/' . $image_path
+        ]);
+        Storage::disk('testfs')->assertExists($image_path);
+    }
+
+    /** @test */
+    public function an_authorized_user_can_update_guide_with_clear_featured_image()
+    {
+        $this->signInAdmin();
+        
+        Storage::fake('testfs');
+        UploadedFile::fake()->image('/guide/featured.png', 300, 300)
+            ->storeAs('images/guide/','featured.png');
+
+        $guide = create(Guide::class, ['featured_image' => '/images/guide/featured.png']);
+
+        $this->patch(route('guide.update', ['guide' => $guide->id]),
+            $this->guideValidFields(['clear_featured_image' => 'on']));
+
+        Storage::disk('testfs')->assertMissing('images/guide/featured.png');
     }
 
     /** @test */

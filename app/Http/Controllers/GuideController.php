@@ -5,9 +5,10 @@ namespace App\Http\Controllers;
 use App\Tag;
 use App\Guide;
 use Illuminate\Http\Request;
-use App\Http\Requests\GuideRequest;
 use Illuminate\Http\UploadedFile;
+use App\Http\Requests\GuideRequest;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Auth\Access\AuthorizationException;
 
 class GuideController extends Controller
@@ -129,8 +130,15 @@ class GuideController extends Controller
     {
         $this->isAuthorized('update', $guide);
 
-        $guide->update($request->only(['title', 'description', 'body']));
+        $featured_image = $this->processFeaturedImage($guide, $request);
 
+        $guide->update([
+            'title' => $request->title,
+            'description' => $request->description,
+            'body' => $request->body,
+            'featured_image' => $featured_image,
+        ]);
+ 
         $guide->tags()->sync($request->get('tags'));
 
         session()->flash('message', 'Guide updated successfully');
@@ -156,4 +164,49 @@ class GuideController extends Controller
 
         return redirect()->route('guide.index');
     }
+
+    /**
+     * @param Guide $guide
+     * @param Request $request
+     * @return mixed|null
+     */
+    private function processFeaturedImage(Guide $guide, Request $request)
+    {
+        $featured_image = $guide->hasFeaturedImage() ? $guide->featured_image : null;
+
+        if ($this->hasNewFeaturedImage($request)) {
+            $featured_image = $request->featured_image;
+        }
+
+        if ($this->shouldClearFeaturedImage($guide, $request)) {
+
+            Storage::delete($guide->featured_image);
+
+            return null;
+        }
+
+        return $featured_image;
+    }
+
+    /**
+     * @param Request $request
+     * @return bool
+     */
+    private function hasNewFeaturedImage(Request $request)
+    {
+        return !$request->has('clear_featured_image') && $request->hasFile('featured_image');
+    }
+
+    /**
+     * @param Guide $guide
+     * @param Request $request
+     * @return bool
+     */
+    private function shouldClearFeaturedImage(Guide $guide, Request $request)
+    {
+        return $request->has('clear_featured_image') &&
+            $guide->hasFeaturedImage() &&
+            Storage::has($guide->featured_image);
+    }
+
 }
