@@ -169,6 +169,25 @@ class GuideEditTest extends IntegrationTestCase
     }
 
     /** @test */
+    public function updating_a_featured_image_deletes_the_old_one()
+    {
+        $this->signInAdmin();
+
+        Storage::fake('testfs');
+        UploadedFile::fake()->image('/guide/featured.png', 300, 300)
+            ->storeAs('images/guide/', 'featured.png');
+
+        $guide = create(Guide::class, ['featured_image' => '/images/guide/featured.png']);
+
+        $newImage = UploadedFile::fake()->image('/guide/newFeatured.png', 300, 300);
+
+        $this->patch(route('guide.update', ['guide' => $guide->id]), 
+            $this->guideValidFields(['featured_image' => $newImage]));
+
+        Storage::disk('testfs')->assertMissing('images/guide/featured.png');
+    }
+
+    /** @test */
     public function tags_can_be_synced_to_guide()
     {
         $this->signInAdmin();

@@ -174,18 +174,29 @@ class GuideController extends Controller
     {
         $featured_image = $guide->hasFeaturedImage() ? $guide->featured_image : null;
 
-        if ($this->hasNewFeaturedImage($request)) {
-            $featured_image = $request->featured_image;
+        if ($this->hasNewFeaturedImage($request)) {            
+            $featured_image = $request->file('featured_image')->store('/images/guide');
+            $this->deleteGuideFeaturedImage($guide);
         }
 
-        if ($this->shouldClearFeaturedImage($guide, $request)) {
-
-            Storage::delete($guide->featured_image);
-
+        if ($request->has('clear_featured_image')) {
+            $this->deleteGuideFeaturedImage($guide);
             return null;
         }
 
         return $featured_image;
+    }
+
+    /**
+     * Delete Guide Featured image
+     *
+     * @param Guide $guide
+     */
+    private function deleteGuideFeaturedImage(Guide $guide)
+    {
+        if($guide->hasFeaturedImage() && Storage::has($guide->featured_image)) {
+            Storage::delete($guide->featured_image);
+        }
     }
 
     /**
@@ -196,17 +207,4 @@ class GuideController extends Controller
     {
         return !$request->has('clear_featured_image') && $request->hasFile('featured_image');
     }
-
-    /**
-     * @param Guide $guide
-     * @param Request $request
-     * @return bool
-     */
-    private function shouldClearFeaturedImage(Guide $guide, Request $request)
-    {
-        return $request->has('clear_featured_image') &&
-            $guide->hasFeaturedImage() &&
-            Storage::has($guide->featured_image);
-    }
-
 }
