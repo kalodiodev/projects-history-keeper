@@ -122,11 +122,11 @@ class GuideController extends Controller
      * Update Guide
      *
      * @param Guide $guide
-     * @param Request $request
+     * @param GuideRequest $request
      * @return \Illuminate\Http\RedirectResponse
      * @throws AuthorizationException
      */
-    public function update(Guide $guide, Request $request)
+    public function update(Guide $guide, GuideRequest $request)
     {
         $this->isAuthorized('update', $guide);
 

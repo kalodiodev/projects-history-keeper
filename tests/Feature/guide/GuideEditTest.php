@@ -2,11 +2,11 @@
 
 namespace Tests\Feature;
 
-use App\Guide;
 use App\Tag;
+use App\Guide;
+use Tests\IntegrationTestCase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
-use Tests\IntegrationTestCase;
 
 class GuideEditTest extends IntegrationTestCase
 {
@@ -185,6 +185,27 @@ class GuideEditTest extends IntegrationTestCase
             $this->guideValidFields(['featured_image' => $newImage]));
 
         Storage::disk('testfs')->assertMissing('images/guide/featured.png');
+    }
+
+    /** @test */
+    public function featured_image_should_be_validated()
+    {
+        $this->signInAdmin();
+
+        $guide = create(Guide::class);
+
+        Storage::fake('testfs');
+        $image = UploadedFile::fake()->image('/guide/featured.png', 300, 300);
+
+        $this->patch(route('guide.update', ['guide' => $guide->id]),
+            $this->guideValidFields(['featured_image' => $image]))
+            ->assertStatus(302);
+
+        $image = UploadedFile::fake()->image('/guide/featured.bmp', 300, 300);
+
+        $this->patch(route('guide.update', ['guide' => $guide->id]),
+            $this->guideValidFields(['featured_image' => $image]))
+            ->assertSessionHasErrors(['featured_image']);
     }
 
     /** @test */
