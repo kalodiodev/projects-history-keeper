@@ -175,7 +175,7 @@ class GuideController extends Controller
         $featured_image = $guide->hasFeaturedImage() ? $guide->featured_image : null;
 
         if ($this->hasNewFeaturedImage($request)) {            
-            $featured_image = $request->file('featured_image')->store('/images/guide');
+            $featured_image = '/' . $request->file('featured_image')->store('/images/guide');
             $this->deleteGuideFeaturedImage($guide);
         }
 

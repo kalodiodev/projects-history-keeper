@@ -8,7 +8,7 @@
                     <div class="card-header">Edit Guide</div>
 
                     <div class="card-body">
-                        <form method="post" action="{{ route('guide.update', ['guide' => $guide->id]) }}">
+                        <form method="post" action="{{ route('guide.update', ['guide' => $guide->id]) }}" enctype=multipart/form-data>
                             {{ method_field('PATCH') }}
 
                             @include('guide._form')

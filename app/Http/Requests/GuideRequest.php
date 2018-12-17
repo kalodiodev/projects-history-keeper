@@ -26,7 +26,7 @@ class GuideRequest extends FormRequest
         return [
             'title'       => 'required|between:4,90',
             'description' => 'between:6,191',
-            'featured_image' => 'mimes:jpeg,png'
+            'featured_image' => 'nullable|mimes:jpeg,jpg,png'
         ];
     }
 }

@@ -69,8 +69,7 @@
         <input id="featured_image"
                type="file"
                class="form-control-file{{ $errors->has('featured_image') ? ' is-invalid' : '' }}"
-               name="featured_image"
-               value="@if(isset($guide)){{ old('featured_image', $guide->file) }}@else{{ old('featured_image')}}@endif">
+               name="featured_image">
 
         @if ($errors->has('featured_image'))
             <span class="invalid-feedback" role="alert">
