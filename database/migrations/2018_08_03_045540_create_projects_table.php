@@ -18,6 +18,7 @@ class CreateProjectsTable extends Migration
             $table->string('title')->nullable(false);
             $table->string('description');
             $table->integer('user_id')->unsigned()->index();
+            $table->integer('status_id')->unsigned();
             $table->timestamps();
 
             $table->foreign('user_id')

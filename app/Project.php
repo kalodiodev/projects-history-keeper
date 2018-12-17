@@ -15,6 +15,7 @@ class Project extends Model
      */
     protected $fillable = [
         'user_id',
+        'status_id',
         'title',
         'description'
     ];
@@ -30,6 +31,7 @@ class Project extends Model
      */
     protected $casts = [
         'user_id' => 'int',
+        'status_id' => 'int'
     ];
 
     /**
@@ -45,6 +47,12 @@ class Project extends Model
             $project->tags()->detach();
             $project->tasks()->delete();
             $project->images()->delete();
+        });
+
+        static::creating(function ($project) {
+            if (! isset($project->status_id)) {
+                $project->status_id = Status::first()->id;
+            }
         });
     }
 
@@ -76,5 +84,15 @@ class Project extends Model
     public function images()
     {
         return $this->morphMany(Image::class, 'imageable');
+    }
+
+    /**
+     * A project belongs to a status
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function status()
+    {
+        return $this->belongsTo(Status::class);
     }
 }

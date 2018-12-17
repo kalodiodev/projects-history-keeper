@@ -53,6 +53,16 @@ class ProjectTest extends TestCase
     }
 
     /** @test */
+    public function a_project_belongs_to_a_status()
+    {
+        $project = make(Project::class);
+
+        $this->assertInstanceOf(
+            'App\Status', $project->status
+        );
+    }
+
+    /** @test */
     public function deleting_a_project_should_also_detach_attached_tags()
     {
         $tag = create(Tag::class);
