@@ -82,6 +82,11 @@ Route::patch('/task/{task}', 'TaskController@update')->name('project.task.update
 Route::delete('/task/{task}', 'TaskController@destroy')->name('project.task.destroy');
 
 /*
+ * Project Status Routes
+ */
+Route::get('/statuses', 'StatusController@index')->name('status.index');
+
+/*
  * Tag Routes
  */
 Route::get('/tags', 'TagController@index')->name('tag.index');
