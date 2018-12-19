@@ -27,5 +27,9 @@
         <div class="row justify-content-center mt-3">
             {{ $statuses->links() }}
         </div>
+
+        <div class="text-right mt-5">
+            <a href="{{ route('status.create') }}" class="btn btn-primary">Add Status</a>
+        </div>
     </div>
 @endsection

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Status;
+use Illuminate\Http\Request;
 
 class StatusController extends Controller
 {
@@ -38,6 +39,22 @@ class StatusController extends Controller
         $this->isAuthorized('create', Status::class);
 
         return view('status.create');
+    }
+
+    /**
+     * Store Status
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
+    public function store(Request $request)
+    {
+        $this->isAuthorized('create', Status::class);
+
+        Status::create($request->only(['title', 'color']));
+        
+        return redirect()->route('status.index');
     }
 
 }

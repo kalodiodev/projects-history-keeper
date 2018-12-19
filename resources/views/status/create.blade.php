@@ -8,7 +8,7 @@
                     <div class="card-header">Create Status</div>
 
                     <div class="card-body">
-                        <form method="post" action="">
+                        <form method="post" action="{{ route('status.store') }}">
 
                             @include('status._form')
 
