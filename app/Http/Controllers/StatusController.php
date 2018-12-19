@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Status;
-use Illuminate\Http\Request;
 
 class StatusController extends Controller
 {
@@ -22,6 +21,8 @@ class StatusController extends Controller
      */
     public function index()
     {
+        $this->isAuthorized('manage', Status::class);
+
         $statuses = Status::paginate(15);
 
         return view('status.index', compact('statuses'));

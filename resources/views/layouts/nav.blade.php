@@ -47,9 +47,11 @@
                         <a class="nav-link" href="{{ route('tag.index') }}">Tags</a>
                     </li>
                 @endcan
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('status.index') }}">Statuses</a>
-                </li>
+                @can('manage', App\Status::class)
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('status.index') }}">Statuses</a>
+                    </li>
+                @endcan
             </ul>
 
             <!-- Right Side Of Navbar -->

@@ -44,7 +44,12 @@ class PermissionsTableSeeder extends Seeder
         ['name' => 'role-view', 'label' => 'User can view a role'],
         ['name' => 'role-create', 'label' => 'User can create a role'],
         ['name' => 'role-update', 'label' => 'User can update a role'],
-        ['name' => 'role-delete', 'label' => 'User can delete a role']
+        ['name' => 'role-delete', 'label' => 'User can delete a role'],
+
+        // Status
+        ['name' => 'status-create', 'label' => 'User can create status'],
+        ['name' => 'status-update', 'label' => 'User can update status'],
+        ['name' => 'status-delete', 'label' => 'User can delete status'],
     ];
 
     private $default_actions = [

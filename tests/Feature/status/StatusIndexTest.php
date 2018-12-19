@@ -20,6 +20,15 @@ class StatusIndexTest extends IntegrationTestCase
     }
     
     /** @test */
+    public function an_unauthorized_user_cannot_view_statuses_index()
+    {
+        $this->signInDefault();
+        
+        $this->get(route('status.index'))
+            ->assertStatus(403);
+    }
+    
+    /** @test */
     public function an_unauthenticated_user_cannot_view_statuses_index()
     {
         $this->get(route('status.index'))

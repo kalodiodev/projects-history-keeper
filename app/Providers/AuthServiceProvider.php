@@ -7,6 +7,7 @@ use App\Tag;
 use App\User;
 use App\Task;
 use App\Guide;
+use App\Status;
 use App\Snippet;
 use App\Project;
 use App\Policies\TagPolicy;
@@ -14,6 +15,7 @@ use App\Policies\UserPolicy;
 use App\Policies\TaskPolicy;
 use App\Policies\RolePolicy;
 use App\Policies\GuidePolicy;
+use App\Policies\StatusPolicy;
 use App\Policies\SnippetPolicy;
 use App\Policies\ProjectPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
@@ -32,7 +34,8 @@ class AuthServiceProvider extends ServiceProvider
         User::class    => UserPolicy::class,
         Guide::class   => GuidePolicy::class,
         Snippet::class => SnippetPolicy::class,
-        Role::class    => RolePolicy::class
+        Role::class    => RolePolicy::class,
+        Status::class  => StatusPolicy::class,
     ];
 
     /**
