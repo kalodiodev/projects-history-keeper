@@ -25,4 +25,15 @@ class StatusPolicy
 
         return $user->hasAnyOfPermissions($permissions_required);
     }
+
+    /**
+     * Determine whether the user can create status
+     *
+     * @param User $user
+     * @return bool
+     */
+    public function create(User $user)
+    {
+        return $user->hasPermission('status-create');
+    }
 }

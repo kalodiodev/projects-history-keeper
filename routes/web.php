@@ -85,6 +85,7 @@ Route::delete('/task/{task}', 'TaskController@destroy')->name('project.task.dest
  * Project Status Routes
  */
 Route::get('/statuses', 'StatusController@index')->name('status.index');
+Route::get('/status/create', 'StatusController@create')->name('status.create');
 
 /*
  * Tag Routes

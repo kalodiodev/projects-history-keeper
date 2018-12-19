@@ -28,4 +28,16 @@ class StatusController extends Controller
         return view('status.index', compact('statuses'));
     }
 
+    /**
+     * Create Status
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function create()
+    {
+        $this->isAuthorized('create', Status::class);
+
+        return view('status.create');
+    }
+
 }
