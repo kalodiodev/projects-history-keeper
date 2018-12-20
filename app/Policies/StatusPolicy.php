@@ -2,6 +2,7 @@
 
 namespace App\Policies;
 
+use App\Status;
 use App\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
@@ -35,5 +36,17 @@ class StatusPolicy
     public function create(User $user)
     {
         return $user->hasPermission('status-create');
+    }
+
+    /**
+     * Determine whether the user can update status
+     *
+     * @param User $user
+     * @param Status $status
+     * @return bool
+     */
+    public function update(User $user, Status $status)
+    {
+        return $user->hasPermission('status-update');
     }
 }

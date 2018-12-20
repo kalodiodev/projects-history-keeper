@@ -57,4 +57,17 @@ class StatusController extends Controller
         return redirect()->route('status.index');
     }
 
+    /**
+     * Edit Status
+     *
+     * @param Status $status
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function edit(Status $status)
+    {
+        $this->isAuthorized('update', $status);
+
+        return view('status.edit', compact('status'));
+    }
+
 }
