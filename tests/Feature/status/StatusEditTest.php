@@ -48,7 +48,8 @@ class StatusEditTest extends IntegrationTestCase
         $status = create(Status::class);
 
         $this->patch(route('status.update',['status' => $status->id]), $this->statusData())
-            ->assertRedirect(route('status.index'));
+            ->assertRedirect(route('status.index'))
+            ->assertSessionHas('message');
 
         $this->assertDatabaseHas('statuses', array_merge([
             'id' => $status->id,

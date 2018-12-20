@@ -41,7 +41,8 @@ class StatusCreateTest extends IntegrationTestCase
         $status = make(Status::class);
 
         $this->post(route('status.store'), $status->toArray())
-            ->assertRedirect(route('status.index'));
+            ->assertRedirect(route('status.index'))
+            ->assertSessionHas('message');
 
         $this->assertDatabaseHas('statuses', [
             'title' => $status->title,

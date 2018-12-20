@@ -53,6 +53,8 @@ class StatusController extends Controller
         $this->isAuthorized('create', Status::class);
 
         Status::create($request->only(['title', 'color']));
+
+        session()->flash('message', 'Status created successfully');
         
         return redirect()->route('status.index');
     }
@@ -80,12 +82,14 @@ class StatusController extends Controller
     public function update(Request $request, Status $status)
     {
         $this->isAuthorized('update', $status);
-        
+
         $status->update(
             $request->only([
                 'title', 'color'
             ])
         );
+
+        session()->flash('message', 'Status updated successfully');
 
         return redirect()->route('status.index');
     }
