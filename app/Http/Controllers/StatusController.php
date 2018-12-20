@@ -70,4 +70,24 @@ class StatusController extends Controller
         return view('status.edit', compact('status'));
     }
 
+    /**
+     * Update Status
+     *
+     * @param Request $request
+     * @param Status $status
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function update(Request $request, Status $status)
+    {
+        $this->isAuthorized('update', $status);
+        
+        $status->update(
+            $request->only([
+                'title', 'color'
+            ])
+        );
+
+        return redirect()->route('status.index');
+    }
+
 }
