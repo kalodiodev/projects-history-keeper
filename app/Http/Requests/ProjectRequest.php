@@ -24,7 +24,8 @@ class ProjectRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required|between:6,191',
+            'title'     => 'required|between:6,191',
+            'status_id' => 'required|exists:statuses,id'
         ];
     }
 }

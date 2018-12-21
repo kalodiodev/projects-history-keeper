@@ -196,7 +196,8 @@ class ProjectEditTest extends IntegrationTestCase
     {
         return array_merge([
             'title'       => 'My title',
-            'description' => 'My Description'
+            'description' => 'My Description',
+            'status_id'   => 1
         ], $overrides);
     }
 }

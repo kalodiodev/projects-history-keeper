@@ -60,3 +60,22 @@
         </select>
     </div>
 </div>
+
+<div class="form-group row">
+    <label for="status" class="col-sm-2 col-form-label text-md-right">Status</label>
+
+    <div class="col-md-8">
+        <select class="form-control" id="status" name="status_id">
+            @foreach($statuses as $status)
+                <option
+                        @if((isset($project)) && ($project->status->id == $status->id))
+                            selected
+                        @endif
+                        value="{{ $status->id }}"
+                >
+                    {{ $status->title }}
+                </option>
+            @endforeach
+        </select>
+    </div>
+</div>

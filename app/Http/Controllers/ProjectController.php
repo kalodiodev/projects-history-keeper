@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Tag;
+use App\Status;
 use App\Project;
 use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\ProjectRequest;
@@ -48,8 +49,9 @@ class ProjectController extends Controller
         $this->isAuthorized('create', Project::class);
 
         $tags = Tag::all();
+        $statuses = Status::all();
         
-        return view('project.create', compact('tags'));
+        return view('project.create', compact('tags', 'statuses'));
     }
 
     /**
@@ -66,7 +68,8 @@ class ProjectController extends Controller
         $project = Project::create([
             'user_id'     => auth()->id(),
             'title'       => $request->title,
-            'description' => $request->description
+            'description' => $request->description,
+            'status_id'   => $request->status_id
         ]);
 
         $project->tags()->attach($request->tags);
@@ -102,8 +105,9 @@ class ProjectController extends Controller
         $this->isAuthorized('update', $project);
 
         $tags = Tag::all();
+        $statuses = Status::all();
 
-        return view('project.edit', compact('project', 'tags'));
+        return view('project.edit', compact('project', 'tags', 'statuses'));
     }
 
     /**
@@ -118,7 +122,11 @@ class ProjectController extends Controller
     {
         $this->isAuthorized('update', $project);
 
-        $project->update($request->only(['title', 'description']));
+        $project->update([
+            'title' => $request->title,
+            'description' => $request->description,
+            'status_id'   => $request->status_id
+        ]);
 
         $project->tags()->sync($request->get('tags'));
 

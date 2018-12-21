@@ -21,7 +21,7 @@ class Project extends Model
     ];
 
     protected $with = [
-        'images'
+        'images', 'status'
     ];
 
     /**

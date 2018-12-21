@@ -35,7 +35,7 @@
                                         @endforeach
                                     </div>
                                 </td>
-                                <td class="text-success">Active</td>
+                                <td style="color: {{ $project->status->color }};">{{ $project->status->title }}</td>
                                 <td>{{ $project->created_at }}</td>
                             </tr>
                         @endforeach

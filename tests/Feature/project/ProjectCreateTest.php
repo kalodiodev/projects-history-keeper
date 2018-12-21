@@ -110,7 +110,8 @@ class ProjectCreateTest extends IntegrationTestCase
     {
         return array_merge([
             'title'       => 'My title',
-            'description' => 'My description'
+            'description' => 'My description',
+            'status_id'   => 1
         ], $overrides);
     }
 
