@@ -89,6 +89,7 @@ Route::get('/status/create', 'StatusController@create')->name('status.create');
 Route::post('/status', 'StatusController@store')->name('status.store');
 Route::get('/status/{status}/edit', 'StatusController@edit')->name('status.edit');
 Route::patch('/status/{status}', 'StatusController@update')->name('status.update');
+Route::delete('/status/{status}', 'StatusController@destroy')->name('status.destroy');
 
 /*
  * Tag Routes

@@ -27,4 +27,12 @@ class Status extends Model
     {
         return $this->hasMany(Project::class);
     }
+
+    /**
+     * Determine whether status is assigned to any project
+     */
+    public function isAssigned()
+    {
+        return $this->projects->count() >  0;
+    }
 }

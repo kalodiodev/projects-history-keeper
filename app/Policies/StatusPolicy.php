@@ -2,8 +2,8 @@
 
 namespace App\Policies;
 
-use App\Status;
 use App\User;
+use App\Status;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class StatusPolicy
@@ -48,5 +48,17 @@ class StatusPolicy
     public function update(User $user, Status $status)
     {
         return $user->hasPermission('status-update');
+    }
+
+    /**
+     * Determine whether the user can delete status
+     *
+     * @param User $user
+     * @param Status $status
+     * @return bool
+     */
+    public function delete(User $user, Status $status)
+    {
+        return $user->hasPermission('status-delete');
     }
 }

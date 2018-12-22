@@ -94,4 +94,25 @@ class StatusController extends Controller
         return redirect()->route('status.index');
     }
 
+    /**
+     * Delete Status
+     *
+     * @param Status $status
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Exception
+     */
+    public function destroy(Status $status)
+    {
+        $this->isAuthorized('delete', $status);
+
+        if(! $status->isAssigned()) {
+            $status->delete();
+            session()->flash('message', 'Status deleted successfully');
+        } else {
+            session()->flash('error-message', 'Status is assigned to Projects, cannot be deleted');
+        }
+
+        return redirect()->route('status.index');
+    }
+
 }

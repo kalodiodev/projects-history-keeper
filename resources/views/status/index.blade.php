@@ -11,6 +11,7 @@
                 <tr>
                     <td>Title</td>
                     <td>Color</td>
+                    <td>Action</td>
                 </tr>
             </thead>
 
@@ -19,6 +20,24 @@
                     <tr>
                         <td>{{ $status->title }}</td>
                         <td style="background-color: {{ $status->color }};">{{ $status->color }}</td>
+                        <td>
+                            <a class="btn btn-warning" href="{{ route('status.edit', ['status' => $status->id]) }}">Edit</a>
+
+                            {{-- Delete Status Button --}}
+                            <a class="btn btn-danger"
+                               onclick="event.preventDefault();
+                                       document.getElementById('status-delete-form-{{ $status->id }}').submit();"
+                               href="{{ route('status.destroy', ['status' => $status->id]) }}">Delete</a>
+
+                            {{-- Delete Status Hidden Form --}}
+                            <form id="status-delete-form-{{ $status->id }}"
+                                  method="post"
+                                  action="{{ route('status.destroy', ['status' => $status->id]) }}"
+                                  style="display: none;">
+                                @csrf
+                                {{ method_field('DELETE') }}
+                            </form>
+                        </td>
                     </tr>
                 @endforeach
             </tbody>

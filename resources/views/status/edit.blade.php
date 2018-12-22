@@ -8,7 +8,7 @@
                     <div class="card-header">Edit Status</div>
 
                     <div class="card-body">
-                        <form method="post" action="">
+                        <form method="post" action="{{ route('status.update', ['status' => $status->id]) }}">
                             {{ method_field('PATCH') }}
 
                             @include('status._form')
