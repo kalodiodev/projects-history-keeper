@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Project;
+use App\Status;
 use App\Tag;
 use Tests\IntegrationTestCase;
 
@@ -197,7 +198,7 @@ class ProjectEditTest extends IntegrationTestCase
         return array_merge([
             'title'       => 'My title',
             'description' => 'My Description',
-            'status_id'   => 1
+            'status_id'   => Status::first()->id
         ], $overrides);
     }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Role;
 use Faker\Generator as Faker;
 
 /*
@@ -19,6 +20,7 @@ $factory->define(App\User::class, function (Faker $faker) {
         'email' => $faker->unique()->safeEmail,
         'password' => '$2y$10$TKh8H1.PfQx37YgCzwiKb.KjNyWgaHb9cbcoQgdIVFlYg7B77UdFm', // secret
         'remember_token' => str_random(10),
-        'role_id' => 1,
+        'role_id' => Role::where('name', 'admin')->first() != null ?
+            Role::where('name', 'admin')->first()->id : factory(Role::class)->create()->id,
     ];
 });

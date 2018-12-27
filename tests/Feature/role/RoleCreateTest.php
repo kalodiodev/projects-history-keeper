@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\role;
 
+use App\Permission;
 use App\Role;
 use Tests\IntegrationTestCase;
 
@@ -30,7 +31,7 @@ class RoleCreateTest extends IntegrationTestCase
         $this->signInAdmin();
 
         $role_name = 'TestRole';
-        $permissions = [3];
+        $permissions = [Permission::first()->id];
 
         $this->post_role(['name' => $role_name], $permissions)
             ->assertRedirect(route('role.index'))

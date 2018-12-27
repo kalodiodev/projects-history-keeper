@@ -79,7 +79,7 @@ class GuideEditTest extends IntegrationTestCase
             ->assertSessionHas('message');
 
         $this->assertDatabaseHas('guides', array_merge([
-            'id' => $user->id,
+            'id' => $guide->id,
         ], $this->guideValidFields()));
     }
 
@@ -97,7 +97,7 @@ class GuideEditTest extends IntegrationTestCase
     /** @test */
     public function an_authorized_user_can_update_any_guide()
     {
-        $user = $this->signInAdmin();
+        $this->signInAdmin();
 
         $guide = create(Guide::class);
 
@@ -106,7 +106,7 @@ class GuideEditTest extends IntegrationTestCase
             ->assertSessionHas('message');
 
         $this->assertDatabaseHas('guides', array_merge([
-            'id' => $user->id,
+            'id' => $guide->id,
         ], $this->guideValidFields()));
     }
 

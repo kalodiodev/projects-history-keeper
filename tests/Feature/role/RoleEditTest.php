@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\role;
 
+use App\Permission;
 use App\Role;
 use Tests\IntegrationTestCase;
 
@@ -125,7 +126,7 @@ class RoleEditTest extends IntegrationTestCase
             'name' => 'New Name',
             'label' => 'New Label',
             'permissions' => [
-                '3'
+                Permission::first()->id
             ]
         ], $overrides);
     }

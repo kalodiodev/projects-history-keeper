@@ -47,7 +47,7 @@ class UserEditTest extends IntegrationTestCase
         $this->signInAdmin();
 
         $user = create(User::class);
-
+        
         $this->patch(route('user.update', ['user' => $user->id]), $this->userValidFields())
             ->assertRedirect(route('user.index'))
             ->assertSessionHas('message');
@@ -61,7 +61,7 @@ class UserEditTest extends IntegrationTestCase
     public function an_unauthorized_user_cannot_update_a_user()
     {
         $this->signInDefault();
-
+        
         $user = create(User::class);
 
         $this->patch(route('user.update', ['user' => $user->id]), $this->userValidFields())
@@ -128,7 +128,7 @@ class UserEditTest extends IntegrationTestCase
     {
         return array_merge([
             'name'    => 'User name',
-            'role_id' => 1
+            'role_id' => Role::where('name', 'admin')->first()->id
         ], $overrides);
     }
 
