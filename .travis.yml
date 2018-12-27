@@ -1,0 +1,22 @@
+language: php
+
+php:
+  - 7.2
+
+before_script:
+  - cp .env.travis .env
+  - composer self-update
+  - composer install --no-interaction
+  - php artisan key:generate
+
+before_install:
+  - mysql -e 'create database historykeeper_testing;'
+
+services:
+  - mysql
+
+script:
+  - vendor/bin/phpunit --configuration travis.phpunit.xml --coverage-clover=coverage.xml
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
