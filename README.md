@@ -1,3 +1,7 @@
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Build Status](https://travis-ci.org/kalodiodev/projects-history-keeper.svg?branch=master)](https://travis-ci.org/kalodiodev/projects-history-keeper)
+[![codecov](https://codecov.io/gh/kalodiodev/projects-history-keeper/branch/master/graph/badge.svg)](https://codecov.io/gh/kalodiodev/projects-history-keeper)
+
 # Projects History Keeper
 Projects History Keeper is a web application built on Laravel Framework, that helps you keep a history log of your projects changes
 
