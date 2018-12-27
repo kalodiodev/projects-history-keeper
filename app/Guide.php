@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Storage;
 
 class Guide extends Model
 {
-    use Taggable;
+    use Taggable, Commentable;
 
     /**
      * The attributes that are mass assignable.

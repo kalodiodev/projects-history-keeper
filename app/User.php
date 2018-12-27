@@ -99,6 +99,16 @@ class User extends Authenticatable
     }
 
     /**
+     * A user has many comments
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
+    /**
      * Assign a role to user
      *
      * @param $role

@@ -180,4 +180,14 @@ class UserTest extends TestCase
         $this->assertTrue($user1->hasAvatar());
         $this->assertFalse($user2->hasAvatar());
     }
+    
+    /** @test */
+    public function a_user_has_comments()
+    {
+        $user = make(User::class);
+
+        $this->assertInstanceOf(
+            'Illuminate\Database\Eloquent\Collection', $user->comments
+        );
+    }
 }

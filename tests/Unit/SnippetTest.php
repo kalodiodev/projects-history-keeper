@@ -41,6 +41,16 @@ class SnippetTest extends TestCase
     }
 
     /** @test */
+    public function a_snippet_has_many_comments()
+    {
+        $snippet = make(Snippet::class);
+
+        $this->assertInstanceOf(
+            'Illuminate\Database\Eloquent\Collection', $snippet->comments
+        );
+    }
+
+    /** @test */
     public function it_determines_whether_snippet_has_given_tag()
     {
         $tag = create(Tag::class);

@@ -63,6 +63,16 @@ class ProjectTest extends TestCase
     }
 
     /** @test */
+    public function a_project_has_many_comments()
+    {
+        $project = make(Project::class);
+
+        $this->assertInstanceOf(
+            'Illuminate\Database\Eloquent\Collection', $project->comments
+        );
+    }
+
+    /** @test */
     public function deleting_a_project_should_also_detach_attached_tags()
     {
         $tag = create(Tag::class);

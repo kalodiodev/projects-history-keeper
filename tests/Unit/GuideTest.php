@@ -44,6 +44,16 @@ class GuideTest extends TestCase
     }
 
     /** @test */
+    public function a_guide_has_many_comments()
+    {
+        $guide = make(Guide::class);
+
+        $this->assertInstanceOf(
+            'Illuminate\Database\Eloquent\Collection', $guide->comments
+        );
+    }
+
+    /** @test */
     public function when_creating_a_guide_a_slug_is_created()
     {
         $guide = create(Guide::class, ['title' => 'My guide title']);
