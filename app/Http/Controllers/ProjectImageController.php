@@ -29,7 +29,7 @@ class ProjectImageController extends Controller
         $stored_image = $request->file('image')->store('images');
 
         $project->images()->create([
-            'file' => ltrim($stored_image, 'images/'),
+            'file' => str_replace('images/', '', $stored_image),
             'path' => 'images/'
         ]);
 

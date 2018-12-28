@@ -16,8 +16,8 @@ class ProjectImagesTest extends IntegrationTestCase
     {
         parent::setUp();
 
-        $this->image = UploadedFile::fake()->image('image.png', 300, 300);
         Storage::fake('testfs');
+        $this->image = UploadedFile::fake()->image('image.png', 300, 300);
     }
 
     /** @test */
