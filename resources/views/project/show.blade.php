@@ -94,5 +94,30 @@
             </div>
         </div>
 
+        <div class="row pt-5">
+            <div class="col-md-6 offset-md-2">
+                <h2>Comments</h2>
+
+                @foreach($comments as $comment)
+                    <div class="card mb-3">
+                        <div class="card-header">
+                            <a href="{{ route('profile.show', ['user' => $comment->creator->id]) }}">
+                                <strong>{{ $comment->creator->email }}</strong>
+                            </a> commented at: {{ $comment->created_at }}
+                        </div>
+                        <div class="card-body">{{ $comment->comment }}</div>
+                    </div>
+                @endforeach
+
+                @if($comments->count() == 0)
+                    <p class="text-center">No comments available</p>
+                @endif
+
+                <div class="row justify-content-center mt-3">
+                    {{ $comments->links() }}
+                </div>
+
+            </div>
+        </div>
     </div>
 @endsection

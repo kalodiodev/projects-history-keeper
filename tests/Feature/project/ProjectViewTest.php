@@ -47,6 +47,16 @@ class ProjectViewTest extends IntegrationTestCase
         $this->httpGetProjectShow()->assertRedirect(route('login'));
     }
 
+    /** @test */
+    public function project_view_contains_project_comments()
+    {
+        $this->signInAdmin();
+
+        $this->httpGetProjectShow()
+            ->assertStatus(200)
+            ->assertViewHas(['project', 'comments']);
+    }
+
     /**
      * Http GET Project
      *

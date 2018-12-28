@@ -89,8 +89,10 @@ class ProjectController extends Controller
     public function show(Project $project)
     {
         $this->isAuthorized('view', $project);
+        
+        $comments = $project->comments()->latest()->paginate(15);
 
-        return view('project.show', compact('project'));
+        return view('project.show', compact('project', 'comments'));
     }
 
     /**
