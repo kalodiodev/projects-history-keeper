@@ -71,6 +71,7 @@ Route::get('/project/{project}/edit', 'ProjectController@edit')->name('project.e
 Route::patch('/project/{project}', 'ProjectController@update')->name('project.update');
 Route::delete('/project/{project}', 'ProjectController@destroy')->name('project.destroy');
 Route::post('/images/project/{project}', 'ProjectImageController@store')->name('project.image.store');
+Route::post('/project/{project}/comment', 'CommentController@store')->name('project.comment.store');
 
 /*
  * Project Task Routes

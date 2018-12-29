@@ -113,9 +113,15 @@
                     <p class="text-center">No comments available</p>
                 @endif
 
+                {{-- Comments Pagination --}}
                 <div class="row justify-content-center mt-3">
                     {{ $comments->links() }}
                 </div>
+
+                {{-- Add Comment Form --}}
+                @include('comment._form', [
+                    'route' => route('project.comment.store', ['project' => $project->id])
+                ])
 
             </div>
         </div>
