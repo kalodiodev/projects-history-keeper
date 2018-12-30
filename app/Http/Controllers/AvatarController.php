@@ -87,7 +87,7 @@ class AvatarController extends Controller
     protected function validateAvatar(Request $request)
     {
         $rules = [
-            'avatar' => 'mimes:jpeg,png|dimensions:min_width=100,min_height=100,max_width=300,max_height=300'
+            'avatar' => 'required|mimes:jpeg,png|dimensions:min_width=100,min_height=100,max_width=300,max_height=300'
         ];
 
         return $request->validate($rules);
