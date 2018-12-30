@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Comment;
 use App\Http\Requests\CommentRequest;
 
 class CommentController extends Controller
@@ -28,6 +29,10 @@ class CommentController extends Controller
         $commentable_type = "\\App\\" . ucfirst($redirect_route_param);
         $commentable = $commentable_type::findOrFail($commentable_id);
 
+        // Is user authorized to post a comment
+        $this->isAuthorized('create', [Comment::class, $commentable]);
+
+        // Create comment
         $commentable->comments()->create([
             'comment' => $request->comment,
             'user_id' => auth()->user()->id

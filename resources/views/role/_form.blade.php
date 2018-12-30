@@ -162,4 +162,21 @@
             </div>
         @endforeach
     </div>
+
+    {{-- Comment Permissions --}}
+    <div class="col-md-4 mt-3">
+        <h4>Comment</h4>
+        @foreach(\App\Permission::where('name','like','%comment%')->get() as $permission)
+            <div class="form-check">
+                <input id="{{ $permission->name }}"
+                       class="form-check-input" type="checkbox" name="permissions[]" value="{{ $permission->id }}"
+                       @if(((is_array(old('permissions')) && (in_array($permission->id, old('permissions')))) ||
+                           (isset($role_permissions) && in_array($permission->id, $role_permissions))))
+                       checked
+                        @endif
+                >
+                <label class="form-check-label" for="{{ $permission->name }}">{{ $permission->label }}</label>
+            </div>
+        @endforeach
+    </div>
 </div>

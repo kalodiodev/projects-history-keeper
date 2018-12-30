@@ -50,6 +50,10 @@ class PermissionsTableSeeder extends Seeder
         ['name' => 'status-create', 'label' => 'User can create status'],
         ['name' => 'status-update', 'label' => 'User can update status'],
         ['name' => 'status-delete', 'label' => 'User can delete status'],
+
+        // Comment
+        ['name' => 'comment-update', 'label' => 'User can update comment'],
+        ['name' => 'comment-delete', 'label' => 'User can delete comment'],
     ];
 
     private $default_actions = [
@@ -75,6 +79,9 @@ class PermissionsTableSeeder extends Seeder
 
         // Profile
         ['name' => 'profile-view', 'label' => 'User can view users profile'],
+
+        // Comment
+        ['name' => 'comment-create', 'label' => 'User can post comments'],
     ];
 
     /**

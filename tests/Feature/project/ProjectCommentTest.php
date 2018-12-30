@@ -50,6 +50,18 @@ class ProjectCommentTest extends IntegrationTestCase
     }
 
     /** @test */
+    public function an_unauthorized_user_cannot_post_a_project_comment()
+    {
+        $this->signInRestricted();
+
+        $project = create(Project::class);
+
+        $this->post(route('project.comment.store', ['project' => $project->id]), [
+            'comment' => 'My comment'
+        ])->assertStatus(403);
+    }
+
+    /** @test */
     public function a_comment_requires_a_comment_body()
     {
         $this->signInAdmin();
