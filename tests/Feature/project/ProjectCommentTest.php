@@ -48,4 +48,17 @@ class ProjectCommentTest extends IntegrationTestCase
             'comment' => 'My comment'
         ])->assertRedirect(route('login'));
     }
+
+    /** @test */
+    public function a_comment_requires_a_comment_body()
+    {
+        $this->signInAdmin();
+
+        $project = create(Project::class);
+
+        $this->post(route('project.comment.store', ['project' => $project->id]), [
+                'comment' => ''
+            ])
+            ->assertSessionHasErrors(['comment']);
+    }
 }

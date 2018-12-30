@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\CommentRequest;
 
 class CommentController extends Controller
 {
@@ -18,10 +18,10 @@ class CommentController extends Controller
      * Store comment
      *
      * @param int $commentable_id
-     * @param Request $request
+     * @param CommentRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store($commentable_id, Request $request)
+    public function store($commentable_id, CommentRequest $request)
     {
         $redirect_route = str_replace('comment.store', 'show', $request->route()->getName());
         $redirect_route_param = str_replace('.comment.store', '', $request->route()->getName());
