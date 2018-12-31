@@ -142,3 +142,9 @@ Route::post('/role', 'RoleController@store')->name('role.store');
 Route::get('/role/{role}/edit', 'RoleController@edit')->name('role.edit');
 Route::patch('/role/{role}', 'RoleController@update')->name('role.update');
 Route::delete('/role/{role}', 'RoleController@destroy')->name('role.destroy');
+
+
+/*
+ * Comments
+ */
+Route::delete('/comments/{comment}', 'CommentController@destroy')->name('comment.destroy');

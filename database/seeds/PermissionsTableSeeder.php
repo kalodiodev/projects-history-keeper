@@ -53,7 +53,7 @@ class PermissionsTableSeeder extends Seeder
 
         // Comment
         ['name' => 'comment-update', 'label' => 'User can update comment'],
-        ['name' => 'comment-delete', 'label' => 'User can delete comment'],
+        ['name' => 'comment-delete-any', 'label' => 'User can delete any comment'],
     ];
 
     private $default_actions = [
@@ -82,6 +82,7 @@ class PermissionsTableSeeder extends Seeder
 
         // Comment
         ['name' => 'comment-create', 'label' => 'User can post comments'],
+        ['name' => 'comment-delete', 'label' => 'User can delete own comment'],
     ];
 
     /**

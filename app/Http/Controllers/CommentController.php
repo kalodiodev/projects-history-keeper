@@ -42,4 +42,19 @@ class CommentController extends Controller
 
         return redirect()->route($redirect_route, [$redirect_route_param => $commentable->id]);
     }
+
+    /**
+     * Delete comment
+     *
+     * @param Comment $comment
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function destroy(Comment $comment)
+    {
+        $this->isAuthorized('delete', $comment);
+        
+        $comment->delete();
+
+        return redirect()->back();
+    }
 }

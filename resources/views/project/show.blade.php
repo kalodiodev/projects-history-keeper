@@ -105,7 +105,20 @@
                                 <strong>{{ $comment->creator->email }}</strong>
                             </a> commented at: {{ $comment->created_at }}
                         </div>
-                        <div class="card-body">{{ $comment->comment }}</div>
+                        <div class="card-body">
+                            <div>{{ $comment->comment }}</div>
+
+                            @can('delete', $comment)
+                                <div class="text-right">
+                                    {{-- Delete Comment --}}
+                                    <form method="post" action="{{ route('comment.destroy', ['comment' => $comment->id]) }}">
+                                        @csrf
+                                        {{ method_field('DELETE') }}
+                                        <button class="btn btn-danger" type="submit">Delete</button>
+                                    </form>
+                                </div>
+                            @endcan
+                        </div>
                     </div>
                 @endforeach
 
