@@ -92,5 +92,12 @@
             </div>
         </div>
 
+        <div class="row pt-5">
+            <div class="col-md-12">
+                {{-- Comments index --}}
+                @include('comment._index')
+
+            </div>
+        </div>
     </div>
 @endsection

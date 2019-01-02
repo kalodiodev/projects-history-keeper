@@ -51,7 +51,9 @@ class GuideController extends Controller
     {
         $this->isAuthorized('view', $guide);
 
-        return view('guide.show', compact('guide'));
+        $comments = $guide->comments()->latest()->paginate(15);
+
+        return view('guide.show', compact('guide', 'comments'));
     }
 
     /**
