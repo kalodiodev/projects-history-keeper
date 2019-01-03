@@ -6,7 +6,8 @@ use Faker\Generator as Faker;
 $factory->define(Comment::class, function (Faker $faker) {
 
     $commentables = [
-        \App\Project::class
+        \App\Project::class,
+        \App\Guide::class
     ];
 
     $commentableType = $faker->randomElement($commentables);

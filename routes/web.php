@@ -115,6 +115,7 @@ Route::delete('/guide/{guide}', 'GuideController@destroy')->name('guide.destroy'
 Route::post('/images/guide/{guide}', 'GuideImageController@store')->name('guide.image.store');
 Route::get('/images/guide/{featured}', 'GuideImageController@featured')->name('guide.image.featured');
 Route::delete('/images/guide/{featured}', 'GuideImageController@featured_destroy')->name('guide.image.featured.destroy');
+Route::post('/guide/{guide}/comment', 'CommentController@store')->name('guide.comment.store');
 
 /*
  * Snippet Routes

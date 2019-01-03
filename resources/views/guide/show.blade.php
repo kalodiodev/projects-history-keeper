@@ -97,6 +97,12 @@
                 {{-- Comments index --}}
                 @include('comment._index')
 
+                {{-- Add Comment Form --}}
+                @can('create', [\App\Comment::class, $guide])
+                    @include('comment._form', [
+                        'route' => route('guide.comment.store', ['guide' => $guide->id])
+                    ])
+                @endcan
             </div>
         </div>
     </div>
