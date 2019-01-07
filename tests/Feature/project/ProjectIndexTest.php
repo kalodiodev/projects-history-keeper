@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Project;
+use App\Tag;
 use Tests\IntegrationTestCase;
 
 class ProjectIndexTest extends IntegrationTestCase
@@ -44,5 +45,64 @@ class ProjectIndexTest extends IntegrationTestCase
     {
         $this->get(route('project.index'))
             ->assertRedirect(route('login'));
+    }
+
+    /** @test */
+    public function an_admin_can_index_all_projects_by_tag()
+    {
+        $this->signInAdmin();
+        
+        $firstTag = create(Tag::class);
+        $secondTag = create(Tag::class);
+
+        $this->createProjectsOfTag($firstTag, 4);
+        $this->createProjectsOfTag($secondTag, 3);
+
+        $responses = $this->get(route('project.index', ['tag' => $firstTag->name]))
+            ->assertStatus(200);
+
+        $projects = $responses->original->getData()['projects'];
+        $this->assertEquals(4, $projects->count());
+    }
+
+    /** @test */
+    public function a_default_user_can_index_only_their_projects_by_tag()
+    {
+        $this->withoutExceptionHandling();
+        
+        $user = $this->signInDefault();
+
+        $firstTag = create(Tag::class);
+        $secondTag = create(Tag::class);
+
+        $this->createProjectsOfTag($firstTag, 2);
+        $this->createProjectsOfTag($secondTag, 3);
+
+        // User's projects
+        $this->createProjectsOfTag($firstTag, 1, ['user_id' => $user->id]);
+
+        $responses = $this->get(route('project.index', ['tag' => $firstTag->name]))
+            ->assertStatus(200);
+
+        $projects = $responses->original->getData()['projects'];
+        $this->assertEquals(1, $projects->count());
+    }
+
+    /**
+     * Create Projects with given tag
+     *
+     * @param $tag
+     * @param $projectsNumber
+     * @param array $overrides
+     * @return mixed
+     */
+    private function createProjectsOfTag($tag, $projectsNumber, $overrides = [])
+    {
+        $projects = create(Project::class, $overrides, $projectsNumber);
+        foreach ($projects as $project) {
+            $project->tags()->attach($tag);
+        }
+
+        return $projects;
     }
 }

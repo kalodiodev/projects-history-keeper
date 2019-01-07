@@ -3,7 +3,7 @@
 
     <div class="nav flex-column nav-pills">
         @foreach($tags as $tag)
-            <a class="nav-link" href="#">{{ $tag->name }}</a>
+            <a class="nav-link" href="{{ route( $taggable . '.index', ['tag' => $tag->name]) }}">{{ $tag->name }}</a>
         @endforeach
     </div>
 </div>

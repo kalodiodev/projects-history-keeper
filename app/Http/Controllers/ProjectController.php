@@ -27,15 +27,34 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        if(Gate::allows('view_all', Project::class)) {
-            $projects = Project::paginate(14);
-        } else {
-            $projects = auth()->user()->projects()->paginate(14);
-        }
+        $projects = $this->projects();
 
         $tags = Tag::all();
 
         return view('project.index', compact('projects', 'tags'));
+    }
+
+    /**
+     * Get projects
+     *
+     * @return mixed
+     */
+    private function projects()
+    {
+        if(Gate::allows('view_all', Project::class)) {
+            if(request()->has('tag')) {
+                return Project::ofTag(request('tag'))->paginate(14);
+            }
+
+            return Project::paginate(14);
+        }
+
+        if(request()->has('tag')) {
+            return Project::ofTagAndUser(request('tag'), auth()->user())
+                ->paginate(14);
+        }
+
+        return auth()->user()->projects()->paginate(14);
     }
 
     /**

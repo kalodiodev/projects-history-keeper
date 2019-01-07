@@ -8,7 +8,7 @@
         <hr>
 
         <div class="row">
-            @include('tag._index')
+            @include('tag._index', ['taggable' => 'project'])
 
             <div class="col-md-10">
                 <h3>Projects</h3>
