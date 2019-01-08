@@ -29,9 +29,25 @@ class ProjectController extends Controller
     {
         $projects = $this->projects();
 
-        $tags = Tag::all();
+        $tags = Tag::withProjects();
 
-        return view('project.index', compact('projects', 'tags'));
+        $active_tag = $this->activeTag();
+
+        return view('project.index', compact('projects', 'tags', 'active_tag'));
+    }
+
+    /**
+     * Get selected tag
+     *
+     * @return null
+     */
+    private function activeTag()
+    {
+        if(request()->has('tag')) {
+            return request('tag');
+        }
+
+        return null;
     }
 
     /**

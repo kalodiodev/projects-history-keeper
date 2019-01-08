@@ -51,4 +51,15 @@ class Tag extends Model
     {
         return $this->morphedByMany(Snippet::class, 'taggable');
     }
+
+    /**
+     * Get tags that have projects
+     *
+     * @param $query
+     * @return mixed
+     */
+    public function scopeWithProjects($query)
+    {
+        return $query->has('projects')->get();
+    }
 }

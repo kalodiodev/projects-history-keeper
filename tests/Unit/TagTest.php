@@ -111,4 +111,16 @@ class TagTest extends TestCase
             'taggable_type' => Snippet::class
         ]);
     }
+
+    /** @test */
+    public function it_returns_only_tags_with_projects()
+    {
+        $tagWithProjects = create(Tag::class);
+        create(Tag::class);
+
+        $project = create(Project::class);
+        $tagWithProjects->projects()->attach($project);
+
+        $this->assertEquals(1, Tag::withProjects()->count());
+    }
 }
