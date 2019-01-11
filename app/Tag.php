@@ -62,4 +62,15 @@ class Tag extends Model
     {
         return $query->has('projects')->get();
     }
+
+    /**
+     * Get tags that have guides
+     *
+     * @param $query
+     * @return mixed
+     */
+    public function scopeWithGuides($query)
+    {
+        return $query->has('guides')->get();
+    }
 }

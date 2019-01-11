@@ -95,35 +95,4 @@ class Project extends Model
     {
         return $this->belongsTo(Status::class);
     }
-
-    /**
-     * Projects of Tag
-     *
-     * @param $query
-     * @param $tagName
-     * @return mixed
-     */
-    public function scopeOfTag($query, $tagName)
-    {
-        return $query->with('tags')->whereHas('tags', function($query) use ($tagName) {
-            $query->where('name', 'LIKE', $tagName);
-        });
-    }
-
-    /**
-     * Projects of tag that belong to given user
-     *
-     * @param $query
-     * @param $tagName
-     * @param User $user
-     * @return mixed
-     */
-    public function scopeOfTagAndUser($query, $tagName, User $user)
-    {
-        return $query->with('tags')
-            ->where('user_id', (int) $user->id)
-            ->whereHas('tags', function($query) use ($tagName) {
-                $query->where('name', 'LIKE', $tagName);
-            });
-    }
 }

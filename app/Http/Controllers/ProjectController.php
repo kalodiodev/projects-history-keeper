@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\ProjectRequest;
 use Illuminate\Auth\Access\AuthorizationException;
 
-class ProjectController extends Controller
+class ProjectController extends TaggableController
 {
     /**
      * ProjectController constructor.
@@ -34,20 +34,6 @@ class ProjectController extends Controller
         $active_tag = $this->activeTag();
 
         return view('project.index', compact('projects', 'tags', 'active_tag'));
-    }
-
-    /**
-     * Get selected tag
-     *
-     * @return null
-     */
-    private function activeTag()
-    {
-        if(request()->has('tag')) {
-            return request('tag');
-        }
-
-        return null;
     }
 
     /**

@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Auth\Access\AuthorizationException;
 
-class GuideController extends Controller
+class GuideController extends TaggableController
 {
     /**
      * GuideController constructor.
@@ -31,13 +31,13 @@ class GuideController extends Controller
     {
         $this->isAuthorized('index', Guide::class);
 
-        if(Gate::allows('view_all', Guide::class)) {
-            $guides = Guide::paginate(14);
-        } else {
-            $guides = auth()->user()->guides()->paginate(14);
-        }
+        $tags = Tag::withGuides();
 
-        return view('guide.index', compact('guides'));
+        $guides = $this->guides();
+
+        $active_tag = $this->activeTag();
+
+        return view('guide.index', compact('guides', 'tags', 'active_tag'));
     }
 
     /**
@@ -165,6 +165,29 @@ class GuideController extends Controller
         session()->flash('message', 'Guide deleted successfully');
 
         return redirect()->route('guide.index');
+    }
+
+    /**
+     * Get guides
+     *
+     * @return mixed
+     */
+    private function guides()
+    {
+        if(Gate::allows('view_all', Guide::class)) {
+            if(request()->has('tag')) {
+                return Guide::ofTag(request('tag'))->paginate(14);
+            }
+
+            return Guide::paginate(14);
+        }
+
+        if(request()->has('tag')) {
+            return Guide::ofTagAndUser(request('tag'), auth()->user())
+                ->paginate(14);
+        }
+
+        return auth()->user()->guides()->paginate(14);
     }
 
     /**
