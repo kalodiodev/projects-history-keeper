@@ -26,7 +26,7 @@
                 @endif
 
                 <div class="row justify-content-center mt-3">
-                    {{ $guides->links() }}
+                    {{ $guides->appends(request()->except('page'))->links() }}
                 </div>
 
                 @can('create', \App\Guide::class)
