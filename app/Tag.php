@@ -73,4 +73,15 @@ class Tag extends Model
     {
         return $query->has('guides')->get();
     }
+
+    /**
+     * Get tags that have snippets
+     *
+     * @param $query
+     * @return mixed
+     */
+    public function scopeWithSnippets($query)
+    {
+        return $query->has('snippets')->get();
+    }
 }

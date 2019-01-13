@@ -2,8 +2,8 @@
 
 namespace Tests\Feature;
 
-use App\Guide;
 use App\Tag;
+use App\Guide;
 use Tests\IntegrationTestCase;
 
 class GuideIndexTest extends IntegrationTestCase
@@ -80,7 +80,7 @@ class GuideIndexTest extends IntegrationTestCase
         $this->createGuidesOfTag($firstTag, 2);
         $this->createGuidesOfTag($secondTag, 3);
 
-        // User's projects
+        // User's guides
         $this->createGuidesOfTag($firstTag, 1, ['user_id' => $user->id]);
 
         $responses = $this->get(route('guide.index', ['tag' => $firstTag->name]))

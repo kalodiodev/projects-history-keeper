@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Tag;
 use App\Snippet;
 use Tests\IntegrationTestCase;
 
@@ -61,5 +62,63 @@ class SnippetIndexTest extends IntegrationTestCase
     {
         $this->get(route('snippet.index'))
             ->assertRedirect(route('login'));
+    }
+
+    /** @test */
+    public function an_admin_can_index_all_snippets_by_tag()
+    {
+        $this->signInAdmin();
+
+        $firstTag = create(Tag::class);
+        $secondTag = create(Tag::class);
+
+        $this->createSnippetsOfTag($firstTag, 4);
+        $this->createSnippetsOfTag($secondTag, 3);
+
+        $responses = $this->get(route('snippet.index', ['tag' => $firstTag->name]))
+            ->assertStatus(200);
+
+        $snippets = $responses->original->getData()['snippets'];
+        $this->assertEquals(4, $snippets->count());
+    }
+
+    /** @test */
+    public function a_default_user_can_index_only_their_snippets_by_tag()
+    {
+        $user = $this->signInDefault();
+
+        $firstTag = create(Tag::class);
+        $secondTag = create(Tag::class);
+
+        $this->createSnippetsOfTag($firstTag, 2);
+        $this->createSnippetsOfTag($secondTag, 3);
+
+        // User's snippets
+        $this->createSnippetsOfTag($firstTag, 1, ['user_id' => $user->id]);
+        $this->createSnippetsOfTag($secondTag, 1, ['user_id' => $user->id]);
+
+        $responses = $this->get(route('snippet.index', ['tag' => $firstTag->name]))
+            ->assertStatus(200);
+
+        $snippets = $responses->original->getData()['snippets'];
+        $this->assertEquals(1, $snippets->count());
+    }
+
+    /**
+     * Create Snippets with given tag
+     *
+     * @param $tag
+     * @param $snippetsNumber
+     * @param array $overrides
+     * @return mixed
+     */
+    private function createSnippetsOfTag($tag, $snippetsNumber, $overrides = [])
+    {
+        $snippets = create(Snippet::class, $overrides, $snippetsNumber);
+        foreach ($snippets as $snippet) {
+            $snippet->tags()->attach($tag);
+        }
+
+        return $snippets;
     }
 }

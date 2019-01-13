@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\SnippetRequest;
 use Illuminate\Auth\Access\AuthorizationException;
 
-class SnippetController extends Controller
+class SnippetController extends TaggableController
 {
     /**
      * SnippetController constructor.
@@ -28,13 +28,13 @@ class SnippetController extends Controller
     {
         $this->isAuthorized('index', Snippet::class);
 
-        if(Gate::allows('view_all', Snippet::class)) {
-            $snippets = Snippet::paginate(14);
-        } else {
-            $snippets = auth()->user()->snippets()->paginate(14);
-        }
+        $snippets = $this->snippets();
 
-        return view('snippet.index', compact('snippets'));
+        $tags = Tag::withSnippets();
+
+        $active_tag = $this->activeTag();
+
+        return view('snippet.index', compact('snippets', 'tags', 'active_tag'));
     }
 
     /**
@@ -145,5 +145,28 @@ class SnippetController extends Controller
         session()->flash('message', 'Snippet deleted successfully');
 
         return redirect()->route('snippet.index');
+    }
+
+    /**
+     * Get guides
+     *
+     * @return mixed
+     */
+    private function snippets()
+    {
+        if(Gate::allows('view_all', Snippet::class)) {
+            if(request()->has('tag')) {
+                return Snippet::ofTag(request('tag'))->paginate(14);
+            }
+
+            return Snippet::paginate(14);
+        }
+
+        if(request()->has('tag')) {
+            return Snippet::ofTagAndUser(request('tag'), auth()->user())
+                ->paginate(14);
+        }
+
+        return auth()->user()->snippets()->paginate(14);
     }
 }
