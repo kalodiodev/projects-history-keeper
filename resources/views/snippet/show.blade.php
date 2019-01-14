@@ -46,5 +46,18 @@
             </div>
         </div>
 
+        <div class="row pt-5">
+            <div class="col-md-12">
+                {{-- Comments index --}}
+                @include('comment._index')
+
+                {{-- Add Comment Form --}}
+                @can('create', [\App\Comment::class, $snippet])
+                    @include('comment._form', [
+                        'route' => route('snippet.comment.store', ['snippet' => $snippet->id])
+                    ])
+                @endcan
+            </div>
+        </div>
     </div>
 @endsection

@@ -127,6 +127,7 @@ Route::get('/snippet/{snippet}', 'SnippetController@show')->name('snippet.show')
 Route::get('/snippet/{snippet}/edit', 'SnippetController@edit')->name('snippet.edit');
 Route::patch('/snippet/{snippet}', 'SnippetController@update')->name('snippet.update');
 Route::delete('/snippet/{snippet}', 'SnippetController@destroy')->name('snippet.destroy');
+Route::post('/snippet/{snippet}/comment', 'CommentController@store')->name('snippet.comment.store');
 
 /*
  * Image Routes

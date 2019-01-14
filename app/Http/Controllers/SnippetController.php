@@ -48,7 +48,11 @@ class SnippetController extends TaggableController
     {
         $this->isAuthorized('view', $snippet);
 
-        return view('snippet.show', compact('snippet'));
+        $comments = $snippet->comments()
+            ->latest()
+            ->paginate(15);
+
+        return view('snippet.show', compact('snippet', 'comments'));
     }
 
     /**
