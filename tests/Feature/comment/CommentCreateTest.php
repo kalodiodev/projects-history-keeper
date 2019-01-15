@@ -2,21 +2,51 @@
 
 namespace Tests\Feature;
 
+use App\Guide;
 use App\Project;
+use App\Snippet;
 use Tests\IntegrationTestCase;
 
-class ProjectCommentTest extends IntegrationTestCase
+class CommentCreateTest extends IntegrationTestCase
 {
     /** @test */
-    public function project_view_contains_project_comments()
+    public function an_authorized_user_can_post_a_snippet_comment()
     {
         $this->signInAdmin();
 
-        $project = create(Project::class);
+        $snippet = create(Snippet::class);
 
-        $this->get(route('project.show', ['project' => $project->id]))
-            ->assertStatus(200)
-            ->assertViewHas(['project', 'comments']);
+        $this->post(route('snippet.comment.store', ['snippet' => $snippet->id]), [
+            'comment' => 'My comment'
+        ])
+            ->assertRedirect(route('snippet.show', ['snippet' => $snippet->id]))
+            ->assertSessionHas('message');
+
+        $this->assertDatabaseHas('comments', [
+            'comment' => 'My comment',
+            'commentable_id' => $snippet->id,
+            'commentable_type' => 'App\Snippet'
+        ]);
+    }
+
+    /** @test */
+    public function an_authorized_user_can_post_a_guide_comment()
+    {
+        $this->signInAdmin();
+
+        $guide = create(Guide::class);
+
+        $this->post(route('guide.comment.store', ['guide' => $guide->id]), [
+            'comment' => 'My comment'
+        ])
+            ->assertRedirect(route('guide.show', ['guide' => $guide->id]))
+            ->assertSessionHas('message');
+
+        $this->assertDatabaseHas('comments', [
+            'comment' => 'My comment',
+            'commentable_id' => $guide->id,
+            'commentable_type' => 'App\Guide'
+        ]);
     }
 
     /** @test */
@@ -27,8 +57,8 @@ class ProjectCommentTest extends IntegrationTestCase
         $project = create(Project::class);
 
         $this->post(route('project.comment.store', ['project' => $project->id]), [
-                'comment' => 'My comment'
-            ])
+            'comment' => 'My comment'
+        ])
             ->assertRedirect(route('project.show', ['project' => $project->id]))
             ->assertSessionHas('message');;
 
@@ -40,7 +70,7 @@ class ProjectCommentTest extends IntegrationTestCase
     }
 
     /** @test */
-    public function an_unauthenticated_user_cannot_post_a_project_comment()
+    public function an_unauthenticated_user_cannot_post_a_comment()
     {
         $project = create(Project::class);
 
@@ -50,7 +80,7 @@ class ProjectCommentTest extends IntegrationTestCase
     }
 
     /** @test */
-    public function an_unauthorized_user_cannot_post_a_project_comment()
+    public function an_unauthorized_user_cannot_post_a_comment()
     {
         $this->signInRestricted();
 
