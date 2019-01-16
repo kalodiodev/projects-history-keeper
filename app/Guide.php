@@ -31,10 +31,6 @@ class Guide extends Model
         'user_id' => 'int',
     ];
 
-    use SlugTrait {
-        boot as slug_boot;
-    }
-
     /**
      * The "booting" method of the model.
      *
@@ -42,7 +38,7 @@ class Guide extends Model
      */
     public static function boot()
     {
-        self::slug_boot();
+        parent::boot();
 
         static::deleting(function ($guide) {
             if ($guide->featured_image && Storage::has($guide->featured_image)) {
@@ -66,7 +62,7 @@ class Guide extends Model
     /**
      * A guide has many images
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
      */
     public function images()
     {

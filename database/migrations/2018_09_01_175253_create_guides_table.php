@@ -16,7 +16,6 @@ class CreateGuidesTable extends Migration
         Schema::create('guides', function (Blueprint $table) {
             $table->increments('id');
             $table->string('title');
-            $table->string('slug');
             $table->string('description');
             $table->text('body');
             $table->string('featured_image')->nullable();

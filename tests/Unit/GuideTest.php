@@ -54,14 +54,6 @@ class GuideTest extends TestCase
     }
 
     /** @test */
-    public function when_creating_a_guide_a_slug_is_created()
-    {
-        $guide = create(Guide::class, ['title' => 'My guide title']);
-
-        $this->assertEquals('my-guide-title', $guide->slug);
-    }
-
-    /** @test */
     public function it_determines_whether_guide_has_given_tag()
     {
         $tag = create(Tag::class);
