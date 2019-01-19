@@ -159,11 +159,44 @@ class SnippetController extends TaggableController
     private function snippets()
     {
         if(Gate::allows('view_all', Snippet::class)) {
-            if(request()->has('tag')) {
-                return Snippet::ofTag(request('tag'))->paginate(14);
-            }
+            return $this->all_users_snippets();
+        }
 
-            return Snippet::paginate(14);
+        return $this->auth_user_snippets();
+    }
+
+    /**
+     * Retrieve all users snippets
+     *
+     * @return mixed
+     */
+    private function all_users_snippets()
+    {
+        if(request()->has('search')) {
+            return Snippet::search(request('search'))
+                ->paginate(14);
+        }
+
+        if(request()->has('tag')) {
+            return Snippet::ofTag(request('tag'))
+                ->paginate(14);
+        }
+
+        return Snippet::paginate(14);
+    }
+
+    /**
+     * Retrieve authenticated user's snippets
+     *
+     * @return mixed
+     */
+    private function auth_user_snippets()
+    {
+        if(request()->has('search')) {
+            return auth()->user()
+                ->snippets()
+                ->search(request('search'))
+                ->paginate(14);
         }
 
         if(request()->has('tag')) {

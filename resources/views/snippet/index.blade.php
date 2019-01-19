@@ -6,12 +6,12 @@
         <div class="row">
             @include('tag._index', ['taggable' => 'snippet'])
 
-
             <div class="col-md-10">
                 <h1>Snippets</h1>
+                @include('partials.searchbar')
                 <hr>
 
-                @foreach($snippets as $snippet)
+                @forelse($snippets as $snippet)
                     <div>
                         <h3>{{ $snippet->title }}</h3>
                         <p>{{ $snippet->description }}</p>
@@ -21,14 +21,12 @@
                             >Read More ...</a>
                         </div>
                     </div>
-                @endforeach
-
-                @if($snippets->count() == 0)
+                @empty
                     <p class="text-center">No snippets available</p>
-                @endif
+                @endforelse
 
                 <div class="row justify-content-center mt-3">
-                    {{ $snippets->links() }}
+                    {{ $snippets->appends(request()->except('page'))->links() }}
                 </div>
 
                 @can('create', \App\Snippet::class)

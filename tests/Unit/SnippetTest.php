@@ -61,4 +61,17 @@ class SnippetTest extends TestCase
         $this->assertTrue($snippet->hasTag($tag));
         $this->assertFalse($snippet->hasTag(100));
     }
+
+    /** @test */
+    public function it_finds_snippets_that_contain_given_term()
+    {
+        create(Snippet::class, ['title' => 'This is my term .']);
+        create(Snippet::class, ['description' => 'Description of my term .']);
+        create(Snippet::class, ['code' => 'inside code there is my term .']);
+        create(Snippet::class, [], 4);
+
+        $snippets = Snippet::search('my term');
+
+        $this->assertEquals(3, $snippets->count());
+    }
 }

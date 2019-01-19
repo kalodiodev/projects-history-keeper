@@ -104,6 +104,36 @@ class SnippetIndexTest extends IntegrationTestCase
         $this->assertEquals(1, $snippets->count());
     }
 
+    /** @test */
+    public function an_admin_can_search_snippets()
+    {
+        $this->signInAdmin();
+
+        $snippet1 = create(Snippet::class, ['title' => 'first snippet']);
+        $snippet2 = create(Snippet::class, ['title' => 'second snippet']);
+
+        $this->get(route('snippet.index', ['search' => $snippet1->title]))
+            ->assertStatus(200)
+            ->assertSee($snippet1->title)
+            ->assertDontSee($snippet2->title);
+    }
+
+    /** @test */
+    public function a_default_user_can_search_their_snippets()
+    {
+        $user = $this->signInDefault();
+
+        create(Snippet::class, ['title' => 'first', 'user_id' => $user->id]);
+        create(Snippet::class, ['title' => 'second', 'user_id' => $user->id]);
+        create(Snippet::class, ['title' => 'first']);
+
+        $response = $this->get(route('snippet.index', ['search' => 'first']))
+            ->assertStatus(200);
+
+        $snippets = $response->original->getData()['snippets'];
+        $this->assertEquals(1, $snippets->count());
+    }
+
     /**
      * Create Snippets with given tag
      *

@@ -38,4 +38,11 @@ class Snippet extends Model
     {
         return $this->belongsTo(User::class, 'user_id')->withTrashed();
     }
+
+    public function scopeSearch($query, $term)
+    {
+        return $query->where('title', 'LIKE', '%'. $term . '%')
+            ->orWhere('description', 'LIKE', '%' . $term . '%')
+            ->orWhere('code', 'LIKE', '%' . $term . '%');
+    }
 }
