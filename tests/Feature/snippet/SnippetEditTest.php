@@ -157,6 +157,17 @@ class SnippetEditTest extends IntegrationTestCase
             ->assertSessionHasErrors(['description']);
     }
 
+    /** @test */
+    public function a_snippet_requires_a_code()
+    {
+        $this->signInAdmin();
+
+        $snippet = create(Snippet::class);
+
+        $this->patch(route('snippet.update', ['snippet' => $snippet->id]),
+                $this->snippetValidFields(['code' => '']))
+            ->assertSessionHasErrors(['code']);
+    }
 
     /** @test */
     public function tags_can_be_synced_to_snippet()

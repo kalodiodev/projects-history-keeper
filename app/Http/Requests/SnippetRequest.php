@@ -26,6 +26,7 @@ class SnippetRequest extends FormRequest
         return [
             'title' => 'required|between:3,120',
             'description' => 'max:191',
+            'code' => 'required'
         ];
     }
 }

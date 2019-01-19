@@ -86,6 +86,15 @@ class SnippetCreateTest extends IntegrationTestCase
     }
 
     /** @test */
+    public function a_snippet_requires_a_code()
+    {
+        $this->signInDefault();
+
+        $this->post(route('snippet.store'), $this->snippetValidFields(['code' => '']))
+            ->assertSessionHasErrors(['code']);
+    }
+
+    /** @test */
     public function tags_can_be_attached_to_snippet()
     {
         $this->signInAdmin();
