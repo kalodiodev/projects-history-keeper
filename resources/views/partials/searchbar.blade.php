@@ -7,7 +7,8 @@
                            type="text"
                            class="form-control"
                            name="search"
-                           placeholder="Search">
+                           placeholder="Search"
+                           value="@if(isset($search_term)){{ $search_term }}@endif">
                 </div>
 
                 <div class="col-sm-1">

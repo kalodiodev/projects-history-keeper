@@ -32,7 +32,9 @@ class ProjectController extends TaggableController
 
         $active_tag = $this->activeTag();
 
-        return view('project.index', compact('projects', 'tags', 'active_tag'));
+        $search_term = request('search');
+
+        return view('project.index', compact('projects', 'tags', 'active_tag', 'search_term'));
     }
 
     /**

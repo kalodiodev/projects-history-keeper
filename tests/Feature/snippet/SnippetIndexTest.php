@@ -134,6 +134,17 @@ class SnippetIndexTest extends IntegrationTestCase
         $this->assertEquals(1, $snippets->count());
     }
 
+    /** @test */
+    public function it_should_remember_search_term()
+    {
+        $this->signInDefault();
+
+        $term = 'my term';
+
+        $this->get(route('snippet.index', ['search' => $term]))
+            ->assertViewHas('search_term', $term);
+    }
+
     /**
      * Create Snippets with given tag
      *

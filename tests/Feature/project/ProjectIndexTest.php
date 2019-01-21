@@ -118,6 +118,19 @@ class ProjectIndexTest extends IntegrationTestCase
         $this->assertEquals(1, $projects->count());
     }
 
+    /** @test */
+    public function it_should_remember_search_term()
+    {
+        $this->withoutExceptionHandling();
+
+        $this->signInDefault();
+
+        $term = 'my term';
+
+        $this->get(route('project.index', ['search' => $term]))
+            ->assertViewHas('search_term', $term);
+    }
+
     /**
      * Create Projects with given tag
      *

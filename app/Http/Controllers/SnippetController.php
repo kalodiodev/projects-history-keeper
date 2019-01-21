@@ -34,7 +34,9 @@ class SnippetController extends TaggableController
 
         $active_tag = $this->activeTag();
 
-        return view('snippet.index', compact('snippets', 'tags', 'active_tag'));
+        $search_term = request('search');
+
+        return view('snippet.index', compact('snippets', 'tags', 'active_tag', 'search_term'));
     }
 
     /**
