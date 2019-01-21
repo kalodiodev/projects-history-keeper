@@ -95,4 +95,17 @@ class Project extends Model
     {
         return $this->belongsTo(Status::class);
     }
+
+    /**
+     * Search for projects that contain the given term
+     *
+     * @param $query
+     * @param $term
+     * @return mixed
+     */
+    public function scopeSearch($query, $term)
+    {
+        return $query->where('title', 'LIKE', '%'. $term . '%')
+            ->orWhere('description', 'LIKE', '%' . $term . '%');
+    }
 }

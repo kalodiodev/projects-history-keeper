@@ -88,6 +88,36 @@ class ProjectIndexTest extends IntegrationTestCase
         $this->assertEquals(1, $projects->count());
     }
 
+    /** @test */
+    public function an_admin_can_search_projects()
+    {
+        $this->signInAdmin();
+
+        $project1 = create(Project::class, ['title' => 'first project']);
+        $project2 = create(Project::class, ['title' => 'second project']);
+
+        $this->get(route('project.index', ['search' => $project1->title]))
+            ->assertStatus(200)
+            ->assertSee($project1->title)
+            ->assertDontSee($project2->title);
+    }
+
+    /** @test */
+    public function a_default_user_can_search_their_projects()
+    {
+        $user = $this->signInDefault();
+
+        create(Project::class, ['title' => 'first', 'user_id' => $user->id]);
+        create(Project::class, ['title' => 'second', 'user_id' => $user->id]);
+        create(Project::class, ['title' => 'first']);
+
+        $response = $this->get(route('project.index', ['search' => 'first']))
+            ->assertStatus(200);
+
+        $projects = $response->original->getData()['projects'];
+        $this->assertEquals(1, $projects->count());
+    }
+
     /**
      * Create Projects with given tag
      *

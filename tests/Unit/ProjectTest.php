@@ -145,4 +145,16 @@ class ProjectTest extends TestCase
             'id' => $image->id
         ]);
     }
+
+    /** @test */
+    public function it_finds_projects_that_contain_given_term()
+    {
+        create(Project::class, ['title' => 'This is my term .']);
+        create(Project::class, ['description' => 'Description of my term .']);
+        create(Project::class, [], 4);
+
+        $projects = Project::search('my term');
+
+        $this->assertEquals(2, $projects->count());
+    }
 }

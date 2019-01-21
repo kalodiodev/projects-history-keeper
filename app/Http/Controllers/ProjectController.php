@@ -43,11 +43,43 @@ class ProjectController extends TaggableController
     private function projects()
     {
         if(Gate::allows('view_all', Project::class)) {
-            if(request()->has('tag')) {
-                return Project::ofTag(request('tag'))->paginate(14);
-            }
+            return $this->all_users_projects();
+        }
 
-            return Project::paginate(14);
+        return $this->auth_user_projects();
+    }
+
+    /**
+     * Retrieve all users projects
+     *
+     * @return mixed
+     */
+    private function all_users_projects()
+    {
+        if(request()->has('search')) {
+            return Project::search(request('search'))
+                ->paginate(14);
+        }
+
+        if(request()->has('tag')) {
+            return Project::ofTag(request('tag'))->paginate(14);
+        }
+
+        return Project::paginate(14);
+    }
+
+    /**
+     * Retrieve authenticated user's projects
+     *
+     * @return mixed
+     */
+    private function auth_user_projects()
+    {
+        if(request()->has('search')) {
+            return auth()->user()
+                ->projects()
+                ->search(request('search'))
+                ->paginate(14);
         }
 
         if(request()->has('tag')) {

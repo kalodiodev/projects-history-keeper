@@ -12,6 +12,8 @@
 
             <div class="col-md-10">
                 <h3>Projects</h3>
+                @include('partials.searchbar')
+
                 <div class="table-container">
                     <table class="table">
                         @foreach($projects as $project)
