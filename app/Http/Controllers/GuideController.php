@@ -183,11 +183,15 @@ class GuideController extends TaggableController
         }
 
         if(request()->has('tag')) {
-            return Guide::ofTagAndUser(request('tag'), auth()->user())
+            return auth()->user()
+                ->guides()
+                ->ofTag(request('tag'))
                 ->paginate(14);
         }
 
-        return auth()->user()->guides()->paginate(14);
+        return auth()->user()
+            ->guides()
+            ->paginate(14);
     }
 
     /**

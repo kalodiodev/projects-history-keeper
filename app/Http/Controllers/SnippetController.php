@@ -200,7 +200,9 @@ class SnippetController extends TaggableController
         }
 
         if(request()->has('tag')) {
-            return Snippet::ofTagAndUser(request('tag'), auth()->user())
+            return auth()->user()
+                ->snippets()
+                ->ofTag(request('tag'))
                 ->paginate(14);
         }
 

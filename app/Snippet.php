@@ -39,6 +39,13 @@ class Snippet extends Model
         return $this->belongsTo(User::class, 'user_id')->withTrashed();
     }
 
+    /**
+     * Search for snippets that contain the given term
+     *
+     * @param $query
+     * @param $term
+     * @return mixed
+     */
     public function scopeSearch($query, $term)
     {
         return $query->where('title', 'LIKE', '%'. $term . '%')

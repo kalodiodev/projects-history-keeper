@@ -23,7 +23,6 @@ class ProjectController extends TaggableController
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
-     * @throws AuthorizationException
      */
     public function index()
     {
@@ -52,11 +51,15 @@ class ProjectController extends TaggableController
         }
 
         if(request()->has('tag')) {
-            return Project::ofTagAndUser(request('tag'), auth()->user())
+            return auth()->user()
+                ->projects()
+                ->ofTag(request('tag'))
                 ->paginate(14);
         }
 
-        return auth()->user()->projects()->paginate(14);
+        return auth()->user()
+            ->projects()
+            ->paginate(14);
     }
 
     /**
