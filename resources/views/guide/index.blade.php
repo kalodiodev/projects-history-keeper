@@ -8,6 +8,7 @@
 
             <div class="col-md-10">
                 <h1>Guides</h1>
+                @include('partials.searchbar')
                 <hr>
 
                 @foreach($guides as $guide)

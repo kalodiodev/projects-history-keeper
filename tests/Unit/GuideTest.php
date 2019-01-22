@@ -105,4 +105,17 @@ class GuideTest extends TestCase
             'id' => $image->id
         ]);
     }
+
+    /** @test */
+    public function it_finds_guides_that_contain_given_term()
+    {
+        create(Guide::class, ['title' => 'This is my term .']);
+        create(Guide::class, ['description' => 'Description of my term .']);
+        create(Guide::class, ['body' => 'Body of my term .']);
+        create(Guide::class, [], 4);
+
+        $guides = Guide::search('my term');
+
+        $this->assertEquals(3, $guides->count());
+    }
 }

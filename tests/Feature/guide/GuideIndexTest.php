@@ -90,6 +90,47 @@ class GuideIndexTest extends IntegrationTestCase
         $this->assertEquals(1, $guides->count());
     }
 
+    /** @test */
+    public function an_admin_can_search_guides()
+    {
+        $this->signInAdmin();
+
+        $guide1 = create(Guide::class, ['title' => 'first guide']);
+        $guide2 = create(Guide::class, ['title' => 'second guide']);
+
+        $this->get(route('guide.index', ['search' => $guide1->title]))
+            ->assertStatus(200)
+            ->assertSee($guide1->title)
+            ->assertDontSee($guide2->title);
+    }
+
+    /** @test */
+    public function a_default_user_can_search_their_guides()
+    {
+        $user = $this->signInDefault();
+
+        create(Guide::class, ['title' => 'first', 'user_id' => $user->id]);
+        create(Guide::class, ['title' => 'second', 'user_id' => $user->id]);
+        create(Guide::class, ['title' => 'first']);
+
+        $response = $this->get(route('guide.index', ['search' => 'first']))
+            ->assertStatus(200);
+
+        $guides = $response->original->getData()['guides'];
+        $this->assertEquals(1, $guides->count());
+    }
+
+    /** @test */
+    public function it_should_remember_search_term()
+    {
+        $this->signInDefault();
+
+        $term = 'my term';
+
+        $this->get(route('guide.index', ['search' => $term]))
+            ->assertViewHas('search_term', $term);
+    }
+
     /**
      * Create Guides with given tag
      *

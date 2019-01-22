@@ -82,4 +82,18 @@ class Guide extends Model
 
         return false;
     }
+
+    /**
+     * Search for guides that contain the given term
+     *
+     * @param $query
+     * @param $term
+     * @return mixed
+     */
+    public function scopeSearch($query, $term)
+    {
+        return $query->where('title', 'LIKE', '%'. $term . '%')
+            ->orWhere('description', 'LIKE', '%' . $term . '%')
+            ->orWhere('body', 'LIKE', '%' . $term . '%');
+    }
 }

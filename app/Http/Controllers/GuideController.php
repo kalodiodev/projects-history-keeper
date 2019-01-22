@@ -10,6 +10,7 @@ use App\Http\Requests\GuideRequest;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Auth\Access\AuthorizationException;
+use phpDocumentor\Reflection\DocBlock\Tags\Author;
 
 class GuideController extends TaggableController
 {
@@ -37,7 +38,9 @@ class GuideController extends TaggableController
 
         $active_tag = $this->activeTag();
 
-        return view('guide.index', compact('guides', 'tags', 'active_tag'));
+        $search_term = request('search');
+
+        return view('guide.index', compact('guides', 'tags', 'active_tag', 'search_term'));
     }
 
     /**
@@ -175,11 +178,43 @@ class GuideController extends TaggableController
     private function guides()
     {
         if(Gate::allows('view_all', Guide::class)) {
-            if(request()->has('tag')) {
-                return Guide::ofTag(request('tag'))->paginate(14);
-            }
+            return $this->all_users_guides();
+        }
 
-            return Guide::paginate(14);
+        return $this->auth_user_guides();
+    }
+
+    /**
+     * Retrieve all users guides
+     *
+     * @return mixed
+     */
+    private function all_users_guides()
+    {
+        if(request()->has('search')) {
+            return Guide::search(request('search'))
+                ->paginate(14);
+        }
+
+        if(request()->has('tag')) {
+            return Guide::ofTag(request('tag'))->paginate(14);
+        }
+
+        return Guide::paginate(14);
+    }
+
+    /**
+     * Retrieve authenticated user's guides
+     *
+     * @return mixed
+     */
+    private function auth_user_guides()
+    {
+        if(request()->has('search')) {
+            return auth()->user()
+                ->guides()
+                ->search(request('search'))
+                ->paginate(14);
         }
 
         if(request()->has('tag')) {
