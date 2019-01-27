@@ -54,6 +54,12 @@ class Project extends Model
                 $project->status_id = Status::first()->id;
             }
         });
+
+        static::created(function($project) {
+            $project->activity()->create([
+                'description' => 'created'
+            ]);
+        });
     }
 
     /**
@@ -95,6 +101,17 @@ class Project extends Model
     {
         return $this->belongsTo(Status::class);
     }
+
+    /**
+     * Activity feed for the project
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function activity()
+    {
+        return $this->hasMany(Activity::class);
+    }
+
 
     /**
      * Search for projects that contain the given term

@@ -19,6 +19,16 @@ class Task extends Model
         'user_id'
     ];
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::created(function ($task) {
+            $task->project->activity()->create(['description' => 'created_task']);
+        });
+    }
+
+
     /**
      * The attributes that should be cast to native types.
      *
