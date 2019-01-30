@@ -47,6 +47,12 @@ class Guide extends Model
 
             $guide->images()->delete();
         });
+
+        static::created(function($guide) {
+            $guide->activity()->create([
+                'description' => 'created_guide'
+            ]);
+        });
     }
 
     /**
@@ -68,6 +74,17 @@ class Guide extends Model
     {
         return $this->morphMany(Image::class, 'imageable');
     }
+
+    /**
+     * Activity feed for the project
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
+    public function activity()
+    {
+        return $this->morphMany(Activity::class, 'recordable');
+    }
+
 
     /**
      * Determine whether guide has featured image

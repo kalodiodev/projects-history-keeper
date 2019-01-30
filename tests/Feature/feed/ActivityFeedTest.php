@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Guide;
 use App\Project;
 use App\Task;
 use Tests\IntegrationTestCase;
@@ -14,6 +15,7 @@ class ActivityFeedTest extends IntegrationTestCase
         $project = create(Project::class);
 
         $this->assertCount(1, $project->activity);
+        $this->assertEquals('created_project', $project->activity->last()->description);
     }
 
     /** @test */
@@ -24,5 +26,14 @@ class ActivityFeedTest extends IntegrationTestCase
 
         $this->assertCount(2, $project->activity);
         $this->assertEquals('created_task', $project->activity->last()->description);
+    }
+
+    /** @test */
+    function creating_a_guide_records_guide_activity()
+    {
+        $guide = create(Guide::class);
+
+        $this->assertCount(1, $guide->activity);
+        $this->assertEquals('created_guide', $guide->activity->last()->description);
     }
 }

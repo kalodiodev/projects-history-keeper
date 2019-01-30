@@ -57,7 +57,7 @@ class Project extends Model
 
         static::created(function($project) {
             $project->activity()->create([
-                'description' => 'created'
+                'description' => 'created_project'
             ]);
         });
     }
@@ -105,11 +105,11 @@ class Project extends Model
     /**
      * Activity feed for the project
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
      */
     public function activity()
     {
-        return $this->hasMany(Activity::class);
+        return $this->morphMany(Activity::class, 'recordable');
     }
 
 
