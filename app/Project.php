@@ -35,34 +35,6 @@ class Project extends Model
     ];
 
     /**
-     * The "booting" method of the model.
-     *
-     * @return void
-     */
-    public static function boot()
-    {
-        parent::boot();
-
-        static::deleting(function ($project) {
-            $project->tags()->detach();
-            $project->tasks()->delete();
-            $project->images()->delete();
-        });
-
-        static::creating(function ($project) {
-            if (! isset($project->status_id)) {
-                $project->status_id = Status::first()->id;
-            }
-        });
-
-        static::created(function($project) {
-            $project->activity()->create([
-                'description' => 'created_project'
-            ]);
-        });
-    }
-
-    /**
      * A project belongs to a creator (user)
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
