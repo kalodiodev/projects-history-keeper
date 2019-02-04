@@ -30,6 +30,22 @@ class Snippet extends Model
     ];
 
     /**
+     * The "booting" method of the model.
+     *
+     * @return void
+     */
+    public static function boot()
+    {
+        parent::boot();
+
+        static::created(function($snippet) {
+            $snippet->activity()->create([
+                'description' => 'created_snippet'
+            ]);
+        });
+    }
+
+    /**
      * A snippet belongs to a user
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -37,6 +53,16 @@ class Snippet extends Model
     public function creator()
     {
         return $this->belongsTo(User::class, 'user_id')->withTrashed();
+    }
+
+    /**
+     * Activity feed for the Snippet
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
+    public function activity()
+    {
+        return $this->morphMany(Activity::class, 'recordable');
     }
 
     /**
