@@ -3,7 +3,6 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Storage;
 
 class Guide extends Model
 {
@@ -30,30 +29,6 @@ class Guide extends Model
     protected $casts = [
         'user_id' => 'int',
     ];
-
-    /**
-     * The "booting" method of the model.
-     *
-     * @return void
-     */
-    public static function boot()
-    {
-        parent::boot();
-
-        static::deleting(function ($guide) {
-            if ($guide->featured_image && Storage::has($guide->featured_image)) {
-                Storage::delete($guide->featured_image);
-            }
-
-            $guide->images()->delete();
-        });
-
-        static::created(function($guide) {
-            $guide->activity()->create([
-                'description' => 'created_guide'
-            ]);
-        });
-    }
 
     /**
      * Guide belongs to a creator
