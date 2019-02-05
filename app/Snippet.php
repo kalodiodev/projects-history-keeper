@@ -30,22 +30,6 @@ class Snippet extends Model
     ];
 
     /**
-     * The "booting" method of the model.
-     *
-     * @return void
-     */
-    public static function boot()
-    {
-        parent::boot();
-
-        static::created(function($snippet) {
-            $snippet->activity()->create([
-                'description' => 'created_snippet'
-            ]);
-        });
-    }
-
-    /**
      * A snippet belongs to a user
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
