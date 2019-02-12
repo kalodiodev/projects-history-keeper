@@ -85,7 +85,7 @@ class UserController extends Controller
         }
 
         if(Gate::allows('manage', User::class)) {
-            session()->flash('message', 'User updated successfully');
+            session()->flash('message', __('users.message.success.updated'));
 
             return redirect()->route('user.index');
         }
