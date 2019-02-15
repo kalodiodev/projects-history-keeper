@@ -55,8 +55,7 @@
 
             {{-- User Role --}}
             <div class="form-group row">
-                <label for="email" class="col-sm-2 col-form-label text-md-right">{{ __('users.form.role') }}</label>
-
+                <label for="role" class="col-sm-2 col-form-label text-md-right">{{ __('users.form.role') }}</label>
                 <div class="col-md-8">
                     <select class="form-control" id="role" name="role_id">
                         @foreach($roles as $role)

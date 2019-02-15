@@ -3,7 +3,7 @@
 @section('content')
     <div class="container">
 
-        <h1>Edit Profile</h1>
+        <h1>{{ __('profile.title.edit') }}</h1>
         <hr>
 
         <h3>{{ $user->name }}</h3>
@@ -23,7 +23,9 @@
 
                     {{-- Avatar --}}
                     <div class="form-group row">
-                        <label for="avatar" class="col-sm-2 col-form-label text-md-right">Avatar</label>
+                        <label for="avatar" class="col-sm-2 col-form-label text-md-right">
+                            {{ __('profile.form.avatar') }}
+                        </label>
 
                         <div class="col-md-8">
                             <input id="avatar"
@@ -46,7 +48,9 @@
                     {{-- Buttons --}}
                     <div class="form-group row mb-0">
                         <div class="col-md-8 offset-md-2 text-right">
-                            <button type="submit" class="btn btn-primary">Update Avatar</button>
+                            <button type="submit" class="btn btn-primary">
+                                {{ __('profile.button.update_avatar') }}
+                            </button>
                         </div>
                     </div>
                 </form>
@@ -59,7 +63,9 @@
 
                         <div class="form-group row mb-0">
                             <div class="col-md-8 offset-md-2 text-right">
-                                <button type="submit" class="btn btn-primary">Remove Avatar</button>
+                                <button type="submit" class="btn btn-primary">
+                                    {{ __('profile.button.remove_avatar') }}
+                                </button>
                             </div>
                         </div>
                     </form>
@@ -75,7 +81,9 @@
 
                     {{-- Name --}}
                     <div class="form-group row">
-                        <label for="name" class="col-sm-2 col-form-label text-md-right">Name</label>
+                        <label for="name" class="col-sm-2 col-form-label text-md-right">
+                            {{ __('profile.form.name') }}
+                        </label>
 
                         <div class="col-md-8">
                             <input id="name"
@@ -96,7 +104,9 @@
 
                     {{-- Email --}}
                     <div class="form-group row">
-                        <label for="email" class="col-sm-2 col-form-label text-md-right">Email</label>
+                        <label for="email" class="col-sm-2 col-form-label text-md-right">
+                            {{ __('profile.form.email') }}
+                        </label>
 
                         <div class="col-md-8">
                             <input id="email"
@@ -116,7 +126,9 @@
 
                     {{-- Slogan --}}
                     <div class="form-group row">
-                        <label for="slogan" class="col-sm-2 col-form-label text-md-right">Slogan</label>
+                        <label for="slogan" class="col-sm-2 col-form-label text-md-right">
+                            {{ __('profile.form.slogan') }}
+                        </label>
 
                         <div class="col-md-8">
                             <input id="slogan"
@@ -135,7 +147,9 @@
 
                     {{-- Bio --}}
                     <div class="form-group row">
-                        <label for="bio" class="col-sm-2 col-form-label text-md-right">Bio</label>
+                        <label for="bio" class="col-sm-2 col-form-label text-md-right">
+                            {{ __('profile.form.bio') }}
+                        </label>
 
                         <div class="col-md-8">
                     <textarea id="bio"
@@ -154,7 +168,7 @@
                     {{-- Buttons --}}
                     <div class="form-group row mb-0">
                         <div class="col-md-8 offset-md-2 text-right">
-                            <button type="submit" class="btn btn-primary">Update Profile</button>
+                            <button type="submit" class="btn btn-primary">{{ __('profile.button.update') }}</button>
                         </div>
                     </div>
                 </form>

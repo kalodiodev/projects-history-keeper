@@ -3,7 +3,7 @@
 @section('content')
     <div class="container">
 
-        <h1>Profile</h1>
+        <h1>{{ __('profile.title.show') }}</h1>
         <hr>
 
         <div class="row">
@@ -14,18 +14,18 @@
                 <h2>{{ $user->name }}</h2>
                 <p>{{ $user->slogan }}</p>
 
-                <h3>Bio</h3>
+                <h3>{{ __('profile.Bio') }}</h3>
                 @if(!empty($user->bio))
                     <p>{{ $user->bio }}</p>
                 @else
-                    <p>No info provided</p>
+                    <p>{{ __('profile.message.no_info') }}</p>
                 @endif
             </div>
         </div>
 
         <div class="row pt-5">
             <div class="col-md-12">
-                <h3>Latest Projects</h3>
+                <h3>{{ __('profile.Latest Projects') }}</h3>
                 <hr>
                 @if((auth()->user()->can('view_all', \App\Project::class)) || (auth()->user()->id == $user->id))
                     @if ($user->projects()->count() > 0)
@@ -40,17 +40,17 @@
                             @endforeach
                         </ul>
                     @else
-                        <p>User has no projects</p>
+                        <p>{{ __('profile.message.no_projects') }}</p>
                     @endif
                 @else
-                    <p>You are not authorized to view user's projects</p>
+                    <p>{{ __('profile.message.unauth_view_projects') }}</p>
                 @endif
             </div>
         </div>
 
         <div class="row pt-5">
             <div class="col-md-12">
-                <h3>Latest Guides</h3>
+                <h3>{{ __('profile.Latest Guides') }}</h3>
                 <hr>
                 @if((auth()->user()->can('view_all', \App\Guide::class)) || (auth()->user()->id == $user->id))
                     @if ($user->guides()->count() > 0)
@@ -65,17 +65,17 @@
                             @endforeach
                         </ul>
                     @else
-                        <p>User has no guides</p>
+                        <p>{{ __('profile.message.no_guides') }}</p>
                     @endif
                 @else
-                    <p>You are not authorized to view user's guides</p>
+                    <p>{{ __('profile.message.unauth_view_guides') }}</p>
                 @endif
             </div>
         </div>
 
         <div class="row pt-5">
             <div class="col-md-12">
-                <h3>Latest Snippets</h3>
+                <h3>{{ __('profile.Latest Snippets') }}</h3>
                 <hr>
                 @if((auth()->user()->can('view_all', \App\Guide::class)) || (auth()->user()->id == $user->id))
                     @if ($user->snippets()->count() > 0)
@@ -90,10 +90,10 @@
                             @endforeach
                         </ul>
                     @else
-                        <p>User has no snippets</p>
+                        <p>{{ __('profile.message.no_snippets') }}</p>
                     @endif
                 @else
-                    <p>You are not authorized to view user's snippets</p>
+                    <p>{{ __('profile.message.unauth_view_snippets') }}</p>
                 @endif
             </div>
         </div>
