@@ -5,7 +5,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header">Update Project</div>
+                    <div class="card-header">{{ __('projects.title.edit') }}</div>
 
                     <div class="card-body">
                         <form method="POST" action="{{ route('project.update', ['project' => $project->id]) }}">
@@ -16,7 +16,9 @@
                             {{-- Buttons --}}
                             <div class="form-group row mb-0">
                                 <div class="col-md-8 offset-md-2 text-right">
-                                    <button type="submit" class="btn btn-primary">Update Project</button>
+                                    <button type="submit" class="btn btn-primary">
+                                        {{ __('projects.button.update') }}
+                                    </button>
                                 </div>
                             </div>
                         </form>

@@ -132,7 +132,7 @@ class ProjectController extends TaggableController
 
         $project->tags()->attach($request->tags);
 
-        session()->flash('message', 'Project stored successfully');
+        session()->flash('message', __('projects.message.stored_success'));
 
         return redirect()->route('project.index');
     }
@@ -190,7 +190,7 @@ class ProjectController extends TaggableController
 
         $project->tags()->sync($request->get('tags'));
 
-        session()->flash('message', 'Project updated successfully');
+        session()->flash('message',  __('projects.message.updated_success'));
 
         return redirect()->route('project.show', ['project' => $project->id]);
     }
@@ -209,7 +209,7 @@ class ProjectController extends TaggableController
 
         $project->delete();
 
-        session()->flash('message', 'Project deleted successfully');
+        session()->flash('message',  __('projects.message.deleted_success'));
 
         return redirect()->route('project.index');
     }

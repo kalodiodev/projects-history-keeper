@@ -2,7 +2,9 @@
 
 {{-- Project Title --}}
 <div class="form-group row">
-    <label for="title" class="col-sm-2 col-form-label text-md-right">Title</label>
+    <label for="title" class="col-sm-2 col-form-label text-md-right">
+        {{ __('projects.form.title') }}
+    </label>
 
     <div class="col-md-8">
         <input id="title"
@@ -23,7 +25,9 @@
 
 {{-- Project Description --}}
 <div class="form-group row">
-    <label for="description" class="col-sm-2 col-form-label text-md-right">Description</label>
+    <label for="description" class="col-sm-2 col-form-label text-md-right">
+        {{ __('projects.form.description') }}
+    </label>
 
     <div class="col-md-8">
         <input id="description"
@@ -44,7 +48,9 @@
 
 {{-- Project Tag --}}
 <div class="form-group row">
-    <label for="tags" class="col-sm-2 col-form-label text-md-right">Tags</label>
+    <label for="tags" class="col-sm-2 col-form-label text-md-right">
+        {{ __('projects.form.tags') }}
+    </label>
 
     <div class="col-md-8">
         <select multiple class="form-control" id="tags" name="tags[]">
@@ -62,7 +68,9 @@
 </div>
 
 <div class="form-group row">
-    <label for="status" class="col-sm-2 col-form-label text-md-right">Status</label>
+    <label for="status" class="col-sm-2 col-form-label text-md-right">
+        {{ __('projects.form.status') }}
+    </label>
 
     <div class="col-md-8">
         <select class="form-control" id="status" name="status_id">
