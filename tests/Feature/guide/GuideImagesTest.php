@@ -121,4 +121,15 @@ class GuideImagesTest extends IntegrationTestCase
         $this->get(route('guide.image.featured', ['image' => 'featured.png']))
             ->assertStatus(403);
     }
+
+    /** @test */
+    public function image_file_is_required()
+    {
+        $this->signInAdmin();
+
+        $guide = create(Guide::class);
+
+        $this->post(route('guide.image.store', ['guide' => $guide->id]))
+            ->assertSessionHasErrors(['image']);
+    }
 }

@@ -83,4 +83,15 @@ class ProjectImagesTest extends IntegrationTestCase
         $this->post(route('project.image.store', ['project' => $project->id]), ['image' => $jpeg_file])
             ->assertSessionHasNoErrors();
     }
+
+    /** @test */
+    public function image_file_is_required()
+    {
+        $this->signInAdmin();
+
+        $project = create(Project::class);
+
+        $this->post(route('project.image.store', ['project' => $project->id]))
+            ->assertSessionHasErrors(['image']);
+    }
 }

@@ -88,7 +88,16 @@
                         @csrf
 
                         <div class="form-group">
-                            <input name="image" class="form-control-file" type="file">
+                            <input name="image"
+                                   class="form-control-file{{ $errors->has('image') ? ' is-invalid' : '' }}"
+                                   type="file">
+                            @if ($errors->has('image'))
+                                <ul class="invalid-feedback">
+                                    @foreach($errors->all() as $error)
+                                        <li><strong>{{ $error }}</strong></li>
+                                    @endforeach
+                                </ul>
+                            @endif
                         </div>
                         <button type="submit" class="btn btn-primary">
                             {{ __('projects.button.upload_image') }}

@@ -75,13 +75,11 @@
                                            type="file"
                                     >
                                     @if ($errors->has('image'))
-                                        <span class="invalid-feedback" role="alert">
-                                            <ul>
-                                                @foreach($errors->all() as $error)
-                                                    <li><strong>{{ $error }}</strong></li>
-                                                @endforeach
-                                            </ul>
-                                        </span>
+                                        <ul class="invalid-feedback">
+                                            @foreach($errors->all() as $error)
+                                                <li><strong>{{ $error }}</strong></li>
+                                            @endforeach
+                                        </ul>
                                     @endif
                                 </div>
                                 <button type="submit" class="btn btn-primary">Upload Image</button>

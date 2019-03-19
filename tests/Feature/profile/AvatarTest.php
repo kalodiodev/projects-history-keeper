@@ -58,6 +58,15 @@ class AvatarTest extends IntegrationTestCase
     }
 
     /** @test */
+    public function avatar_file_is_required()
+    {
+        $this->signInDefault();
+
+        // Update Avatar
+        $this->patch(route('avatar.update'))->assertSessionHasErrors('avatar');
+    }
+
+    /** @test */
     public function a_user_can_remove_avatar()
     {
         UploadedFile::fake()->image('image.png')->storeAs('images/avatars','image.png');
