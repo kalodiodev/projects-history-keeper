@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Storage;
 
 class ImageDeleteTest extends IntegrationTestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

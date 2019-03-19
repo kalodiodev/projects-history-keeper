@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Storage;
 
 class AvatarTest extends IntegrationTestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

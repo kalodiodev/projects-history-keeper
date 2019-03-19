@@ -10,7 +10,6 @@ use App\Http\Requests\GuideRequest;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Auth\Access\AuthorizationException;
-use phpDocumentor\Reflection\DocBlock\Tags\Author;
 
 class GuideController extends TaggableController
 {
